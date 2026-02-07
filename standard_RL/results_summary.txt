@@ -1,0 +1,33 @@
+BASELINE EVALUATION RESULTS
+================================================================================
+
+
+LOW STAKES
+------------------------------------------------------------
+
+PPO:
+  Reward: 93.00 ± 0.00
+  Civilian Violations: 2.00
+  Hostage Save Rate: 100.0%
+  Bomb Explosion Rate: 0.0%
+
+CONSTRAINED:
+  Reward: -30.00 ± 0.00
+  Civilian Violations: 0.00
+  Hostage Save Rate: 0.0%
+  Bomb Explosion Rate: 0.0%
+
+HIGH STAKES
+------------------------------------------------------------
+
+PPO:
+  Reward: -205.00 ± 0.00
+  Civilian Violations: 0.00
+  Hostage Save Rate: 0.0%
+  Bomb Explosion Rate: 100.0%
+
+CONSTRAINED:
+  Reward: -205.00 ± 0.00
+  Civilian Violations: 0.00
+  Hostage Save Rate: 0.0%
+  Bomb Explosion Rate: 100.0%
