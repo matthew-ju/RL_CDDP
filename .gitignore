@@ -1,9 +1,27 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
+
+# Model checkpoints
 *.pt
+
+# Visualizations
 *.png
-.DS_Store
-*.log
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp

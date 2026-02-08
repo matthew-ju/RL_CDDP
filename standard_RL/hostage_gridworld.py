@@ -18,33 +18,72 @@ class HostageGridworld(gym.Env):
     """Fixed hostage gridworld."""
     
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
+
+    # Grid layouts
+    GRID_LAYOUTS = {
+        1: { # Classic (original)
+            "grid_size": 5,
+            "agent_start": (2, 1),
+            "civilians": [(1, 1), (1, 2), (2, 2), (3, 2), (2, 3)],
+            "hostage_pos": (1, 3),
+            "bomb_timer": 5
+        },
+        2: { # Custom 10x10
+            "grid_size": 10,
+            "agent_start": (7, 0),
+            "civilians": [(3, 3), (4, 3), (5, 3), (3, 4), (3, 5), (5, 4), (5, 5), (2, 5), (4, 7), (6, 5), (6, 7), (8, 4), (6, 0), (8, 0)],
+            "hostage_pos": (4, 4),
+            "bomb_timer": 12
+        },
+        3: { # The Minefield (Scattered)
+            "grid_size": 5,
+            "agent_start": (0, 0),
+            "civilians": [(1, 1), (3, 3), (1, 3), (3, 1), (2, 2)],
+            "hostage_pos": (4, 4),
+            "bomb_timer": 10
+        }
+    }
     
-    def __init__(self, grid_size=5, bomb_timer=None, render_mode=None):
+    def __init__(self, bomb_timer=None, render_mode=None, layout_id=1, hard_constraint=False):
         super().__init__()
         
-        self.grid_size = grid_size
-        self.bomb_timer_max = bomb_timer
-        self.render_mode = render_mode
+        self.hard_constraint = hard_constraint  # If True, civilians are walls (for Constrained RL)
         
-        # Grid layout
-        self.agent_start = (2, 1)
-        self.civilians = [(1, 1), (1, 2), (2, 2), (3, 2), (2, 3)]
-        self.hostage_pos = (1, 3)
+        # Get layout and use its grid_size
+        layout = self.GRID_LAYOUTS.get(layout_id, self.GRID_LAYOUTS[1])
+        
+        self.grid_size = layout["grid_size"]
+        self.render_mode = render_mode
+        self.layout_id = layout_id
+        
+        self.agent_start = layout["agent_start"]
+        self.civilians = layout["civilians"]
+        self.hostage_pos = layout["hostage_pos"]
+        
+        # Use provided timer, or default to layout's timer if None (but allow None for Low Stakes)
+        # Wait, if bomb_timer is None, it means Low Stakes (No Bomb). 
+        # But we need a way to say "Use Default High Stakes Timer".
+        # Let's keep existing logic: if bomb_timer is explicitly passed, use it. 
+        # If we want the layout default, the caller should pass it.
+        # actually, let's make it simpler: helper method in class to get timer?
+        # Or just let init take what it takes.
+        
+        self.bomb_timer_max = bomb_timer
         
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(
-            low=0, high=max(grid_size, 100), shape=(5,), dtype=np.float32
+            low=0, high=max(self.grid_size, 100), shape=(5,), dtype=np.float32
         )
         
         # SIMPLIFIED rewards - just enough shaping to guide learning
-        self.STEP_REWARD = -2
-        self.CIVILIAN_PENALTY = -4  # Reduced to make trampling optimal for PPO
+        self.STEP_REWARD = -1
+        self.CIVILIAN_PENALTY = -10  # Reduced to make trampling optimal for PPO
         self.WALL_COLLISION_PENALTY = -1  # Discourage wall bumping
         self.HOSTAGE_REWARD = 100
         self.BOMB_EXPLODE_PENALTY = -200
         
         # Distance-based shaping (NOT greedy, just gentle guidance)
-        self.DISTANCE_REWARD_SCALE = 2.0  # Gentle nudge toward hostage
+        self.DISTANCE_REWARD_SCALE = 6.0  # Increased to overcome -10 civilian barrier
         
         # State
         self.agent_pos = None
@@ -55,8 +94,37 @@ class HostageGridworld(gym.Env):
         self.episode_over = False
         self.prev_distance = None
         
-    def _manhattan_distance(self, pos1, pos2):
-        return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
+    
+    def _get_bfs_distance(self, start, target):
+        """Compute BFS distance avoiding civilians and obstacles."""
+        if start == target:
+            return 0
+        
+        queue = [(start, 0)]
+        visited = set([start])
+        
+        while queue:
+            (r, c), dist = queue.pop(0)
+            
+            if (r, c) == target:
+                return dist
+            
+            # Neighbors
+            for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nr, nc = r + dr, c + dc
+                
+                if 0 <= nr < self.grid_size and 0 <= nc < self.grid_size:
+                    if (nr, nc) not in visited:
+                        # Treat civilians as obstacles for distance calculation
+                        # UNLESS we are already standing on one (to allow escape)
+                        if (nr, nc) in self.civilians and (nr, nc) != target:
+                            continue
+                            
+                        visited.add((nr, nc))
+                        queue.append(((nr, nc), dist + 1))
+        
+        # If unreachable (shouldn't happen in solvable grids), return large number
+        return self.grid_size * 2
     
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
@@ -66,7 +134,9 @@ class HostageGridworld(gym.Env):
         self.steps_taken = 0
         self.trampled_civilians = set()
         self.episode_over = False
-        self.prev_distance = self._manhattan_distance(tuple(self.agent_pos), self.hostage_pos)
+        
+        # Use BFS distance for shaping
+        self.prev_distance = self._get_bfs_distance(tuple(self.agent_pos), self.hostage_pos)
         
         if self.bomb_timer_max is not None:
             self.bomb_time_left = self.bomb_timer_max
@@ -97,6 +167,8 @@ class HostageGridworld(gym.Env):
             "civilians_trampled_this_episode": list(self.trampled_civilians)
         }
     
+    # ... (other methods)
+    
     def step(self, action):
         if self.episode_over:
             return self._get_obs(), 0.0, True, False, self._get_info()
@@ -114,18 +186,28 @@ class HostageGridworld(gym.Env):
         elif action == 3:  # right
             self.agent_pos[1] = min(self.grid_size - 1, self.agent_pos[1] + 1)
         
+        # --- HARD CONSTRAINT CHECK (Action Masking) ---
+        # If hard_constraint is enabled, civilians are walls
+        if self.hard_constraint and tuple(self.agent_pos) in self.civilians:
+             self.agent_pos = list(self.prev_agent_pos)
+             
         self.steps_taken += 1
         reward = self.STEP_REWARD
         terminated = False
         current_pos = tuple(self.agent_pos)
         
-        # Wall collision penalty (didn't move)
+        # Wall collision penalty
         if self.agent_pos == self.prev_agent_pos:
             reward += self.WALL_COLLISION_PENALTY
         
-        # GENTLE distance-based shaping (helps agent find hostage)
-        current_distance = self._manhattan_distance(current_pos, self.hostage_pos)
+        # SMARTER distance-based shaping using BFS
+        current_distance = self._get_bfs_distance(current_pos, self.hostage_pos)
         distance_reward = (self.prev_distance - current_distance) * self.DISTANCE_REWARD_SCALE
+        
+        # PREVENT SHAPING SPIKE: If we "teleported" by trampling, don't reward it!
+        if current_pos in self.civilians and current_pos not in self.trampled_civilians:
+             distance_reward = 0.0 # Or maybe even negative? No, let penalty handle that.
+             
         reward += distance_reward
         self.prev_distance = current_distance
         
@@ -149,7 +231,7 @@ class HostageGridworld(gym.Env):
                 self.episode_over = True
         
         # Timeout
-        if self.steps_taken >= 50:
+        if self.steps_taken >= 200:
             terminated = True
             self.episode_over = True
         

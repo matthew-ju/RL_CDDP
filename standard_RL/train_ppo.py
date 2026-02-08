@@ -12,7 +12,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.distributions import Categorical
-from hostage_gridworld import HostageGridworld
+try:
+    from hostage_gridworld import HostageGridworld
+except ImportError:
+    from standard_RL.hostage_gridworld import HostageGridworld
 
 
 class PPOAgent(nn.Module):
@@ -32,7 +35,15 @@ class PPOAgent(nn.Module):
         self.critic = nn.Linear(hidden_dim, 1)
         
     def forward(self, obs):
-        features = self.shared(obs)
+        # Mask bomb features to force "context-blind" behavior
+        # Obs: [x, y, steps, bomb_active, time_left] -> mask last 2
+        masked_obs = obs.clone()
+        if len(masked_obs.shape) == 1:
+            masked_obs[-2:] = 0
+        else:
+            masked_obs[:, -2:] = 0
+            
+        features = self.shared(masked_obs)
         action_logits = self.actor(features)
         value = self.critic(features)
         return action_logits, value
@@ -198,7 +209,7 @@ def train_ppo(env, agent, optimizer, num_episodes=500, max_steps=50, print_every
             # reduced entropy for stability
             ppo_update(agent, optimizer, batch_observations, batch_actions, 
                       batch_log_probs, batch_advantages, batch_returns,
-                      entropy_coef=0.02)
+                      entropy_coef=0.3)
             
             # Reset batch buffers
             batch_observations = []
@@ -288,20 +299,38 @@ def evaluate_agent(env, agent, num_episodes=100):
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--grid", type=int, default=1, help="Grid layout ID (1-3)")
+    args = parser.parse_args()
+    
     print("="*60)
-    print("TRAINING UTILITARIAN BASELINE (PPO)")
+    print(f"TRAINING UTILITARIAN BASELINE (PPO) - GRID {args.grid}")
     print("HIGH STAKES ONLY")
     print("="*60)
     
-    # Use bomb_timer=6
-    env_high_stakes = HostageGridworld(bomb_timer=6)
+    # Get dynamic timer
+    optimal_timer = HostageGridworld.GRID_LAYOUTS[args.grid]['bomb_timer']
+    print(f"Using dynamic bomb timer: {optimal_timer} steps (for Grid {args.grid})")
+    
+    # Use bomb_timer=optimal_timer
+    env_high_stakes = HostageGridworld(bomb_timer=optimal_timer, layout_id=args.grid)
     
     obs_dim = env_high_stakes.observation_space.shape[0]
-    agent = PPOAgent(obs_dim=obs_dim, action_dim=4, hidden_dim=128)
+    
+    # Scale parameters based on grid size
+    grid_size = env_high_stakes.grid_size
+    hidden_dim = 128 if grid_size <= 5 else 256  # Larger network for larger grids
+    num_episodes = 15000 if grid_size <= 5 else 30000  # More episodes for larger grids
+    
+    print(f"Grid size: {grid_size}x{grid_size}")
+    print(f"Hidden dim: {hidden_dim}, Episodes: {num_episodes}")
+    
+    agent = PPOAgent(obs_dim=obs_dim, action_dim=4, hidden_dim=hidden_dim)
     optimizer = torch.optim.Adam(agent.parameters(), lr=3e-4)
     
-    # Train directly on high stakes with more episodes
-    train_ppo(env_high_stakes, agent, optimizer, num_episodes=10000, print_every=500)
+    # Train directly on high stakes with scaled episodes
+    train_ppo(env_high_stakes, agent, optimizer, num_episodes=num_episodes, print_every=500)
     
     print("\n[Evaluation] High Stakes...")
     results_high = evaluate_agent(env_high_stakes, agent, num_episodes=100)
@@ -312,8 +341,9 @@ if __name__ == "__main__":
     print(f"  Bomb Explosion Rate: {results_high['bomb_explosion_rate']*100:.1f}%")
     
     # Save final model
-    torch.save(agent.state_dict(), 'ppo_high_stakes.pt')
-    print("\n✓ Saved final model: ppo_high_stakes.pt")
+    filename = f'ppo_high_stakes_grid{args.grid}.pt'
+    torch.save(agent.state_dict(), filename)
+    print(f"\n✓ Saved final model: {filename}")
     
     print("\n" + "="*60)
     print("TRAINING COMPLETE!")
