@@ -298,3 +298,4 @@ if __name__ == "__main__":
     
     print(f"Safe path total: {total:.1f}")
     print(f"  Civilians trampled: {len(info['civilians_trampled_this_episode'])}")
+ 
