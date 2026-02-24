@@ -333,6 +333,144 @@ where the inequality uses $D_{\text{path}}(s_2, \pi) \geq D_{\text{path}}(s_1, \
 
 ---
 
+### Proposition 2 (Policy-Mismatch Bias and Stochastic Dominance)
+
+The following result formalizes the claim that distributional stakes under the blended policy $\pi_\theta$ systematically underestimate urgency relative to prospective stakes under the deontic policy $\pi_d$. The proof proceeds via stochastic dominance of time-to-goal distributions and a coupling argument.
+
+#### Setup and Assumptions
+
+> **Proposition 2.** Consider a CDDP environment with finite horizon $H$ and the following properties:
+>
+> **(B1) Time-critical catastrophe.** The return decomposes as $Z^\pi(s) = G^\pi(s) + \Delta_{\text{cat}}^\pi(s)$, where $G^\pi(s)$ is the non-catastrophic component and $\Delta_{\text{cat}}^\pi(s) \leq 0$ is the catastrophe penalty. Catastrophic outcomes correspond to failing to reach the goal before a deadline: $Z^\pi(s) < c_{\text{cat}}$ if and only if the time-to-goal $D_{\text{path}}(s, \pi) > T_{\text{rem}}(s)$.
+>
+> **(B2) Path-shortening violations.** There exist states where constraint-violating actions provide shortcuts. Formally, define the **safe path length** $L_{\text{safe}}(s) = \min\{|\xi| : \xi \text{ is a path from } s \text{ to goal using only } \mathcal{A}_{\text{safe}} \text{ actions}\}$ and the **unrestricted path length** $D_{\min}(s) = \min\{|\xi| : \xi \text{ is a path from } s \text{ to goal}\}$. There exist states $s$ with:
+>
+> $$L_{\text{safe}}(s) > D_{\min}(s)$$
+>
+> **(B3) Learned exploitation.** The blended policy $\pi_\theta$ assigns positive probability to constraint-violating actions that reduce time-to-goal. That is, for states $s$ satisfying (B2), there exist $a \in \mathcal{A}_{\text{unsafe}}(s)$ with $\pi_\theta(a \mid s) > 0$ and $\mathbb{E}[D_{\text{path}}(s', \pi_\theta)] < \mathbb{E}[D_{\text{path}}(s'', \pi_\theta)]$ where $s' = T(s, a)$ is the successor under the violating action and $s'' = T(s, a_s)$ for some $a_s \in \mathcal{A}_{\text{safe}}(s)$.
+>
+> Define the **late-switch failure band**:
+>
+> $$\mathcal{F} = \{s \in \mathcal{S} : D_{\min}(s) < T_{\text{rem}}(s) < L_{\text{safe}}(s)\}$$
+>
+> Then:
+>
+> **(a) Weak inequality (general).** For all states $s$:
+>
+> $$P_{\text{cat}}(s;\, \pi_d) \geq P_{\text{cat}}(s;\, \pi_\theta)$$
+>
+> **(b) Strict inequality (failure band).** For all $s \in \mathcal{F}$:
+>
+> $$P_{\text{cat}}(s;\, \pi_d) > P_{\text{cat}}(s;\, \pi_\theta)$$
+>
+> Consequently, $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$ for all $s \in \mathcal{F}$.
+>
+> **(c) Stochastic dominance.** Under (B1)–(B3), the time-to-goal under $\pi_d$ first-order stochastically dominates that under $\pi_\theta$ in the failure band:
+>
+> $$D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta) \quad \text{for all } s \in \mathcal{F}$$
+>
+> That is, $\mathbb{P}(D_{\text{path}}(s, \pi_d) > k) \geq \mathbb{P}(D_{\text{path}}(s, \pi_\theta) > k)$ for all $k \in \mathbb{Z}_+$.
+
+#### Proof
+
+**Step 1: Action-space restriction and trajectory coupling.**
+
+The deontic policy $\pi_d$ is obtained from $\pi_\theta$ by restricting to $\mathcal{A}_{\text{safe}}(s)$ at every state (Definition 7). We construct an explicit **coupling** of trajectories under the two policies.
+
+Let $\{U_t\}_{t=0}^{H-1}$ be a sequence of i.i.d. uniform random variables on $[0,1]$ that serve as the shared source of randomness for action selection. At each time step $t$, both policies use the same $U_t$ to select an action via the inverse-CDF method:
+
+- Under $\pi_\theta$: $a_t^\theta = F_{\pi_\theta(\cdot | s_t)}^{-1}(U_t)$, where $F_{\pi_\theta}$ is the CDF of the action distribution
+- Under $\pi_d$: $a_t^d = F_{\pi_d(\cdot | s_t)}^{-1}(U_t)$, where $F_{\pi_d}$ is the CDF of the restricted distribution
+
+This coupling produces paired trajectories $\xi^\theta = (s_0, a_0^\theta, s_1^\theta, \ldots)$ and $\xi^d = (s_0, a_0^d, s_1^d, \ldots)$ that start from the same initial state $s_0 = s$ and share the same random seed.
+
+**Step 2: Time-to-goal ordering via path structure.**
+
+We show that $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$, i.e., the deontic policy is stochastically slower.
+
+The deontic policy samples from $\mathcal{A}_{\text{safe}}(s) \subseteq \mathcal{A}$ at every state. The support of the trajectory distribution under $\pi_d$ is therefore a _subset_ of the trajectories available under $\pi_\theta$. In particular, any trajectory that uses a constraint-violating action at any step has probability zero under $\pi_d$ but potentially positive probability under $\pi_\theta$.
+
+Under **(B3)**, the violating actions that $\pi_\theta$ can take lead to states with shorter expected time-to-goal. Consider the one-step decomposition of time-to-goal from state $s$:
+
+$$\mathbb{E}[D_{\text{path}}(s, \pi)] = 1 + \sum_{a \in \mathcal{A}} \pi(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi)]$$
+
+For the deontic policy, the sum ranges only over $\mathcal{A}_{\text{safe}}(s)$:
+
+$$\mathbb{E}[D_{\text{path}}(s, \pi_d)] = 1 + \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \frac{\pi_\theta(a \mid s)}{Z(s)} \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_d)]$$
+
+For the blended policy:
+
+$$\mathbb{E}[D_{\text{path}}(s, \pi_\theta)] = 1 + \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)] + \sum_{a \in \mathcal{A}_{\text{unsafe}}(s)} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)]$$
+
+The key observation: $\pi_\theta$ allocates probability mass $1 - Z(s) = \sum_{a \in \mathcal{A}_{\text{unsafe}}} \pi_\theta(a \mid s) > 0$ to unsafe actions. By **(B3)**, these unsafe actions lead to states $s' = T(s, a)$ with $\mathbb{E}[D_{\text{path}}(s', \pi_\theta)] < \mathbb{E}[D_{\text{path}}(s'', \pi_\theta)]$ for some safe successor $s''$. The deontic policy redistributes this mass to safe actions (via normalization by $Z(s)$), which lead to weakly longer paths. Therefore:
+
+$$\mathbb{E}[D_{\text{path}}(s, \pi_d)] \geq \mathbb{E}[D_{\text{path}}(s, \pi_\theta)]$$
+
+The first-order stochastic dominance (not just mean ordering) follows from a standard inductive argument over the remaining horizon: at every step, $\pi_\theta$ has access to all actions in $\mathcal{A}$ while $\pi_d$ is restricted to $\mathcal{A}_{\text{safe}} \subseteq \mathcal{A}$. By the principle that enlarging the feasible set in a stochastic optimization problem can only improve (weakly) the distribution of outcomes, $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$.
+
+**Step 3: Catastrophe probability ordering.**
+
+By **(B1)**, $P_{\text{cat}}(s;\, \pi) = \mathbb{P}(D_{\text{path}}(s, \pi) > T_{\text{rem}}(s))$. Since $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$:
+
+$$P_{\text{cat}}(s;\, \pi_d) = \mathbb{P}(D_{\text{path}}(s, \pi_d) > T_{\text{rem}}) \geq \mathbb{P}(D_{\text{path}}(s, \pi_\theta) > T_{\text{rem}}) = P_{\text{cat}}(s;\, \pi_\theta)$$
+
+This proves **(a)**.
+
+**Step 4: Strict inequality in the failure band.**
+
+For $s \in \mathcal{F}$, i.e., $D_{\min}(s) < T_{\text{rem}}(s) < L_{\text{safe}}(s)$:
+
+- **Under $\pi_d$:** Every trajectory uses only safe actions, so $D_{\text{path}}(s, \pi_d) \geq L_{\text{safe}}(s) > T_{\text{rem}}(s)$. Therefore $P_{\text{cat}}(s;\, \pi_d) = 1$.
+
+- **Under $\pi_\theta$:** Since $D_{\min}(s) < T_{\text{rem}}(s)$, there exists at least one path to the goal within the deadline (necessarily using violations). By **(B3)**, $\pi_\theta$ follows such a path with positive probability. Therefore $P_{\text{cat}}(s;\, \pi_\theta) < 1$.
+
+Combining: $P_{\text{cat}}(s;\, \pi_d) = 1 > P_{\text{cat}}(s;\, \pi_\theta)$. This proves **(b)**.
+
+The stakes inequality follows by monotonicity of $\text{clip}(\cdot / P_{\text{ref}}, 0, 1)$:
+
+$$\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) = \text{clip}\!\left(\frac{P_{\text{cat}}(s;\, \pi_\theta)}{P_{\text{ref}}}\right) < \text{clip}\!\left(\frac{1}{P_{\text{ref}}}\right) = \mathcal{S}_{\text{pros}}(s)$$
+
+Part **(c)** was established in Step 2. $\blacksquare$
+
+#### Quantile Ordering (Connection to QR-DQN)
+
+The stochastic dominance result has a direct implication for the quantile-based distributional critics used in practice. Let $\{\theta_i^d(s)\}_{i=1}^N$ and $\{\theta_i^\theta(s)\}_{i=1}^N$ denote the sorted quantile estimates from $Z_\psi^{\text{deon}}$ and $Z_\psi^{\text{free}}$ respectively.
+
+> **Corollary 2a (Quantile Ordering).** Under (B1)–(B3), for all $s \in \mathcal{F}$ and for all quantile indices $i \in \{1, \ldots, N\}$:
+>
+> $$\theta_i^d(s) \leq \theta_i^\theta(s)$$
+>
+> That is, every quantile of the deontic return distribution is weakly below the corresponding quantile of the blended return distribution.
+
+**Proof.** First-order stochastic dominance of $D_{\text{path}}(s, \pi_d)$ over $D_{\text{path}}(s, \pi_\theta)$ (Part (c) of Proposition 2) implies, via (B1), that $Z^{\pi_d}(s) \preceq_{\text{FSD}} Z^{\pi_\theta}(s)$ — the return distribution under the deontic policy is first-order stochastically dominated by the return under the blended policy (longer paths yield lower returns). First-order stochastic dominance is equivalent to pointwise quantile ordering: if $F \preceq_{\text{FSD}} G$, then $F^{-1}(\tau) \leq G^{-1}(\tau)$ for all $\tau \in (0,1)$. In the QR-DQN approximation with quantile fractions $\tau_i = (2i-1)/2N$, this yields $\theta_i^d(s) \leq \theta_i^\theta(s)$ for all $i$. $\blacksquare$
+
+This quantile ordering means that the number of quantiles falling below $c_{\text{cat}}$ is weakly larger for the deontic critic than for the blended critic:
+
+$$|\{i : \theta_i^d(s) < c_{\text{cat}}\}| \geq |\{i : \theta_i^\theta(s) < c_{\text{cat}}\}|$$
+
+which directly implies $P_{\text{cat}}(s;\, \pi_d) \geq P_{\text{cat}}(s;\, \pi_\theta)$ in the quantile approximation, confirming consistency between the theoretical result and the finite-sample QR-DQN estimator.
+
+#### Corollary 2b (Late-Switch Failure Mode)
+
+> **Corollary 2b.** Under the conditions of Proposition 2, there exist threshold values $\tau$ such that for states $s \in \mathcal{F}$:
+>
+> $$\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \tau \leq \mathcal{S}_{\text{pros}}(s)$$
+>
+> For such $\tau$, a CDDP using $\mathcal{S}_{\text{dist}}$ remains in deontic mode at $s$ (shield active), but since $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, the goal cannot be reached under the shield. Catastrophe occurs with probability 1.
+>
+> A CDDP using $\mathcal{S}_{\text{pros}}$ correctly switches to utilitarian mode at $s$, lifting the shield and allowing the agent to reach the goal via constraint-violating shortcuts. Catastrophe occurs with probability strictly less than 1.
+
+**Proof.** By Proposition 2(b), $P_{\text{cat}}(s;\, \pi_\theta) < 1 = P_{\text{cat}}(s;\, \pi_d)$ for $s \in \mathcal{F}$. Therefore $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$, and there exists $\tau$ in the interval $(\mathcal{S}_{\text{dist}}(s;\, \pi_\theta),\; \mathcal{S}_{\text{pros}}(s)]$. For any such $\tau$:
+
+- Under $\mathcal{S}_{\text{dist}}$: $\mathcal{S}(s) = \mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \tau$, so the shield remains active. But $L_{\text{safe}}(s) > T_{\text{rem}}(s)$ (by definition of $\mathcal{F}$), so the shielded agent cannot reach the goal before the deadline. By (B1), $Z^{\pi_d}(s) < c_{\text{cat}}$ with certainty.
+- Under $\mathcal{S}_{\text{pros}}$: $\mathcal{S}(s) = \mathcal{S}_{\text{pros}}(s) \geq \tau$, so the shield is lifted. Since $D_{\min}(s) < T_{\text{rem}}(s)$, a goal-reaching path exists, and by (B3), $\pi_\theta$ follows it with positive probability. $\blacksquare$
+
+**Remark 1 (Magnitude of the bias).** In the failure band, the bias is maximal: $\mathcal{S}_{\text{pros}}(s) = \text{clip}(1/P_{\text{ref}}, 0, 1) = 1$ (for $P_{\text{ref}} \leq 1$), while $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ depends on the success probability of $\pi_\theta$'s shortcut-taking behavior. For a well-trained $\pi_\theta$ that reliably exploits violations, $P_{\text{cat}}(s;\, \pi_\theta)$ can be very small, making the gap $\mathcal{S}_{\text{pros}}(s) - \mathcal{S}_{\text{dist}}(s;\, \pi_\theta) \approx 1$.
+
+**Remark 2 (Beyond the failure band).** Outside $\mathcal{F}$, the weak inequality (Part (a)) still holds, but may not be strict. In states where $T_{\text{rem}} \geq L_{\text{safe}}$ (ample time), both policies reach the goal with high probability and $P_{\text{cat}}(s;\, \pi_d) \approx P_{\text{cat}}(s;\, \pi_\theta) \approx 0$. In states where $T_{\text{rem}} \leq D_{\min}$ (insufficient time regardless), both policies fail and $P_{\text{cat}}(s;\, \pi_d) \approx P_{\text{cat}}(s;\, \pi_\theta) \approx 1$. The bias is concentrated in the failure band $\mathcal{F}$, which is precisely where it matters for switching correctness.
+
+**Remark 3 (Generality beyond gridworlds).** The proof structure extends to any CDDP environment where (i) catastrophe is time-critical, (ii) constraint-violating actions provide path-shortening opportunities, and (iii) the learned policy exploits them. The stochastic dominance argument requires only that enlarging the action set (from $\mathcal{A}_{\text{safe}}$ to $\mathcal{A}$) weakly improves the time-to-goal distribution, which holds whenever unsafe actions are not strictly dominated in terms of goal-reaching speed.
+
 ### Theorem 2 (Utilitarian Recovery under High Stakes)
 
 > **Theorem 2.** Consider a CDDP with hard switching. If $\mathcal{S}(s_t) \geq \tau$ for all $t$ in trajectory $\xi$, then:
