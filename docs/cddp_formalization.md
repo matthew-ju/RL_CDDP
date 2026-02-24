@@ -113,7 +113,21 @@ $$L_{\text{CDDP}}(\pi, \lambda) = J_R(\pi) - \lambda\left(J_{\tilde{C}}(\pi) - d
 
 ## 3. The Stakes Functional
 
-### 3.1 Analytical Stakes (Domain-Specific)
+The stakes functional $\mathcal{S}: \mathcal{S} \to [0,1]$ is the central object that governs mode switching in CDDP. This section develops the stakes concept in three stages: a domain-specific closed-form version (§3.1), a general learned version that reveals a fundamental limitation (§3.2), and the canonical prospective formulation that resolves it (§3.3).
+
+### 3.0 Observability Assumption
+
+The analytical stakes functional (Definition 5, below) requires access to quantities such as $T_{\text{rem}}$ (remaining time before catastrophe) and $D_{\min}$ (minimum distance to goal). In many realistic deployments, these quantities are **hidden variables**: the agent observes only partial state information, and the environment is effectively a POMDP.
+
+When $T_{\text{rem}}$ and $D_{\min}$ are unobservable, the stakes functional cannot be computed in closed form. Learned stakes must therefore _estimate_ counterfactual risk from the observable state, rather than compute it from privileged information.
+
+This motivates a key architectural principle:
+
+> **CDDP separates stakes _definition_ from stakes _estimation_.** The stakes functional specifies the _ideal_ switching criterion — what quantity the agent should threshold on. The estimation method specifies _how_ that quantity is approximated in practice. Sections 3.1–3.2 provide two estimation strategies; Section 3.3 defines the conceptually correct switching criterion that both approximate.
+
+### 3.1 Analytical Stakes (Domain-Specific Closed-Form Approximation)
+
+The analytical stakes functional provides a closed-form approximation of the prospective stakes concept (Definition 7, §3.3) for domains where the relevant hidden variables are observable.
 
 > **Definition 5 (Analytical Stakes).**
 >
@@ -127,30 +141,116 @@ $$L_{\text{CDDP}}(\pi, \lambda) = J_R(\pi) - \lambda\left(J_{\tilde{C}}(\pi) - d
 
 Properties:
 
-- $\mathcal{S}(s) = 0$ when $T_{\text{rem}} = \infty$ (no bomb → no time pressure)
-- $\mathcal{S}(s) \approx 0$ when $T_{\text{rem}} \gg D_{\min}$ (plenty of time)
-- $\mathcal{S}(s) = 1$ when $T_{\text{rem}} \leq D_{\min}$ (cannot reach hostage without shortcuts)
-- $\mathcal{S}(s) \in [0, 1]$ for all $s$ by construction (clip enforces bounds)
+- $\mathcal{S}_{\text{analytic}}(s) = 0$ when $T_{\text{rem}} = \infty$ (no bomb → no time pressure)
+- $\mathcal{S}_{\text{analytic}}(s) \approx 0$ when $T_{\text{rem}} \gg D_{\min}$ (plenty of time)
+- $\mathcal{S}_{\text{analytic}}(s) = 1$ when $T_{\text{rem}} \leq D_{\min}$ (cannot reach hostage without shortcuts)
+- $\mathcal{S}_{\text{analytic}}(s) \in [0, 1]$ for all $s$ by construction (clip enforces bounds)
+
+This formulation implicitly performs **lookahead feasibility reasoning**: $D_{\min} / T_{\text{rem}} \geq 1$ precisely when no constraint-respecting path to the goal exists within the remaining time horizon. In this sense, the analytical stakes answer a prospective question — _can the agent still succeed while obeying constraints?_ — via a geometric shortcut.
+
+**Limitation.** The analytical stakes require **privileged knowledge** of $T_{\text{rem}}$, which is a hidden environment variable in the general case. They also assume deterministic dynamics (the Manhattan distance $D_{\min}$ is meaningful only when the agent moves one cell per step with certainty).
+
+**Remark (Relationship to prospective stakes).** When dynamics are deterministic and $T_{\text{rem}}$ is observable, $\mathcal{S}_{\text{analytic}}(s) \approx \mathcal{S}_{\text{pros}}(s)$ (Definition 7). The analytical stakes are a closed-form realization of the prospective stakes concept in the full-information deterministic setting. See §3.3 for the general definition.
 
 ### 3.2 Distributional Stakes (General, Learned)
 
+The distributional stakes functional removes the dependence on privileged environment variables by learning the catastrophe probability from the return distribution.
+
 > **Definition 6 (Distributional Stakes).** Let $Z^\pi(s)$ be the return distribution from state $s$ under policy $\pi$, approximated by QR-DQN with quantile estimates $\{\theta_i(s)\}_{i=1}^{N}$ sorted in ascending order. Let $c_{\text{cat}} \in \mathbb{R}$ be the catastrophe return threshold. Define:
 >
-> $$P_{\text{cat}}(s) = \frac{1}{N} \cdot \left|\{ i \in \{1,\ldots,N\} : \theta_i(s) < c_{\text{cat}} \}\right|$$
+> $$P_{\text{cat}}(s;\, \pi) = \frac{1}{N} \cdot \left|\{ i \in \{1,\ldots,N\} : \theta_i(s) < c_{\text{cat}} \}\right|$$
 >
-> the estimated probability that the return falls below the catastrophe level.
+> the estimated probability that the return falls below the catastrophe level under policy $\pi$.
 >
 > The distributional stakes functional is:
 >
-> $$\mathcal{S}_{\text{dist}}(s) = \text{clip}\left(\frac{P_{\text{cat}}(s)}{P_{\text{ref}}},\; 0,\; 1\right)$$
+> $$\mathcal{S}_{\text{dist}}(s;\, \pi) = \text{clip}\left(\frac{P_{\text{cat}}(s;\, \pi)}{P_{\text{ref}}},\; 0,\; 1\right)$$
 >
 > where $P_{\text{ref}} \in (0, 1]$ is a normalizing reference probability.
 
 **Alternative (CVaR-based):**
 
-$$\mathcal{S}_{\text{CVaR}}(s) = \text{clip}\left(\frac{c_{\text{safe}} - \text{CVaR}_\alpha(s)}{c_{\text{safe}} - c_{\text{cat}}},\; 0,\; 1\right)$$
+$$\mathcal{S}_{\text{CVaR}}(s;\, \pi) = \text{clip}\left(\frac{c_{\text{safe}} - \text{CVaR}_\alpha(s;\, \pi)}{c_{\text{safe}} - c_{\text{cat}}},\; 0,\; 1\right)$$
 
 where $c_{\text{safe}}$ is the expected return under safe conditions.
+
+#### Limitation: Policy-Mismatch Bias
+
+As stated in Definition 6, the distributional stakes $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ measure catastrophe probability under the **learned blended policy** $\pi_\theta$. This introduces a systematic bias when $\pi_\theta$ has already learned to violate constraints:
+
+- If $\pi_\theta$ occasionally takes shortcuts through constraint-violating actions (e.g., trampling civilians to save time), these violations _reduce_ the time-to-goal, which in turn _lowers_ the estimated catastrophe probability $P_{\text{cat}}(s;\, \pi_\theta)$.
+- The distributional stakes therefore **underestimate urgency**: the agent appears to have more time than it actually does under constraint-respecting behavior.
+- This can cause **late switching**: the stakes remain below $\tau$ in states where constraint-respecting paths are already infeasible, because $\pi_\theta$'s return distribution reflects a faster (but violation-dependent) trajectory.
+
+The fundamental issue is a **counterfactual mismatch**: the switching decision asks whether constraints should be relaxed, but the evidence used to make this decision is contaminated by prior relaxation. The relevant counterfactual for deontic switching is catastrophe risk under _continued constraint adherence_, not under the current blended policy.
+
+### 3.3 Prospective (Lookahead) Stakes
+
+The policy-mismatch bias of §3.2 motivates the canonical stakes definition: stakes should measure catastrophe risk under the assumption that the agent _continues to follow constraints_.
+
+#### Motivation
+
+The deontic switching decision asks a precise counterfactual question:
+
+> _If the agent continues obeying constraints from this state forward, will catastrophe become inevitable?_
+
+If the answer is "yes" (with sufficiently high probability), the agent should switch to utilitarian mode. If "no," the agent should remain deontic. The correct input to this decision is not the return distribution under the current policy $\pi_\theta$, but under the **deontic policy** — the policy that permanently respects all constraints.
+
+#### Definition
+
+> **Definition 7 (Deontic Policy).** The _deontic policy_ $\pi_d$ is the CDDP policy (Definition 3) restricted to permanent deontic mode:
+>
+> $$\pi_d(a \mid s) = \frac{\pi_\theta(a \mid s) \cdot \mathbb{1}\{a \in \mathcal{A}_{\text{safe}}(s)\}}{Z(s)} \quad \text{for all } s$$
+>
+> That is, $\pi_d$ is the shielded policy applied unconditionally, regardless of stakes.
+
+> **Definition 8 (Prospective Stakes).** The _prospective stakes functional_ is:
+>
+> $$\mathcal{S}_{\text{pros}}(s) = \text{clip}\left(\frac{P_{\text{cat}}(s;\, \pi_d)}{P_{\text{ref}}},\; 0,\; 1\right)$$
+>
+> where:
+>
+> - $P_{\text{cat}}(s;\, \pi_d) = \mathbb{P}(Z^{\pi_d}(s) < c_{\text{cat}})$ is the catastrophe probability under the deontic policy $\pi_d$
+> - $c_{\text{cat}} \in \mathbb{R}$ is the catastrophe return threshold
+> - $P_{\text{ref}} \in (0, 1]$ is a normalizing reference probability
+
+#### Interpretation
+
+The prospective stakes evaluate **future inevitability under rule-following**. When $\mathcal{S}_{\text{pros}}(s) \geq \tau$, the agent has determined — via its learned model of deontic-mode outcomes — that continued constraint adherence leads to catastrophe with probability exceeding $\tau \cdot P_{\text{ref}}$. This triggers a switch to utilitarian mode _before_ constraint-respecting behavior becomes infeasible, rather than waiting until the blended policy's tail risk crosses the threshold.
+
+#### Late-Switch Failure Band
+
+The policy-mismatch bias of §3.2 manifests most acutely in a specific region of the state space. Define $L_{\text{safe}}(s)$ as the minimum path length to the goal using only $\mathcal{A}_{\text{safe}}$ actions (i.e., the shortest constraint-respecting path). The **late-switch failure band** is the set of states satisfying:
+
+$$D_{\min}(s) < T_{\text{rem}}(s) < L_{\text{safe}}(s)$$
+
+In this region:
+
+- $D_{\min} < T_{\text{rem}}$: a path to the goal exists within the time limit (geometrically feasible)
+- $T_{\text{rem}} < L_{\text{safe}}$: no _constraint-respecting_ path reaches the goal in time (deontically infeasible)
+
+Standard distributional stakes $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ underestimate urgency in this band because the blended policy's return distribution reflects shortcut-taking trajectories that make the deadline. Prospective stakes $\mathcal{S}_{\text{pros}}(s)$ correctly identify these states as high-stakes, since under $\pi_d$ the agent cannot reach the goal in time.
+
+#### Two-Critic Architecture
+
+Computing $\mathcal{S}_{\text{pros}}(s)$ requires estimating the return distribution under $\pi_d$, which differs from the return distribution under $\pi_\theta$ used for reward optimization. CDDP therefore requires **two distributional value estimators**:
+
+| Critic                   | Evaluates policy                         | Role                                                                                  |
+| ------------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| $Z_{\psi}^{\text{free}}$ | $\pi_\theta$ (unconstrained base policy) | Utility optimization: provides distributional value estimates for reward maximization |
+| $Z_{\psi}^{\text{deon}}$ | $\pi_d$ (shielded deontic policy)        | Stakes estimation: provides $P_{\text{cat}}(s;\, \pi_d)$ for prospective switching    |
+
+Both critics are trained via quantile regression (§1.2) on trajectories generated by their respective policies. During data collection, the CDDP policy $\pi_{\text{CDDP}}$ generates trajectories that contain both deontic-mode and utilitarian-mode segments; $Z_{\psi}^{\text{deon}}$ is trained on deontic-mode transitions (where the shield was active), and $Z_{\psi}^{\text{free}}$ is trained on all transitions (or utilitarian-mode transitions, depending on the implementation).
+
+> **Remark (Analytical stakes as special case).** When dynamics are deterministic and $T_{\text{rem}}$ is observable, the deontic policy $\pi_d$ follows the shortest safe path of length $L_{\text{safe}}(s)$, and catastrophe occurs if and only if $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, i.e., $D_{\min}(s) / T_{\text{rem}}(s) \geq 1$ (since $L_{\text{safe}} \geq D_{\min}$). Thus $\mathcal{S}_{\text{analytic}}(s) \approx \mathcal{S}_{\text{pros}}(s)$, confirming that the analytical stakes are a closed-form realization of the prospective stakes in the full-information deterministic setting.
+
+### 3.4 Canonical Stakes Convention
+
+Throughout the remainder of this manuscript, the unqualified stakes functional refers to the prospective formulation:
+
+$$\mathcal{S}(s) := \mathcal{S}_{\text{pros}}(s) \quad \text{(default)}$$
+
+The analytical stakes $\mathcal{S}_{\text{analytic}}(s)$ serve as a domain-specific closed-form approximation (used during warmup training, §5.1). The standard distributional stakes $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ serve as a policy-dependent approximation that may be used when only a single critic is available, with the understanding that this introduces the policy-mismatch bias described in §3.2.
 
 ---
 
@@ -385,33 +485,38 @@ $\blacksquare$
 
 ### 5.1 Training Stability: The Warmup Problem
 
-The distributional stakes functional $\mathcal{S}_{\text{dist}}(s; Z_\psi)$ depends on the distributional critic $Z_\psi$, which is initialized randomly and trained concurrently with the policy. In early iterations, the quantile estimates $\{\theta_i(s)\}$ are meaningless, so $P_{\text{cat}}(s)$ is noise, and the shield activates/deactivates randomly. This corrupts training trajectories, which in turn produces badly trained $Z_\psi$ — a feedback loop.
+The prospective stakes functional $\mathcal{S}_{\text{pros}}(s)$ depends on the deontic distributional critic $Z_{\psi}^{\text{deon}}$, which is initialized randomly and trained concurrently with the policy. In early iterations, the quantile estimates $\{\theta_i(s)\}$ are meaningless, so $P_{\text{cat}}(s;\, \pi_d)$ is noise, and the shield activates/deactivates randomly. This corrupts training trajectories, which in turn produces badly trained critics — a feedback loop.
 
 **Solution: Two-phase training with analytical warmup.**
 
-> **Phase 1 (Warmup, iterations $1$ to $K_w$):** Use the analytical stakes functional $\mathcal{S}_{\text{analytic}}(s) = \text{clip}(D_{\min}/T_{\text{rem}},\; 0,\; 1)$ instead of $\mathcal{S}_{\text{dist}}$. This provides a reliable, domain-specific stakes signal while $Z_\psi$ is trained passively from collected trajectories. During this phase, $Z_\psi$ is updated but not used for shield gating.
+> **Phase 1 (Warmup, iterations $1$ to $K_w$):** Use the analytical stakes functional $\mathcal{S}_{\text{analytic}}(s) = \text{clip}(D_{\min}/T_{\text{rem}},\; 0,\; 1)$ instead of $\mathcal{S}_{\text{pros}}$. This provides a reliable, domain-specific stakes signal while both distributional critics ($Z_{\psi}^{\text{free}}$, $Z_{\psi}^{\text{deon}}$) are trained passively from collected trajectories. During this phase, the critics are updated but not used for shield gating.
 >
-> **Phase 2 (Full CDDP, iterations $K_w+1$ to $K$):** Switch to the distributional stakes functional $\mathcal{S}_{\text{dist}}(s; Z_\psi)$. By this point, $Z_\psi$ has been trained on $K_w$ iterations of data and provides meaningful quantile estimates. Optionally, blend: $\mathcal{S}(s) = (1-\alpha_k) \cdot \mathcal{S}_{\text{analytic}}(s) + \alpha_k \cdot \mathcal{S}_{\text{dist}}(s)$ with $\alpha_k$ ramping from $0$ to $1$ over a transition window.
+> **Phase 2 (Full CDDP, iterations $K_w+1$ to $K$):** Switch to the prospective stakes functional $\mathcal{S}_{\text{pros}}(s)$ computed from $Z_{\psi}^{\text{deon}}$. By this point, $Z_{\psi}^{\text{deon}}$ has been trained on $K_w$ iterations of deontic-mode data and provides meaningful quantile estimates. Optionally, blend: $\mathcal{S}(s) = (1-\alpha_k) \cdot \mathcal{S}_{\text{analytic}}(s) + \alpha_k \cdot \mathcal{S}_{\text{pros}}(s)$ with $\alpha_k$ ramping from $0$ to $1$ over a transition window.
 
-This two-phase approach ensures stable early training while allowing the agent to eventually rely on the learned, general-purpose distributional stakes.
+This two-phase approach ensures stable early training while allowing the agent to eventually rely on the learned, general-purpose prospective stakes.
 
 ### 5.2 Algorithm
 
 ```
 Input: CDDP = (S, A, T, R, C, S(·), τ, h, d), warmup iterations K_w
-Initialize: policy π_θ, value critic V_φ, distributional critic Z_ψ (QR-DQN, N quantiles),
+Initialize: policy π_θ, value critic V_φ,
+            distributional critic Z_ψ^free (QR-DQN, N quantiles, evaluates π_θ),
+            distributional critic Z_ψ^deon (QR-DQN, N quantiles, evaluates π_d),
             Lagrange multiplier λ ≥ 0
 
 For each iteration k = 1, ..., K:
   1. Collect trajectories using the shielded policy π_CDDP (Definition 3)
+     - Tag each transition with its mode: deontic (shield active) or utilitarian
 
-  2. Update distributional critic Z_ψ via quantile regression loss
+  2. Update distributional critics:
+       Z_ψ^free ← quantile regression on all transitions
+       Z_ψ^deon ← quantile regression on deontic-mode transitions
 
   3. Compute stakes for each visited state:
        if k ≤ K_w:   (warmup phase)
            S(s_t) ← S_analytic(s_t)      (domain-specific, reliable)
        else:          (full CDDP phase)
-           S(s_t) ← S_dist(s_t; Z_ψ, c_cat, P_ref)   (learned, general)
+           S(s_t) ← S_pros(s_t; Z_ψ^deon, c_cat, P_ref)   (prospective, learned)
 
   4. Compute modulated costs:
        c̃_t ← h(S(s_t), τ) · c_t
@@ -430,10 +535,10 @@ For each iteration k = 1, ..., K:
   8. Value critic update:
        φ ← φ − η_φ ∇_φ E_t [(V_φ(s_t) − R̂_t)²]
 
-Return: π_θ, Z_ψ
+Return: π_θ, Z_ψ^free, Z_ψ^deon
 ```
 
-**Remark (Generality of warmup).** The analytical warmup is domain-specific (requires knowing $T_{\text{rem}}$ and $D_{\min}$). In domains without a natural analytical stakes function, alternative warmup strategies include: (i) conservative warmup with $h \equiv 1$ (full shield) for $K_w$ iterations, then transitioning; (ii) pre-training $Z_\psi$ on random-policy rollouts before joint optimization; or (iii) using a high $P_{\text{ref}}$ in $\mathcal{S}_{\text{dist}}$ to make the stakes signal conservative during early unreliable estimates.
+**Remark (Generality of warmup).** The analytical warmup is domain-specific (requires knowing $T_{\text{rem}}$ and $D_{\min}$). In domains without a natural analytical stakes function, alternative warmup strategies include: (i) conservative warmup with $h \equiv 1$ (full shield) for $K_w$ iterations, then transitioning; (ii) pre-training $Z_{\psi}^{\text{deon}}$ on random-policy rollouts before joint optimization; or (iii) using a high $P_{\text{ref}}$ in $\mathcal{S}_{\text{pros}}$ to make the stakes signal conservative during early unreliable estimates.
 
 ---
 
@@ -453,17 +558,17 @@ Return: π_θ, Z_ψ
 
 ## 7. Hostage Gridworld Instantiation
 
-| CDDP component                 | Gridworld mapping                                                                              |
-| ------------------------------ | ---------------------------------------------------------------------------------------------- |
-| $\mathcal{S}$                  | (agent_pos, hostage_pos, civilian_pos[], bomb_timer, elapsed_time)                             |
-| $\mathcal{A}$                  | $\{\text{Up, Down, Left, Right}\}$                                                             |
-| $R(s,a)$                       | Reward shaping $-$ civilian penalty $+$ hostage bonus                                          |
-| $C(s,a)$                       | $\mathbb{1}\{\text{action moves agent onto civilian tile}\}$                                   |
-| $\mathcal{A}_{\text{safe}}(s)$ | $\{a : \text{next\_pos}(s, a) \notin \text{civilian\_positions}\}$                             |
-| $\mathcal{S}(s)$               | $\text{clip}(D_{\min} / T_{\text{rem}},\; 0,\; 1)$ (analytical) or CVaR-based (distributional) |
-| $c_{\text{cat}}$               | $-100$ (return level associated with bomb detonation)                                          |
-| $\tau$                         | Tuned via grid search; expected range $[0.3, 0.7]$                                             |
-| $d$                            | $0$ (zero violations tolerated in low-stakes)                                                  |
+| CDDP component                 | Gridworld mapping                                                                                                                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| $\mathcal{S}$                  | (agent_pos, hostage_pos, civilian_pos[], bomb_timer, elapsed_time)                                                                                                                                   |
+| $\mathcal{A}$                  | $\{\text{Up, Down, Left, Right}\}$                                                                                                                                                                   |
+| $R(s,a)$                       | Reward shaping $-$ civilian penalty $+$ hostage bonus                                                                                                                                                |
+| $C(s,a)$                       | $\mathbb{1}\{\text{action moves agent onto civilian tile}\}$                                                                                                                                         |
+| $\mathcal{A}_{\text{safe}}(s)$ | $\{a : \text{next\_pos}(s, a) \notin \text{civilian\_positions}\}$                                                                                                                                   |
+| $\mathcal{S}(s)$               | $\mathcal{S}_{\text{pros}}(s) = \text{clip}(P_{\text{cat}}(s;\, \pi_d) / P_{\text{ref}},\; 0,\; 1)$ (prospective, canonical); $\text{clip}(D_{\min} / T_{\text{rem}},\; 0,\; 1)$ (analytical warmup) |
+| $c_{\text{cat}}$               | $-100$ (return level associated with bomb detonation)                                                                                                                                                |
+| $\tau$                         | Tuned via grid search; expected range $[0.3, 0.7]$                                                                                                                                                   |
+| $d$                            | $0$ (zero violations tolerated in low-stakes)                                                                                                                                                        |
 
 ---
 
