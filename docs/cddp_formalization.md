@@ -278,7 +278,11 @@ Computing $\mathcal{S}_{\text{pros}}(s)$ requires estimating the return distribu
 
 > **Assumption (Critic Consistency — CC).** In the limit of infinite data and sufficient function approximator capacity, $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$ for all states $s$ visited with positive probability under $\pi_{\text{CDDP}}$. In finite samples, the approximation error $\|Z_\psi^{\text{deon}}(s) - Z^{\pi_d}(s)\|$ is bounded and decreases with training iterations.
 
-This assumption is standard in the distributional RL literature and is not specific to CDDP. All theoretical results involving $\mathcal{S}_{\text{pros}}$ assume exact computation of $P_{\text{cat}}(s;\, \pi_d)$ unless otherwise stated.
+> **Assumption (Deontic Coverage — DC).** The training data for $Z_\psi^{\text{deon}}$ includes sufficient coverage of failure-band states $\mathcal{F}$ and their neighborhoods. Formally, there exists a data collection mechanism (e.g., periodic rollouts under the permanently-deontic policy $\pi_d$, independent of the current stakes threshold) such that every state $s \in \mathcal{F}$ is visited with positive frequency in the deontic training dataset.
+>
+> **Why DC is needed.** Under the standard CDDP training loop, $Z_\psi^{\text{deon}}$ is trained only on deontic-mode transitions — states where $\mathcal{S}(s) < \tau$ and the shield is active. But the failure band $\mathcal{F}$ is precisely where $\mathcal{S}_{\text{pros}}(s) \geq \tau$, so these states may _never_ appear in deontic mode during normal operation. Without DC, $Z_\psi^{\text{deon}}$ must extrapolate to $\mathcal{F}$ from neighboring low-stakes states, and Theorem 4's approximate guarantee becomes vacuous.
+
+This assumption is not automatically satisfied and requires an explicit training mechanism. Section 5.3 describes the deontic warmup rollout protocol that ensures DC is met. All theoretical results involving $\mathcal{S}_{\text{pros}}$ assume exact computation of $P_{\text{cat}}(s;\, \pi_d)$ unless otherwise stated; the approximate versions additionally require DC.
 
 > **Remark (Analytical stakes as special case).** When dynamics are deterministic and $T_{\text{rem}}$ is observable, the deontic policy $\pi_d$ follows the shortest safe path of length $L_{\text{safe}}(s)$, and catastrophe occurs if and only if $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, i.e., $D_{\min}(s) / T_{\text{rem}}(s) \geq 1$ (since $L_{\text{safe}} \geq D_{\min}$). Thus $\mathcal{S}_{\text{analytic}}(s) \approx \mathcal{S}_{\text{pros}}(s)$, confirming that the analytical stakes are a closed-form realization of the prospective stakes in the full-information deterministic setting.
 
@@ -296,19 +300,19 @@ The analytical stakes $\mathcal{S}_{\text{analytic}}(s)$ serve as a domain-speci
 
 **Dependency map.** The following table shows which definitions and assumptions each result depends on.
 
-| Result                              | Depends on                     |
-| ----------------------------------- | ------------------------------ |
-| Theorem 1 (Deontic Safety)          | Def 3, Shield Feasibility, FS  |
-| Proposition 1 (Stakes Monotonicity) | Def 6, GT assumption           |
-| Proposition 2 (Urgency Gap)         | Defs 7–8, DCSE (B1–B4)         |
-| Lemma 2 (Utilitarian Recovery)      | Def 3                          |
-| Theorem 3 (Impossibility)           | Def 3, Theorem 1, E1–E4        |
-| Theorem 4 (Late-Switch Avoidance)   | Prop 2(b), Def 8               |
-| Corollary 1 (Convergence)           | Paternain et al. (2019), A1–A3 |
+| Result                               | Depends on                                                                       |
+| ------------------------------------ | -------------------------------------------------------------------------------- |
+| Theorem 1 (Deontic Safety)           | Def 3, Shield Feasibility, FS                                                    |
+| Proposition 1 (Stakes Monotonicity)  | Def 6, GT assumption                                                             |
+| Proposition 2 (Urgency Gap)          | Defs 7–8, DCSE (B1–B5)                                                           |
+| Lemma 2 (Utilitarian Recovery)       | Def 3                                                                            |
+| Theorem 3 (Impossibility)            | Def 3, Theorem 1, E1–E4                                                          |
+| Theorem 4 (Late-Switch Avoidance)    | Prop 2(b), Def 8; approx: CC + DC                                                |
+| Corollary 1 (Inner-Loop Convergence) | Paternain et al. (2019), A1–A3 ($d = \varepsilon_d > 0$, frozen $\mathcal{S}_k$) |
 
 ### Definitions for Theoretical Analysis
 
-> **Definition 10 (DCSE Environment Class).** A CDDP environment belongs to the _Deadline-Catastrophe with Shortcut-Enabling violations_ (DCSE) class if it satisfies assumptions **(B1)–(B4)** defined in Proposition 2 below.
+> **Definition 10 (DCSE Environment Class).** A CDDP environment belongs to the _Deadline-Catastrophe with Shortcut-Enabling violations_ (DCSE) class if it satisfies assumptions **(B1)–(B5)** defined in Proposition 2 below.
 
 > **Definition 11 (Urgency Gap).** For a state $s \in \mathcal{S}$, the _urgency gap_ is:
 >
@@ -414,6 +418,12 @@ The following result establishes sufficient conditions under which distributiona
 >
 > **(B4) Return monotonicity.** Longer time-to-goal yields weakly lower returns: if $D_{\text{path}}(s, \pi_1) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_2)$, then $Z^{\pi_1}(s) \preceq_{\text{FSD}} Z^{\pi_2}(s)$.
 >
+> **(B5) Shortcut monotonicity.** For every state $s$ where $\mathcal{A}_{\text{unsafe}}(s) \neq \emptyset$, unsafe actions lead to successor states with weakly faster time-to-goal distributions than safe actions. Formally, for all $a_u \in \mathcal{A}_{\text{unsafe}}(s)$ and all $a_s \in \mathcal{A}_{\text{safe}}(s)$:
+>
+> $$D_{\text{path}}(T(s, a_s), \pi) \succeq_{\text{FSD}} D_{\text{path}}(T(s, a_u), \pi) \quad \text{for any policy } \pi$$
+>
+> That is, the successor states reached via safe actions have weakly _slower_ time-to-goal distributions (in the FSD sense) than those reached via unsafe actions, regardless of the continuation policy. This holds in DCSE environments where constraint-violating actions are geometric shortcuts (e.g., cutting through obstacle regions). Note: (B5) strengthens (B3), which only requires _some_ unsafe actions to be faster _in expectation_.
+>
 > Define the **late-switch failure band**:
 >
 > $$\mathcal{F} = \{s \in \mathcal{S} : D_{\min}(s) < T_{\text{rem}}(s) < L_{\text{safe}}(s)\}$$
@@ -426,27 +436,49 @@ The following result establishes sufficient conditions under which distributiona
 >
 > Equivalently, $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$.
 >
-> **(b) Stochastic dominance in the failure band.** Under (B1)–(B3), the time-to-goal under $\pi_d$ first-order stochastically dominates that under $\pi_\theta$:
+> **(b) Stochastic dominance (all states).** Under (B1)–(B3) and (B5), the time-to-goal under $\pi_d$ first-order stochastically dominates that under $\pi_\theta$:
 >
-> $$D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta) \quad \text{for all } s \in \mathcal{F}$$
+> $$D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta) \quad \text{for all } s \in \mathcal{S}$$
 >
 > **(c) Systematic underestimation.** The distributional stakes $\mathcal{S}_{\text{dist}}(\cdot;\, \pi_\theta)$ systematically underestimate the prospective stakes on $\mathcal{F}$ (Definition 12).
 
 #### Proof
 
-**Step 1: Catastrophe probability ordering via action-space restriction.**
+**Step 1: Path-time stochastic dominance via mass-redistribution (backward induction).**
 
-The deontic policy $\pi_d$ is obtained from $\pi_\theta$ by restricting to $\mathcal{A}_{\text{safe}}(s) \subseteq \mathcal{A}$ at every state (Definition 7). The support of trajectories under $\pi_d$ is a _subset_ of those under $\pi_\theta$: any trajectory using a constraint-violating action has probability zero under $\pi_d$ but potentially positive probability under $\pi_\theta$.
+We prove $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$ for all states $s$, which is **(b)**. The proof proceeds by backward induction on the remaining horizon.
 
-Under **(B3)**, the violating actions available to $\pi_\theta$ lead to states with shorter expected time-to-goal. Consider the one-step decomposition:
+Recall that $\pi_d$ is obtained from $\pi_\theta$ by _restricting_ to $\mathcal{A}_{\text{safe}}(s)$ and _renormalizing_ (Definition 7). Concretely, for each $a_s \in \mathcal{A}_{\text{safe}}(s)$:
 
-$$\mathbb{E}[D_{\text{path}}(s, \pi_d)] = 1 + \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \frac{\pi_\theta(a \mid s)}{Z(s)} \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_d)]$$
+$$\pi_d(a_s \mid s) = \frac{\pi_\theta(a_s \mid s)}{Z(s)}, \quad \text{where } Z(s) = \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \pi_\theta(a \mid s)$$
 
-$$\mathbb{E}[D_{\text{path}}(s, \pi_\theta)] = 1 + \sum_{a \in \mathcal{A}} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)]$$
+The probability mass $1 - Z(s) = \sum_{a \in \mathcal{A}_{\text{unsafe}}(s)} \pi_\theta(a \mid s)$ that $\pi_\theta$ places on unsafe actions is _removed_ and _redistributed_ proportionally onto safe actions by the normalization.
 
-The blended policy allocates probability mass $1 - Z(s) > 0$ to unsafe actions that (by B3) lead to shorter expected paths. The deontic policy redistributes this mass to safe actions via normalization by $Z(s)$, which lead to weakly longer paths. Therefore $\mathbb{E}[D_{\text{path}}(s, \pi_d)] \geq \mathbb{E}[D_{\text{path}}(s, \pi_\theta)]$.
+**Base case** ($h = 0$, terminal states). If the agent is at the goal, $D_{\text{path}} = 0$ under both policies. Otherwise, $D_{\text{path}} = H$ (horizon limit). FSD holds trivially.
 
-The first-order stochastic dominance (not just mean ordering) follows by backward induction over the finite horizon $H$. At horizon $h = 0$, both policies yield $D_{\text{path}} = 0$ if at the goal, $D_{\text{path}} = \infty$ otherwise. At each step $h \to h+1$, $\pi_\theta$ selects from $\mathcal{A} \supseteq \mathcal{A}_{\text{safe}}$ while $\pi_d$ selects from $\mathcal{A}_{\text{safe}}$ only. Since enlarging the action set can only improve (weakly) the time-to-goal distribution at each step, the induction preserves $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$. This establishes **(b)**.
+**Inductive step** ($h \to h+1$). Assume $D_{\text{path}}(s', \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s', \pi_\theta)$ for all states $s'$ reachable in $\leq h$ remaining steps. We show the same holds at horizon $h+1$.
+
+Fix a state $s$ with $h+1$ remaining steps. The one-step time-to-goal distributions are:
+
+$$D_{\text{path}}(s, \pi_\theta) \;\sim\; 1 + \sum_{a \in \mathcal{A}} \pi_\theta(a \mid s) \cdot D_{\text{path}}(T(s,a), \pi_\theta)$$
+
+$$D_{\text{path}}(s, \pi_d) \;\sim\; 1 + \sum_{a_s \in \mathcal{A}_{\text{safe}}(s)} \frac{\pi_\theta(a_s \mid s)}{Z(s)} \cdot D_{\text{path}}(T(s, a_s), \pi_d)$$
+
+To compare these, we decompose $\pi_\theta$'s mixture into safe and unsafe components:
+
+$$D_{\text{path}}(s, \pi_\theta) \sim 1 + \underbrace{\sum_{a_s \in \mathcal{A}_{\text{safe}}} \pi_\theta(a_s \mid s) \cdot D_{\text{path}}(T(s, a_s), \pi_\theta)}_{\text{safe component}} + \underbrace{\sum_{a_u \in \mathcal{A}_{\text{unsafe}}} \pi_\theta(a_u \mid s) \cdot D_{\text{path}}(T(s, a_u), \pi_\theta)}_{\text{unsafe component}}$$
+
+The deontic policy's distribution places all mass on the safe component (with renormalized weights $\pi_\theta(a_s)/Z(s)$) and _zero_ mass on the unsafe component. The transition from $\pi_\theta$'s mixture to $\pi_d$'s mixture can be viewed as _removing_ each unit of unsafe mass $\pi_\theta(a_u \mid s)$ (which contributed $D_{\text{path}}(T(s, a_u), \bullet)$) and _adding_ it proportionally to safe actions (which contribute $D_{\text{path}}(T(s, a_s), \bullet)$).
+
+By **(B5)**, for every unsafe action $a_u$ and every safe action $a_s$:
+
+$$D_{\text{path}}(T(s, a_s), \pi) \succeq_{\text{FSD}} D_{\text{path}}(T(s, a_u), \pi) \quad \text{for any } \pi$$
+
+So each unit of redistributed mass is moved from a _faster_ successor distribution to a _slower_ (or equal) one. By the standard mixture-FSD lemma (replacing a component distribution $F$ with a stochastically larger $G$ in a mixture weakly increases the mixture in FSD), the resulting $\pi_d$ mixture is weakly stochastically larger than $\pi_\theta$'s mixture. Combined with the inductive hypothesis (which handles the continuation-policy difference $\pi_\theta$ vs $\pi_d$ at successor states), this yields:
+
+$$D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$$
+
+This completes the induction and establishes **(b)** for **all states** $s \in \mathcal{S}$.
 
 **Step 2: Strict inequality in the failure band.**
 
@@ -466,7 +498,7 @@ This establishes **(a)**. Part **(c)** follows from (a) and Definition 12. $\bla
 
 #### Corollary 2a (Quantile Ordering under DCSE)
 
-> **Corollary 2a.** Under (B1)–(B4), for all $s \in \mathcal{F}$ and quantile indices $i \in \{1, \ldots, N\}$:
+> **Corollary 2a.** Under (B1)–(B5), for all $s \in \mathcal{F}$ and quantile indices $i \in \{1, \ldots, N\}$:
 >
 > $$\theta_i^d(s) \leq \theta_i^\theta(s)$$
 >
@@ -504,14 +536,14 @@ This implies $|\{i : \theta_i^d(s) < c_{\text{cat}}\}| \geq |\{i : \theta_i^\the
 
 ### Theorem 4 (Late-Switch Avoidance under Prospective Stakes)
 
-> **Theorem 4.** Consider a DCSE environment (B1)–(B4) and a CDDP using exact prospective stakes $\mathcal{S}(s) = \mathcal{S}_{\text{pros}}(s)$ with threshold $\tau \in (0,\, 1/P_{\text{ref}}]$.
+> **Theorem 4.** Consider a DCSE environment (B1)–(B5) and a CDDP using exact prospective stakes $\mathcal{S}(s) = \mathcal{S}_{\text{pros}}(s)$ with threshold $\tau \in (0,\, 1/P_{\text{ref}}]$.
 >
 > Then for every state $s$ in the failure band $\mathcal{F}$:
 >
 > 1. The CDDP correctly switches to utilitarian mode: $\mathcal{S}_{\text{pros}}(s) \geq \tau$.
 > 2. The CDDP avoids guaranteed catastrophe: $P_{\text{cat}}(s;\, \pi_{\text{CDDP}}) < 1$.
 >
-> Under Assumption (CC), the same holds approximately for learned prospective stakes when $Z_\psi^{\text{deon}}$ has converged.
+> Under Assumptions (CC) and (DC), the same holds approximately for learned prospective stakes: CC ensures critic accuracy where data is available, and DC ensures failure-band states are in the training data.
 
 **Proof.**
 
@@ -523,7 +555,7 @@ for any $\tau \leq 1/P_{\text{ref}}$ (and since $P_{\text{ref}} \leq 1$, this eq
 
 Since $\mathcal{S}_{\text{pros}}(s) \geq \tau$, Definition 3 gives $\pi_{\text{CDDP}}(a \mid s) = \pi_\theta(a \mid s)$ — the shield is lifted. With the shield lifted, $\pi_\theta$ can take violation-using paths. Since $D_{\min}(s) < T_{\text{rem}}(s)$ (by membership in $\mathcal{F}$) and $\pi_\theta$ assigns positive probability to violation-using paths (by B3), $P_{\text{cat}}(s;\, \pi_\theta) < 1$. Therefore $P_{\text{cat}}(s;\, \pi_{\text{CDDP}}) < 1$.
 
-Under Assumption (CC), $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$, so $\hat{P}_{\text{cat}}(s;\, \pi_d) \to 1$ for $s \in \mathcal{F}$, and the learned $\hat{\mathcal{S}}_{\text{pros}}(s) \to 1 \geq \tau$. $\blacksquare$
+Under Assumptions (CC) and (DC), $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$ for $s \in \mathcal{F}$ (DC ensures these states are in the training data; CC ensures critic convergence on covered states). Therefore $\hat{P}_{\text{cat}}(s;\, \pi_d) \to 1$ for $s \in \mathcal{F}$, and the learned $\hat{\mathcal{S}}_{\text{pros}}(s) \to 1 \geq \tau$. Without DC, the approximation guarantee is vacuous for states in $\mathcal{F}$ that are never visited in deontic mode. $\blacksquare$
 
 **Remark (Scope).** This theorem guarantees _correct switching_ under exact stakes, not optimal return. The actual reward achieved in utilitarian mode depends on the quality of $\pi_\theta$, which is a training concern rather than a structural guarantee.
 
@@ -532,12 +564,10 @@ Under Assumption (CC), $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$, so $\hat{P}_{
 > **Lemma 2.** Consider a CDDP with hard switching. If $\mathcal{S}(s_t) \geq \tau$ for all $t$ in trajectory $\xi$, then:
 >
 > $$J_R(\pi_{\text{CDDP}} \mid \xi) = J_R(\pi_\theta \mid \xi)$$
->
-> where $\pi_\theta$ is the unshielded base policy, trained to maximize $J_R$ with modulated cost $\tilde{C}(s,a) = 0$ for all $(s,a)$ in $\xi$ (since $h = 0$). Up to the approximation quality of $\pi_\theta$, this equals $J_R(\pi^*)$, the unconstrained optimal return.
 
-**Proof.** When $\mathcal{S}(s_t) \geq \tau$ for all $t$, Definition 3 gives $\pi_{\text{CDDP}}(a|s) = \pi_\theta(a|s)$ — the shield is inactive. The trajectory distribution under $\pi_{\text{CDDP}}$ is identical to that under $\pi_\theta$. Therefore $J_R(\pi_{\text{CDDP}} \mid \xi) = J_R(\pi_\theta \mid \xi)$.
+**Proof.** When $\mathcal{S}(s_t) \geq \tau$ for all $t$, Definition 3 gives $\pi_{\text{CDDP}}(a|s) = \pi_\theta(a|s)$ — the shield is inactive. The trajectory distribution under $\pi_{\text{CDDP}}$ is identical to that under $\pi_\theta$. Therefore $J_R(\pi_{\text{CDDP}} \mid \xi) = J_R(\pi_\theta \mid \xi)$. $\blacksquare$
 
-Furthermore, in the training Lagrangian, $\tilde{C}(s_t, a_t) = h(\mathcal{S}(s_t), \tau) \cdot C(s_t, a_t) = 0 \cdot C(s_t, a_t) = 0$ for all $(s_t, a_t)$ in these states. The constraint $J_{\tilde{C}} \leq d$ is trivially satisfied, so the Lagrangian optimizes pure reward, producing a policy that approximates the unconstrained optimum $\pi^*$. $\blacksquare$
+**Remark (Training incentive in high-stakes states).** In the training Lagrangian, $\tilde{C}(s_t, a_t) = h(\mathcal{S}(s_t), \tau) \cdot C(s_t, a_t) = 0$ for all $(s_t, a_t)$ where $\mathcal{S}(s_t) \geq \tau$. The constraint cost vanishes, so the Lagrangian reduces to pure reward maximization on these states. Whether $\pi_\theta$ approximates the unconstrained optimum $\pi^*$ depends on training quality and is not guaranteed by this lemma.
 
 ---
 
@@ -613,17 +643,17 @@ Therefore $\pi_{\text{CDDP}}$ achieves (P1) $\wedge$ (P2). $\blacksquare$
 
 ---
 
-### Corollary 1 (Convergence of Stakes-Modulated Lagrangian)
+### Corollary 1 (Inner-Loop Convergence of Stakes-Modulated Lagrangian)
 
 > **Corollary 1.** _(Follows from Paternain et al. (2019) and Tessler et al. (2018).)_
 >
 > Under the following assumptions:
 >
 > - (A1) $|R| \leq R_{\max}$, $|C| \leq C_{\max}$ (bounded reward and cost)
-> - (A2) Slater's condition: $\exists\; \tilde{\pi}$ s.t. $J_{\tilde{C}}(\tilde{\pi}) < d$ (strict feasibility for modulated cost)
-> - (A3) $\mathcal{S}(\cdot)$ is a fixed function of state (not learned jointly with the policy)
+> - (A2) Slater's condition: $\exists\; \tilde{\pi}$ s.t. $J_{\tilde{C}}(\tilde{\pi}) < d$ (strict feasibility for modulated cost), which requires $d > 0$ (see Remark below)
+> - (A3) $\mathcal{S}(\cdot)$ is a **frozen** function of state during the inner-loop optimization window (see §5.3). That is, for a fixed outer-loop iterate $k$, the stakes $\mathcal{S}_k(\cdot)$ are held constant while the policy and dual variable are updated for $K_{\text{inner}}$ steps.
 >
-> The modulated cost $\tilde{C}(s,a) = h(\mathcal{S}(s), \tau) \cdot C(s,a)$ satisfies $|\tilde{C}| \leq C_{\max}$ (since $h \in [0,1]$). The CDDP Lagrangian $L_{\text{CDDP}}(\pi, \lambda) = J_R(\pi) - \lambda(J_{\tilde{C}}(\pi) - d)$ is structurally a standard CMDP Lagrangian with cost function $\tilde{C}$.
+> The modulated cost $\tilde{C}(s,a) = h(\mathcal{S}_k(s), \tau) \cdot C(s,a)$ satisfies $|\tilde{C}| \leq C_{\max}$ (since $h \in [0,1]$). With $\mathcal{S}_k$ frozen, this is a standard fixed-cost CMDP. The CDDP Lagrangian $L_{\text{CDDP}}(\pi, \lambda) = J_R(\pi) - \lambda(J_{\tilde{C}}(\pi) - d)$ is structurally a standard CMDP Lagrangian with cost function $\tilde{C}$.
 >
 > By Theorem 1 of Paternain et al. (2019), the CMDP with cost $\tilde{C}$ has zero duality gap. The primal-dual algorithm:
 >
@@ -631,9 +661,13 @@ Therefore $\pi_{\text{CDDP}}$ achieves (P1) $\wedge$ (P2). $\blacksquare$
 >
 > $$\lambda_{k+1} = \left[\lambda_k + \beta_k \left(J_{\tilde{C}}(\pi_k) - d\right)\right]_+$$
 >
-> with step sizes $\alpha_k, \beta_k = O(1/\sqrt{K})$ converges to an $\varepsilon$-saddle point in $O(1/\varepsilon^2)$ iterations.
+> with step sizes $\alpha_k, \beta_k = O(1/\sqrt{K_{\text{inner}}})$ converges to an $\varepsilon$-saddle point in $O(1/\varepsilon^2)$ inner-loop iterations.
 
-**Proof.** The modulated cost $\tilde{C}(s,a) = h(\mathcal{S}(s), \tau) \cdot C(s,a)$ is a fixed, bounded, state-dependent function (by A1, A3, and $h \in [0,1]$). The CDDP Lagrangian is identical in structure to a CMDP Lagrangian with cost function $\tilde{C}$. All conditions of Theorem 1 in Paternain et al. (2019) — bounded costs, Slater's condition (A2), linearity of $J_{\tilde{C}}$ in the occupancy measure — are satisfied. The convergence rate follows directly. $\blacksquare$
+**Proof.** With $\mathcal{S}_k$ frozen (A3), the modulated cost $\tilde{C}(s,a) = h(\mathcal{S}_k(s), \tau) \cdot C(s,a)$ is a fixed, bounded, state-dependent function (by A1, A3, and $h \in [0,1]$). The CDDP Lagrangian is identical in structure to a CMDP Lagrangian with cost function $\tilde{C}$. All conditions of Theorem 1 in Paternain et al. (2019) — bounded costs, Slater's condition (A2), linearity of $J_{\tilde{C}}$ in the occupancy measure — are satisfied. The convergence rate follows directly. $\blacksquare$
+
+**Remark (Slater's condition and $d = \varepsilon_d$).** Slater's condition (A2) requires strict feasibility: $\exists\, \tilde{\pi}: J_{\tilde{C}}(\tilde{\pi}) < d$. If $d = 0$, this requires $J_{\tilde{C}}(\tilde{\pi}) < 0$. But $\tilde{C}(s,a) = h(\mathcal{S}(s), \tau) \cdot C(s,a) \geq 0$, so $J_{\tilde{C}}(\tilde{\pi}) \geq 0$ for all $\tilde{\pi}$, and Slater's condition is violated. To resolve this, set $d = \varepsilon_d$ for some small $\varepsilon_d > 0$ (a standard strict-feasibility relaxation). In the shield-enforced deontic regime, empirical violations are exactly zero ($J_{\tilde{C}} = 0 \leq \varepsilon_d$), so the intended zero-violation behavior is maintained. The convergence theorem itself requires $\varepsilon_d > 0$.
+
+**Remark (Inner-loop scope only).** Corollary 1 guarantees convergence of the policy/dual-variable iterates _within a single inner loop_ where stakes are frozen. It does _not_ claim global convergence of the full CDDP training loop, where stakes are periodically recomputed. The outer-loop coupling between $\pi_\theta$, $\pi_d$, and $\mathcal{S}_{\text{pros}}$ is nontrivial and is not covered by this result. See §5.3 for the two-timescale training interpretation.
 
 **Remark (Novelty).** This corollary is not a new convergence result. The contribution of CDDP is not in the optimization algorithm but in the _formulation_: the definition of $\tilde{C}$ via stakes modulation, the safety shield for hard guarantees, and the resulting performance dominance (Theorem 3). The Lagrangian is a tool; the framework is the contribution.
 
@@ -683,15 +717,23 @@ To aid reviewers and readers, we explicitly categorize the theoretical content o
 
 - Pointwise deontic safety whenever shield is active (Theorem 1; requires Shield Feasibility + FS)
 - Structural impossibility of state-independent strategies (Theorem 3; requires E1–E4)
-- Positive urgency gap $\Delta_{\text{urg}}(s) > 0$ in the failure band (Proposition 2; requires DCSE B1–B4)
+- Positive urgency gap $\Delta_{\text{urg}}(s) > 0$ in the failure band (Proposition 2; requires DCSE B1–B5)
+- FSD path-time dominance $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$ for all states (Prop 2(b); requires B5 shortcut monotonicity)
 - Late-switch avoidance under exact prospective stakes (Theorem 4; requires DCSE + exact critics)
-- Convergence of the stakes-modulated Lagrangian (Corollary 1; follows from Paternain et al.)
+- Inner-loop convergence of the stakes-modulated Lagrangian (Corollary 1; requires A1–A3, frozen $\mathcal{S}_k$, $d = \varepsilon_d > 0$)
+- Utilitarian recovery: $J_R(\pi_{\text{CDDP}} \mid \xi) = J_R(\pi_\theta \mid \xi)$ under all-high-stakes trajectories (Lemma 2)
 
 **Approximate in practice:**
 
-- Critic estimation: $Z_\psi^{\text{deon}}(s) \approx Z^{\pi_d}(s)$ depends on function approximation quality, state coverage (especially in high-stakes regions), and sample size (Assumption CC)
-- Prospective stakes accuracy: $\hat{\mathcal{S}}_{\text{pros}}(s)$ converges to $\mathcal{S}_{\text{pros}}(s)$ only as critics converge
+- Critic estimation: $Z_\psi^{\text{deon}}(s) \approx Z^{\pi_d}(s)$ depends on function approximation quality, state coverage via deontic warmup rollouts (Assumption DC), and sample size (Assumption CC)
+- Prospective stakes accuracy: $\hat{\mathcal{S}}_{\text{pros}}(s)$ converges to $\mathcal{S}_{\text{pros}}(s)$ only as critics converge with sufficient failure-band coverage (DC)
 - Quantile ordering (Corollary 2a): holds exactly for true distributions; approximately for learned quantile estimates
+- Theorem 4 approximate switching: holds in the learned setting only under CC + DC (§5.3 deontic warmup protocol)
+- Slater relaxation: Corollary 1 requires $d = \varepsilon_d > 0$; zero-violation behavior is recovered by the shield, not by $\varepsilon_d \to 0^+$
+
+**Not claimed:**
+
+- Global convergence of the full coupled training loop (outer-loop convergence with evolving stakes; see §5.3 disclaimer)
 
 **Empirical (not proved):**
 
@@ -726,12 +768,16 @@ Initialize: policy π_θ, value critic V_φ,
             Lagrange multiplier λ ≥ 0
 
 For each iteration k = 1, ..., K:
-  1. Collect trajectories using the shielded policy π_CDDP (Definition 3)
-     - Tag each transition with its mode: deontic (shield active) or utilitarian
+  1a. Collect trajectories using the shielded policy π_CDDP (Definition 3)
+      - Tag each transition with its mode: deontic (shield active) or utilitarian
+
+  1b. (Every K_deon iterations) Collect M_deon trajectories under π_d
+      (shield always on, independent of stakes) → store in D_deon
+      [Satisfies Assumption DC for failure-band coverage]
 
   2. Update distributional critics:
-       Z_ψ^free ← quantile regression on all transitions
-       Z_ψ^deon ← quantile regression on deontic-mode transitions
+       Z_ψ^free ← quantile regression on all transitions from step 1a
+       Z_ψ^deon ← quantile regression on deontic-mode transitions (1a) + D_deon (1b)
 
   3. Compute stakes for each visited state:
        if k ≤ K_w:   (warmup phase)
@@ -751,7 +797,7 @@ For each iteration k = 1, ..., K:
        θ ← θ + α_k · ∇_θ L  (with PPO clipping)
 
   7. Dual variable update:
-       λ ← [λ + β_k (Ĵ_{C̃} − d)]₊
+       λ ← [λ + β_k (Ĵ_{C̃} − ε_d)]₊     (ε_d > 0 for Slater; see Corollary 1)
 
   8. Value critic update:
        φ ← φ − η_φ ∇_φ E_t [(V_φ(s_t) − R̂_t)²]
@@ -760,6 +806,28 @@ Return: π_θ, Z_ψ^free, Z_ψ^deon
 ```
 
 **Remark (Generality of warmup).** The analytical warmup is domain-specific (requires knowing $T_{\text{rem}}$ and $D_{\min}$). In domains without a natural analytical stakes function, alternative warmup strategies include: (i) conservative warmup with $h \equiv 1$ (full shield) for $K_w$ iterations, then transitioning; (ii) pre-training $Z_{\psi}^{\text{deon}}$ on random-policy rollouts before joint optimization; or (iii) using a high $P_{\text{ref}}$ in $\mathcal{S}_{\text{pros}}$ to make the stakes signal conservative during early unreliable estimates.
+
+### 5.3 Training Schedule and Theoretical Scope
+
+The prospective stakes $\mathcal{S}_{\text{pros}}(s)$ depend on $\pi_d$, which depends on $\pi_\theta$, which changes during training. This creates a coupling that violates assumption (A3) of Corollary 1 if interpreted naively. We resolve this via a **two-timescale training interpretation**.
+
+#### Two-Timescale Structure
+
+> **Inner loop** (policy optimization, $K_{\text{inner}}$ steps). Freeze the current stakes functional $\mathcal{S}_k(\cdot)$ — i.e., freeze $Z_\psi^{\text{deon}}$ and compute $\mathcal{S}_{\text{pros}}$ from its current parameters. Update only $\pi_\theta$, $V_\phi$, $Z_\psi^{\text{free}}$, and $\lambda$ for $K_{\text{inner}}$ steps. During this window, $\tilde{C}(s,a) = h(\mathcal{S}_k(s), \tau) \cdot C(s,a)$ is a fixed cost function, and Corollary 1 applies: the primal-dual iterates converge to an $\varepsilon$-saddle point of the frozen-stakes CMDP.
+>
+> **Outer loop** (stakes update). After every $K_{\text{inner}}$ policy steps, update $Z_\psi^{\text{deon}}$ from accumulated deontic data, then recompute $\mathcal{S}_{k+1}(\cdot) = \mathcal{S}_{\text{pros}}(\cdot\,; Z_\psi^{\text{deon}})$. This begins a new inner-loop window.
+
+**Global convergence disclaimer.** Corollary 1 guarantees convergence of the inner loop for each fixed $\mathcal{S}_k$. Global convergence of the alternating procedure (joint convergence of $\pi_\theta$, $Z_\psi^{\text{deon}}$, and $\mathcal{S}_{\text{pros}}$) is a bilevel optimization problem analogous to actor-critic coupling. General convergence guarantees for such problems require additional assumptions (e.g., sufficient timescale separation, Lipschitz stakes, contraction in the outer loop) that we do not claim here. In practice, the training is stable because: (i) stakes change slowly relative to policy updates, (ii) the analytical warmup (§5.1) provides a stable initialization, and (iii) function approximation acts as implicit regularization.
+
+#### Deontic Warmup Rollouts (Satisfying Assumption DC)
+
+To ensure Assumption (DC) — that the deontic critic $Z_\psi^{\text{deon}}$ has coverage of failure-band states — the algorithm periodically collects dedicated rollouts under the permanently-deontic policy $\pi_d$:
+
+> **Deontic rollout protocol.** Every $K_{\text{deon}}$ iterations, collect $M_{\text{deon}}$ trajectories under $\pi_d$ (shield always active, independent of current stakes). These trajectories are stored in a separate **deontic replay buffer** $\mathcal{D}_{\text{deon}}$ and used to train $Z_\psi^{\text{deon}}$ alongside the standard deontic-mode transitions from $\pi_{\text{CDDP}}$ rollouts.
+
+**Why this helps.** Under $\pi_d$, the agent follows the permanently-shielded policy regardless of stakes. In failure-band states ($\mathcal{F}$), $\pi_d$ trajectories will visit these states and experience the catastrophe outcomes that result from constraint-respecting behavior when time is insufficient. This provides the training signal needed for $Z_\psi^{\text{deon}}$ to accurately estimate $P_{\text{cat}}(s;\, \pi_d)$ in $\mathcal{F}$, which is precisely the information Theorem 4 requires.
+
+**Practical note.** Deontic rollouts are reward-suboptimal (the agent never violates constraints, even when necessary), but they are not wasted: the data improves deontic risk estimation, which in turn improves switching accuracy. The overhead is controlled by the rollout frequency $K_{\text{deon}}$ and batch size $M_{\text{deon}}$.
 
 ---
 
@@ -789,7 +857,7 @@ Return: π_θ, Z_ψ^free, Z_ψ^deon
 | $\mathcal{S}(s)$               | $\mathcal{S}_{\text{pros}}(s) = \text{clip}(P_{\text{cat}}(s;\, \pi_d) / P_{\text{ref}},\; 0,\; 1)$ (prospective, canonical); $\text{clip}(D_{\min} / T_{\text{rem}},\; 0,\; 1)$ (analytical warmup) |
 | $c_{\text{cat}}$               | $-100$ (return level associated with bomb detonation)                                                                                                                                                |
 | $\tau$                         | Tuned via grid search; expected range $[0.3, 0.7]$                                                                                                                                                   |
-| $d$                            | $0$ (zero violations tolerated in low-stakes)                                                                                                                                                        |
+| $d$                            | $\varepsilon_d > 0$ (strict-feasibility relaxation; see Corollary 1 Slater remark). The shield enforces zero violations; $\varepsilon_d \to 0^+$ recovers the intended zero-tolerance semantics.     |
 
 ---
 
