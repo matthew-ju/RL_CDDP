@@ -55,6 +55,27 @@ $$\text{where} \quad Z(s) = \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \pi_\theta
 
 **Assumption (Full Support — FS).** The policy $\pi_\theta$ satisfies $\pi_\theta(a \mid s) > 0$ for all $a \in \mathcal{A}$ and all $s \in \mathcal{S}$. This is standard in policy gradient methods (e.g., softmax parameterization with finite temperature) and ensures that the shield normalization constant $Z(s) = \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \pi_\theta(a \mid s) > 0$ whenever $\mathcal{A}_{\text{safe}}(s) \neq \emptyset$.
 
+### 1.4 Notation
+
+| Symbol                                                                          | Meaning                                                                                                  |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| $\mathcal{S}$                                                                   | Finite state space                                                                                       |
+| $\mathcal{A}$, $\mathcal{A}_{\text{safe}}(s)$, $\mathcal{A}_{\text{unsafe}}(s)$ | Full, safe, and unsafe action sets                                                                       |
+| $\pi_\theta$                                                                    | Base (blended) policy, parameterized by $\theta$                                                         |
+| $\pi_{\text{CDDP}}$                                                             | Executed CDDP policy (Definition 3): applies shield when $\mathcal{S}_\bullet(s) < \tau$                 |
+| $\pi_d$                                                                         | Permanent deontic policy (Definition 7): shield always active                                            |
+| $\mathcal{S}_{\text{analytic}}(s)$                                              | Analytical stakes (Definition 5): oracle, requires $T_{\text{rem}}$                                      |
+| $\mathcal{S}_{\text{dist}}(s;\, \pi)$                                           | Distributional stakes (Definition 6): learned, policy-dependent                                          |
+| $\mathcal{S}_{\text{pros}}(s)$                                                  | Prospective stakes (Definition 8): canonical, evaluated under $\pi_d$                                    |
+| $\mathcal{S}(s)$                                                                | Unqualified stakes; defaults to $\mathcal{S}_{\text{pros}}(s)$ (§3.4)                                    |
+| $Z_\psi^{\text{free}}$, $Z_\psi^{\text{deon}}$                                  | Distributional critics for $\pi_\theta$ and $\pi_d$ respectively                                         |
+| $P_{\text{cat}}(s;\, \pi)$                                                      | Catastrophe probability: $\mathbb{P}(Z^\pi(s) < c_{\text{cat}})$                                         |
+| $\operatorname{clip}(x;\, 0, 1)$                                                | $\max(0, \min(x, 1))$                                                                                    |
+| $D_{\min}(s)$                                                                   | Shortest unrestricted path length from $s$ to goal                                                       |
+| $L_{\text{safe}}(s)$                                                            | Shortest constraint-respecting path length from $s$ to goal                                              |
+| $T_{\text{rem}}(s)$                                                             | Remaining time before catastrophe deadline                                                               |
+| $\Delta_{\text{urg}}(s)$                                                        | Urgency gap: $\mathcal{S}_{\text{pros}}(s) - \mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ (Definition 10) |
+
 ---
 
 ## 2. The Contextual Deontic Decision Process
@@ -115,15 +136,17 @@ $$L_{\text{CDDP}}(\pi, \lambda) = J_R(\pi) - \lambda\left(J_{\tilde{C}}(\pi) - d
 
 The stakes functional $\mathcal{S}: \mathcal{S} \to [0,1]$ is the central object that governs mode switching in CDDP. This section develops the stakes concept in three stages: a domain-specific closed-form version (§3.1), a general learned version that reveals a fundamental limitation (§3.2), and the canonical prospective formulation that resolves it (§3.3).
 
-### 3.0 Observability Assumption
+### 3.0 Observability and Deployability of Stakes
 
-The analytical stakes functional (Definition 5, below) requires access to quantities such as $T_{\text{rem}}$ (remaining time before catastrophe) and $D_{\min}$ (minimum distance to goal). In many realistic deployments, these quantities are **hidden variables**: the agent observes only partial state information, and the environment is effectively a POMDP.
+The stakes functional can be defined at varying levels of observability. We distinguish two regimes:
 
-When $T_{\text{rem}}$ and $D_{\min}$ are unobservable, the stakes functional cannot be computed in closed form. Learned stakes must therefore _estimate_ counterfactual risk from the observable state, rather than compute it from privileged information.
+**(a) Oracle stakes** ($\mathcal{S}_{\text{analytic}}$, Definition 5). These require access to privileged environment variables — specifically, $T_{\text{rem}}(s)$ (remaining time before catastrophe) and $D_{\min}(s)$ (shortest path to goal). When these are part of the observed state, stakes can be computed in closed form. Oracle stakes are useful as a **warmup signal** during training (§5.1), a **diagnostic benchmark** for validating learned stakes, and a **theoretical reference** for connecting to the prospective stakes concept. They are **not deployable** in environments where $T_{\text{rem}}$ is hidden, which renders the environment a POMDP from the agent's perspective.
+
+**(b) Deployable stakes** ($\mathcal{S}_{\text{pros}}$, Definition 8). These require only a learned distributional critic $Z_\psi^{\text{deon}}$ and make no privileged observations. The critic estimates $P_{\text{cat}}(s;\, \pi_d)$ from experience. Deployable stakes are the **canonical CDDP stakes** for real-world use.
 
 This motivates a key architectural principle:
 
-> **CDDP separates stakes _definition_ from stakes _estimation_.** The stakes functional specifies the _ideal_ switching criterion — what quantity the agent should threshold on. The estimation method specifies _how_ that quantity is approximated in practice. Sections 3.1–3.2 provide two estimation strategies; Section 3.3 defines the conceptually correct switching criterion that both approximate.
+> **CDDP separates stakes _definition_ from stakes _estimation_.** The stakes functional specifies the _ideal_ switching criterion (§3.3). The estimation method specifies _how_ that criterion is approximated in practice: via oracle computation (§3.1) or learned critics (§3.2–3.3).
 
 ### 3.1 Analytical Stakes (Domain-Specific Closed-Form Approximation)
 
@@ -235,12 +258,27 @@ Standard distributional stakes $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ unde
 
 Computing $\mathcal{S}_{\text{pros}}(s)$ requires estimating the return distribution under $\pi_d$, which differs from the return distribution under $\pi_\theta$ used for reward optimization. CDDP therefore requires **two distributional value estimators**:
 
-| Critic                   | Evaluates policy                         | Role                                                                                  |
-| ------------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------- |
-| $Z_{\psi}^{\text{free}}$ | $\pi_\theta$ (unconstrained base policy) | Utility optimization: provides distributional value estimates for reward maximization |
-| $Z_{\psi}^{\text{deon}}$ | $\pi_d$ (shielded deontic policy)        | Stakes estimation: provides $P_{\text{cat}}(s;\, \pi_d)$ for prospective switching    |
+> **Definition 9 (Two-Critic Architecture).** The CDDP maintains two distributional critics:
+>
+> - $Z_\psi^{\text{free}}(s) \approx Z^{\pi_\theta}(s)$: distributional value under the base policy $\pi_\theta$, used for reward optimization.
+> - $Z_\psi^{\text{deon}}(s) \approx Z^{\pi_d}(s)$: distributional value under the deontic policy $\pi_d$, used for prospective stakes estimation.
+>
+> Each critic is parameterized as a QR-DQN with $N$ quantile outputs.
 
-Both critics are trained via quantile regression (§1.2) on trajectories generated by their respective policies. During data collection, the CDDP policy $\pi_{\text{CDDP}}$ generates trajectories that contain both deontic-mode and utilitarian-mode segments; $Z_{\psi}^{\text{deon}}$ is trained on deontic-mode transitions (where the shield was active), and $Z_{\psi}^{\text{free}}$ is trained on all transitions (or utilitarian-mode transitions, depending on the implementation).
+| Critic                 | Target              | Training data                                     | Role                 |
+| ---------------------- | ------------------- | ------------------------------------------------- | -------------------- |
+| $Z_\psi^{\text{free}}$ | $Z^{\pi_\theta}(s)$ | All transitions from $\pi_{\text{CDDP}}$ rollouts | Utility optimization |
+| $Z_\psi^{\text{deon}}$ | $Z^{\pi_d}(s)$      | Deontic-mode transitions only (shield active)     | Stakes estimation    |
+
+**Approximation caveats.** Several sources of error arise in practice:
+
+1. **Coverage**: $Z_\psi^{\text{deon}}$ is trained only on deontic-mode transitions. In high-stakes states (where the shield is lifted), $Z_\psi^{\text{deon}}$ receives no training signal and must generalize from nearby deontic-mode states.
+2. **Off-policy bias**: The training distribution for $Z_\psi^{\text{deon}}$ is induced by $\pi_{\text{CDDP}}$ (which switches modes), not by $\pi_d$ (which is permanently deontic). This distribution mismatch introduces off-policy bias.
+3. **Function approximation**: Both critics use neural network approximators and are subject to standard approximation errors.
+
+> **Assumption (Critic Consistency — CC).** In the limit of infinite data and sufficient function approximator capacity, $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$ for all states $s$ visited with positive probability under $\pi_{\text{CDDP}}$. In finite samples, the approximation error $\|Z_\psi^{\text{deon}}(s) - Z^{\pi_d}(s)\|$ is bounded and decreases with training iterations.
+
+This assumption is standard in the distributional RL literature and is not specific to CDDP. All theoretical results involving $\mathcal{S}_{\text{pros}}$ assume exact computation of $P_{\text{cat}}(s;\, \pi_d)$ unless otherwise stated.
 
 > **Remark (Analytical stakes as special case).** When dynamics are deterministic and $T_{\text{rem}}$ is observable, the deontic policy $\pi_d$ follows the shortest safe path of length $L_{\text{safe}}(s)$, and catastrophe occurs if and only if $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, i.e., $D_{\min}(s) / T_{\text{rem}}(s) \geq 1$ (since $L_{\text{safe}} \geq D_{\min}$). Thus $\mathcal{S}_{\text{analytic}}(s) \approx \mathcal{S}_{\text{pros}}(s)$, confirming that the analytical stakes are a closed-form realization of the prospective stakes in the full-information deterministic setting.
 
@@ -255,6 +293,33 @@ The analytical stakes $\mathcal{S}_{\text{analytic}}(s)$ serve as a domain-speci
 ---
 
 ## 4. Theoretical Results
+
+**Dependency map.** The following table shows which definitions and assumptions each result depends on.
+
+| Result                              | Depends on                     |
+| ----------------------------------- | ------------------------------ |
+| Theorem 1 (Deontic Safety)          | Def 3, Shield Feasibility, FS  |
+| Proposition 1 (Stakes Monotonicity) | Def 6, GT assumption           |
+| Proposition 2 (Urgency Gap)         | Defs 7–8, DCSE (B1–B4)         |
+| Lemma 2 (Utilitarian Recovery)      | Def 3                          |
+| Theorem 3 (Impossibility)           | Def 3, Theorem 1, E1–E4        |
+| Theorem 4 (Late-Switch Avoidance)   | Prop 2(b), Def 8               |
+| Corollary 1 (Convergence)           | Paternain et al. (2019), A1–A3 |
+
+### Definitions for Theoretical Analysis
+
+> **Definition 10 (DCSE Environment Class).** A CDDP environment belongs to the _Deadline-Catastrophe with Shortcut-Enabling violations_ (DCSE) class if it satisfies assumptions **(B1)–(B4)** defined in Proposition 2 below.
+
+> **Definition 11 (Urgency Gap).** For a state $s \in \mathcal{S}$, the _urgency gap_ is:
+>
+> $$\Delta_{\text{urg}}(s) := \mathcal{S}_{\text{pros}}(s) - \mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$$
+>
+> This is the difference between the prospective stakes (evaluated under $\pi_d$) and the distributional stakes (evaluated under $\pi_\theta$). Positive values indicate that distributional stakes underestimate urgency relative to the prospective benchmark.
+
+> **Definition 12 (Systematic Underestimation).** A stakes estimator $\hat{\mathcal{S}}$ _systematically underestimates_ the prospective stakes on a state set $\mathcal{G} \subseteq \mathcal{S}$ if:
+>
+> 1. $\Delta_{\text{urg}}(s) \geq 0$ for all $s \in \mathcal{G}$, and
+> 2. $\Delta_{\text{urg}}(s) > 0$ for at least one $s \in \mathcal{G}$.
 
 ### Theorem 1 (Hard Deontic Safety via Shield)
 
@@ -333,21 +398,21 @@ where the inequality uses $D_{\text{path}}(s_2, \pi) \geq D_{\text{path}}(s_1, \
 
 ---
 
-### Proposition 2 (Policy-Mismatch Bias and Stochastic Dominance)
+### Proposition 2 (Urgency Gap under DCSE Assumptions)
 
-The following result formalizes the claim that distributional stakes under the blended policy $\pi_\theta$ systematically underestimate urgency relative to prospective stakes under the deontic policy $\pi_d$. The proof proceeds via stochastic dominance of time-to-goal distributions and a coupling argument.
+The following result establishes sufficient conditions under which distributional stakes systematically underestimate urgency relative to prospective stakes (Definition 12). The result is scoped to a precisely defined class of environments; see the No-Free-Lunch remark below for cases where these conditions fail.
 
-#### Setup and Assumptions
+#### DCSE Assumptions
 
-> **Proposition 2.** Consider a CDDP environment with finite horizon $H$ and the following properties:
+> **Proposition 2.** Consider a CDDP environment with finite horizon $H$ satisfying the following DCSE (Deadline-Catastrophe with Shortcut-Enabling violations) properties:
 >
-> **(B1) Time-critical catastrophe.** The return decomposes as $Z^\pi(s) = G^\pi(s) + \Delta_{\text{cat}}^\pi(s)$, where $G^\pi(s)$ is the non-catastrophic component and $\Delta_{\text{cat}}^\pi(s) \leq 0$ is the catastrophe penalty. Catastrophic outcomes correspond to failing to reach the goal before a deadline: $Z^\pi(s) < c_{\text{cat}}$ if and only if the time-to-goal $D_{\text{path}}(s, \pi) > T_{\text{rem}}(s)$.
+> **(B1) Deadline-based catastrophe.** Catastrophic outcomes correspond to failing to reach the goal before a deadline: $Z^\pi(s) < c_{\text{cat}}$ if and only if $D_{\text{path}}(s, \pi) > T_{\text{rem}}(s)$, where $D_{\text{path}}(s, \pi)$ is the (random) time-to-goal under $\pi$ and $T_{\text{rem}}(s)$ is the remaining time.
 >
-> **(B2) Path-shortening violations.** There exist states where constraint-violating actions provide shortcuts. Formally, define the **safe path length** $L_{\text{safe}}(s) = \min\{|\xi| : \xi \text{ is a path from } s \text{ to goal using only } \mathcal{A}_{\text{safe}} \text{ actions}\}$ and the **unrestricted path length** $D_{\min}(s) = \min\{|\xi| : \xi \text{ is a path from } s \text{ to goal}\}$. There exist states $s$ with:
+> **(B2) Path-shortening violations.** There exist states where constraint-violating actions provide geometric shortcuts: $L_{\text{safe}}(s) > D_{\min}(s)$ for some $s \in \mathcal{S}$.
 >
-> $$L_{\text{safe}}(s) > D_{\min}(s)$$
+> **(B3) Learned exploitation.** The blended policy $\pi_\theta$ assigns positive probability to constraint-violating actions that reduce time-to-goal. Formally, for states $s$ satisfying (B2), there exist $a \in \mathcal{A}_{\text{unsafe}}(s)$ with $\pi_\theta(a \mid s) > 0$ such that $\mathbb{E}[D_{\text{path}}(T(s, a), \pi_\theta)] < \mathbb{E}[D_{\text{path}}(T(s, a_s), \pi_\theta)]$ for some $a_s \in \mathcal{A}_{\text{safe}}(s)$.
 >
-> **(B3) Learned exploitation.** The blended policy $\pi_\theta$ assigns positive probability to constraint-violating actions that reduce time-to-goal. That is, for states $s$ satisfying (B2), there exist $a \in \mathcal{A}_{\text{unsafe}}(s)$ with $\pi_\theta(a \mid s) > 0$ and $\mathbb{E}[D_{\text{path}}(s', \pi_\theta)] < \mathbb{E}[D_{\text{path}}(s'', \pi_\theta)]$ where $s' = T(s, a)$ is the successor under the violating action and $s'' = T(s, a_s)$ for some $a_s \in \mathcal{A}_{\text{safe}}(s)$.
+> **(B4) Return monotonicity.** Longer time-to-goal yields weakly lower returns: if $D_{\text{path}}(s, \pi_1) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_2)$, then $Z^{\pi_1}(s) \preceq_{\text{FSD}} Z^{\pi_2}(s)$.
 >
 > Define the **late-switch failure band**:
 >
@@ -355,125 +420,116 @@ The following result formalizes the claim that distributional stakes under the b
 >
 > Then:
 >
-> **(a) Weak inequality (general).** For all states $s$:
+> **(a) Positive urgency gap in the failure band.** For all $s \in \mathcal{F}$:
 >
-> $$P_{\text{cat}}(s;\, \pi_d) \geq P_{\text{cat}}(s;\, \pi_\theta)$$
+> $$\Delta_{\text{urg}}(s) > 0$$
 >
-> **(b) Strict inequality (failure band).** For all $s \in \mathcal{F}$:
+> Equivalently, $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$.
 >
-> $$P_{\text{cat}}(s;\, \pi_d) > P_{\text{cat}}(s;\, \pi_\theta)$$
->
-> Consequently, $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$ for all $s \in \mathcal{F}$.
->
-> **(c) Stochastic dominance.** Under (B1)–(B3), the time-to-goal under $\pi_d$ first-order stochastically dominates that under $\pi_\theta$ in the failure band:
+> **(b) Stochastic dominance in the failure band.** Under (B1)–(B3), the time-to-goal under $\pi_d$ first-order stochastically dominates that under $\pi_\theta$:
 >
 > $$D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta) \quad \text{for all } s \in \mathcal{F}$$
 >
-> That is, $\mathbb{P}(D_{\text{path}}(s, \pi_d) > k) \geq \mathbb{P}(D_{\text{path}}(s, \pi_\theta) > k)$ for all $k \in \mathbb{Z}_+$.
+> **(c) Systematic underestimation.** The distributional stakes $\mathcal{S}_{\text{dist}}(\cdot;\, \pi_\theta)$ systematically underestimate the prospective stakes on $\mathcal{F}$ (Definition 12).
 
 #### Proof
 
-**Step 1: Action-space restriction and trajectory coupling.**
+**Step 1: Catastrophe probability ordering via action-space restriction.**
 
-The deontic policy $\pi_d$ is obtained from $\pi_\theta$ by restricting to $\mathcal{A}_{\text{safe}}(s)$ at every state (Definition 7). We construct an explicit **coupling** of trajectories under the two policies.
+The deontic policy $\pi_d$ is obtained from $\pi_\theta$ by restricting to $\mathcal{A}_{\text{safe}}(s) \subseteq \mathcal{A}$ at every state (Definition 7). The support of trajectories under $\pi_d$ is a _subset_ of those under $\pi_\theta$: any trajectory using a constraint-violating action has probability zero under $\pi_d$ but potentially positive probability under $\pi_\theta$.
 
-Let $\{U_t\}_{t=0}^{H-1}$ be a sequence of i.i.d. uniform random variables on $[0,1]$ that serve as the shared source of randomness for action selection. At each time step $t$, both policies use the same $U_t$ to select an action via the inverse-CDF method:
-
-- Under $\pi_\theta$: $a_t^\theta = F_{\pi_\theta(\cdot | s_t)}^{-1}(U_t)$, where $F_{\pi_\theta}$ is the CDF of the action distribution
-- Under $\pi_d$: $a_t^d = F_{\pi_d(\cdot | s_t)}^{-1}(U_t)$, where $F_{\pi_d}$ is the CDF of the restricted distribution
-
-This coupling produces paired trajectories $\xi^\theta = (s_0, a_0^\theta, s_1^\theta, \ldots)$ and $\xi^d = (s_0, a_0^d, s_1^d, \ldots)$ that start from the same initial state $s_0 = s$ and share the same random seed.
-
-**Step 2: Time-to-goal ordering via path structure.**
-
-We show that $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$, i.e., the deontic policy is stochastically slower.
-
-The deontic policy samples from $\mathcal{A}_{\text{safe}}(s) \subseteq \mathcal{A}$ at every state. The support of the trajectory distribution under $\pi_d$ is therefore a _subset_ of the trajectories available under $\pi_\theta$. In particular, any trajectory that uses a constraint-violating action at any step has probability zero under $\pi_d$ but potentially positive probability under $\pi_\theta$.
-
-Under **(B3)**, the violating actions that $\pi_\theta$ can take lead to states with shorter expected time-to-goal. Consider the one-step decomposition of time-to-goal from state $s$:
-
-$$\mathbb{E}[D_{\text{path}}(s, \pi)] = 1 + \sum_{a \in \mathcal{A}} \pi(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi)]$$
-
-For the deontic policy, the sum ranges only over $\mathcal{A}_{\text{safe}}(s)$:
+Under **(B3)**, the violating actions available to $\pi_\theta$ lead to states with shorter expected time-to-goal. Consider the one-step decomposition:
 
 $$\mathbb{E}[D_{\text{path}}(s, \pi_d)] = 1 + \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \frac{\pi_\theta(a \mid s)}{Z(s)} \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_d)]$$
 
-For the blended policy:
+$$\mathbb{E}[D_{\text{path}}(s, \pi_\theta)] = 1 + \sum_{a \in \mathcal{A}} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)]$$
 
-$$\mathbb{E}[D_{\text{path}}(s, \pi_\theta)] = 1 + \sum_{a \in \mathcal{A}_{\text{safe}}(s)} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)] + \sum_{a \in \mathcal{A}_{\text{unsafe}}(s)} \pi_\theta(a \mid s) \cdot \mathbb{E}[D_{\text{path}}(T(s,a), \pi_\theta)]$$
+The blended policy allocates probability mass $1 - Z(s) > 0$ to unsafe actions that (by B3) lead to shorter expected paths. The deontic policy redistributes this mass to safe actions via normalization by $Z(s)$, which lead to weakly longer paths. Therefore $\mathbb{E}[D_{\text{path}}(s, \pi_d)] \geq \mathbb{E}[D_{\text{path}}(s, \pi_\theta)]$.
 
-The key observation: $\pi_\theta$ allocates probability mass $1 - Z(s) = \sum_{a \in \mathcal{A}_{\text{unsafe}}} \pi_\theta(a \mid s) > 0$ to unsafe actions. By **(B3)**, these unsafe actions lead to states $s' = T(s, a)$ with $\mathbb{E}[D_{\text{path}}(s', \pi_\theta)] < \mathbb{E}[D_{\text{path}}(s'', \pi_\theta)]$ for some safe successor $s''$. The deontic policy redistributes this mass to safe actions (via normalization by $Z(s)$), which lead to weakly longer paths. Therefore:
+The first-order stochastic dominance (not just mean ordering) follows by backward induction over the finite horizon $H$. At horizon $h = 0$, both policies yield $D_{\text{path}} = 0$ if at the goal, $D_{\text{path}} = \infty$ otherwise. At each step $h \to h+1$, $\pi_\theta$ selects from $\mathcal{A} \supseteq \mathcal{A}_{\text{safe}}$ while $\pi_d$ selects from $\mathcal{A}_{\text{safe}}$ only. Since enlarging the action set can only improve (weakly) the time-to-goal distribution at each step, the induction preserves $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$. This establishes **(b)**.
 
-$$\mathbb{E}[D_{\text{path}}(s, \pi_d)] \geq \mathbb{E}[D_{\text{path}}(s, \pi_\theta)]$$
-
-The first-order stochastic dominance (not just mean ordering) follows from a standard inductive argument over the remaining horizon: at every step, $\pi_\theta$ has access to all actions in $\mathcal{A}$ while $\pi_d$ is restricted to $\mathcal{A}_{\text{safe}} \subseteq \mathcal{A}$. By the principle that enlarging the feasible set in a stochastic optimization problem can only improve (weakly) the distribution of outcomes, $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$.
-
-**Step 3: Catastrophe probability ordering.**
-
-By **(B1)**, $P_{\text{cat}}(s;\, \pi) = \mathbb{P}(D_{\text{path}}(s, \pi) > T_{\text{rem}}(s))$. Since $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$:
-
-$$P_{\text{cat}}(s;\, \pi_d) = \mathbb{P}(D_{\text{path}}(s, \pi_d) > T_{\text{rem}}) \geq \mathbb{P}(D_{\text{path}}(s, \pi_\theta) > T_{\text{rem}}) = P_{\text{cat}}(s;\, \pi_\theta)$$
-
-This proves **(a)**.
-
-**Step 4: Strict inequality in the failure band.**
+**Step 2: Strict inequality in the failure band.**
 
 For $s \in \mathcal{F}$, i.e., $D_{\min}(s) < T_{\text{rem}}(s) < L_{\text{safe}}(s)$:
 
-- **Under $\pi_d$:** Every trajectory uses only safe actions, so $D_{\text{path}}(s, \pi_d) \geq L_{\text{safe}}(s) > T_{\text{rem}}(s)$. Therefore $P_{\text{cat}}(s;\, \pi_d) = 1$.
+- **Under $\pi_d$:** Every trajectory uses only safe actions, so $D_{\text{path}}(s, \pi_d) \geq L_{\text{safe}}(s) > T_{\text{rem}}(s)$. By (B1), $P_{\text{cat}}(s;\, \pi_d) = 1$.
 
-- **Under $\pi_\theta$:** Since $D_{\min}(s) < T_{\text{rem}}(s)$, there exists at least one path to the goal within the deadline (necessarily using violations). By **(B3)**, $\pi_\theta$ follows such a path with positive probability. Therefore $P_{\text{cat}}(s;\, \pi_\theta) < 1$.
+- **Under $\pi_\theta$:** Since $D_{\min}(s) < T_{\text{rem}}(s)$, at least one (violation-using) path reaches the goal within the deadline. By (B3), $\pi_\theta$ follows such a path with positive probability. Therefore $P_{\text{cat}}(s;\, \pi_\theta) < 1$.
 
-Combining: $P_{\text{cat}}(s;\, \pi_d) = 1 > P_{\text{cat}}(s;\, \pi_\theta)$. This proves **(b)**.
+Combining: $P_{\text{cat}}(s;\, \pi_d) = 1 > P_{\text{cat}}(s;\, \pi_\theta)$.
 
-The stakes inequality follows by monotonicity of $\text{clip}(\cdot / P_{\text{ref}}, 0, 1)$:
+The urgency gap follows by monotonicity of $\operatorname{clip}(\cdot / P_{\text{ref}};\, 0, 1)$:
 
-$$\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) = \text{clip}\!\left(\frac{P_{\text{cat}}(s;\, \pi_\theta)}{P_{\text{ref}}}\right) < \text{clip}\!\left(\frac{1}{P_{\text{ref}}}\right) = \mathcal{S}_{\text{pros}}(s)$$
+$$\Delta_{\text{urg}}(s) = \operatorname{clip}\!\left(\frac{1}{P_{\text{ref}}};\, 0, 1\right) - \operatorname{clip}\!\left(\frac{P_{\text{cat}}(s;\, \pi_\theta)}{P_{\text{ref}}};\, 0, 1\right) > 0$$
 
-Part **(c)** was established in Step 2. $\blacksquare$
+This establishes **(a)**. Part **(c)** follows from (a) and Definition 12. $\blacksquare$
 
-#### Quantile Ordering (Connection to QR-DQN)
+#### Corollary 2a (Quantile Ordering under DCSE)
 
-The stochastic dominance result has a direct implication for the quantile-based distributional critics used in practice. Let $\{\theta_i^d(s)\}_{i=1}^N$ and $\{\theta_i^\theta(s)\}_{i=1}^N$ denote the sorted quantile estimates from $Z_\psi^{\text{deon}}$ and $Z_\psi^{\text{free}}$ respectively.
-
-> **Corollary 2a (Quantile Ordering).** Under (B1)–(B3), for all $s \in \mathcal{F}$ and for all quantile indices $i \in \{1, \ldots, N\}$:
+> **Corollary 2a.** Under (B1)–(B4), for all $s \in \mathcal{F}$ and quantile indices $i \in \{1, \ldots, N\}$:
 >
 > $$\theta_i^d(s) \leq \theta_i^\theta(s)$$
 >
-> That is, every quantile of the deontic return distribution is weakly below the corresponding quantile of the blended return distribution.
+> where $\{\theta_i^d(s)\}$ and $\{\theta_i^\theta(s)\}$ are the sorted quantile estimates from $Z_\psi^{\text{deon}}$ and $Z_\psi^{\text{free}}$ respectively.
 
-**Proof.** First-order stochastic dominance of $D_{\text{path}}(s, \pi_d)$ over $D_{\text{path}}(s, \pi_\theta)$ (Part (c) of Proposition 2) implies, via (B1), that $Z^{\pi_d}(s) \preceq_{\text{FSD}} Z^{\pi_\theta}(s)$ — the return distribution under the deontic policy is first-order stochastically dominated by the return under the blended policy (longer paths yield lower returns). First-order stochastic dominance is equivalent to pointwise quantile ordering: if $F \preceq_{\text{FSD}} G$, then $F^{-1}(\tau) \leq G^{-1}(\tau)$ for all $\tau \in (0,1)$. In the QR-DQN approximation with quantile fractions $\tau_i = (2i-1)/2N$, this yields $\theta_i^d(s) \leq \theta_i^\theta(s)$ for all $i$. $\blacksquare$
+**Proof.** Part (b) of Proposition 2 gives $D_{\text{path}}(s, \pi_d) \succeq_{\text{FSD}} D_{\text{path}}(s, \pi_\theta)$. By (B4), $Z^{\pi_d}(s) \preceq_{\text{FSD}} Z^{\pi_\theta}(s)$. FSD is equivalent to pointwise quantile ordering: $F^{-1}(\tau) \leq G^{-1}(\tau)$ for all $\tau \in (0,1)$. Applied to QR-DQN quantile fractions $\tau_i = (2i-1)/2N$, this yields $\theta_i^d(s) \leq \theta_i^\theta(s)$. $\blacksquare$
 
-This quantile ordering means that the number of quantiles falling below $c_{\text{cat}}$ is weakly larger for the deontic critic than for the blended critic:
-
-$$|\{i : \theta_i^d(s) < c_{\text{cat}}\}| \geq |\{i : \theta_i^\theta(s) < c_{\text{cat}}\}|$$
-
-which directly implies $P_{\text{cat}}(s;\, \pi_d) \geq P_{\text{cat}}(s;\, \pi_\theta)$ in the quantile approximation, confirming consistency between the theoretical result and the finite-sample QR-DQN estimator.
+This implies $|\{i : \theta_i^d(s) < c_{\text{cat}}\}| \geq |\{i : \theta_i^\theta(s) < c_{\text{cat}}\}|$, confirming consistency between the theoretical result and the finite-sample QR-DQN estimator.
 
 #### Corollary 2b (Late-Switch Failure Mode)
 
-> **Corollary 2b.** Under the conditions of Proposition 2, there exist threshold values $\tau$ such that for states $s \in \mathcal{F}$:
+> **Corollary 2b.** Under DCSE assumptions, there exist threshold values $\tau$ such that for states $s \in \mathcal{F}$:
 >
 > $$\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \tau \leq \mathcal{S}_{\text{pros}}(s)$$
 >
-> For such $\tau$, a CDDP using $\mathcal{S}_{\text{dist}}$ remains in deontic mode at $s$ (shield active), but since $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, the goal cannot be reached under the shield. Catastrophe occurs with probability 1.
+> For such $\tau$: a CDDP using $\mathcal{S}_{\text{dist}}$ remains in deontic mode (shield active) at $s$, but since $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, catastrophe occurs with probability 1. A CDDP using $\mathcal{S}_{\text{pros}}$ correctly switches to utilitarian mode, and catastrophe occurs with probability strictly less than 1.
+
+**Proof.** By Proposition 2(a), $\Delta_{\text{urg}}(s) > 0$ for $s \in \mathcal{F}$. Therefore there exists $\tau \in (\mathcal{S}_{\text{dist}}(s;\, \pi_\theta),\; \mathcal{S}_{\text{pros}}(s)]$. Under $\mathcal{S}_{\text{dist}}$: shield stays active, but $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, so goal is unreachable. Under $\mathcal{S}_{\text{pros}}$: shield lifts, and since $D_{\min}(s) < T_{\text{rem}}(s)$, $\pi_\theta$ reaches the goal with positive probability (by B3). $\blacksquare$
+
+#### No-Free-Lunch: When the Urgency Gap Vanishes or Reverses
+
+> **Remark (Failure of universal bias).** Assumptions (B1)–(B3) are _necessary_, not merely sufficient. The inequality $P_{\text{cat}}(s;\, \pi_d) \geq P_{\text{cat}}(s;\, \pi_\theta)$ can **fail** when any assumption is violated. The following counterexample classes illustrate this:
 >
-> A CDDP using $\mathcal{S}_{\text{pros}}$ correctly switches to utilitarian mode at $s$, lifting the shield and allowing the agent to reach the goal via constraint-violating shortcuts. Catastrophe occurs with probability strictly less than 1.
+> 1. **Violations that worsen outcomes (B2 fails).** If the only constraint-violating action teleports the agent _away_ from the goal, then $D_{\text{path}}(s, \pi_\theta) \geq D_{\text{path}}(s, \pi_d)$ (violations slow the agent), and $P_{\text{cat}}(s;\, \pi_\theta) \geq P_{\text{cat}}(s;\, \pi_d)$. The urgency gap reverses: $\Delta_{\text{urg}}(s) \leq 0$.
+> 2. **Non-deadline catastrophe (B1 fails).** If catastrophe is triggered by visiting a _specific state_ (e.g., a trap), and violations increase the probability of entering the trap, then $P_{\text{cat}}(s;\, \pi_\theta) > P_{\text{cat}}(s;\, \pi_d)$ — violating makes catastrophe _more_ likely, and the bias reverses.
+> 3. **Policy does not exploit violations (B3 fails).** If $\pi_\theta$ has learned to avoid all violations (e.g., due to strong Lagrangian penalty), then $\pi_\theta \approx \pi_d$ and $\Delta_{\text{urg}}(s) \approx 0$ — the gap vanishes but does not reverse.
+>
+> These cases demonstrate that Proposition 2 cannot be strengthened to hold universally over arbitrary MDPs without additional structure. The DCSE assumptions precisely delimit the environment class where the bias is guaranteed.
 
-**Proof.** By Proposition 2(b), $P_{\text{cat}}(s;\, \pi_\theta) < 1 = P_{\text{cat}}(s;\, \pi_d)$ for $s \in \mathcal{F}$. Therefore $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \mathcal{S}_{\text{pros}}(s)$, and there exists $\tau$ in the interval $(\mathcal{S}_{\text{dist}}(s;\, \pi_\theta),\; \mathcal{S}_{\text{pros}}(s)]$. For any such $\tau$:
+**Remark (Magnitude of the urgency gap).** In the failure band, $\Delta_{\text{urg}}(s)$ achieves its maximum: $\mathcal{S}_{\text{pros}}(s) = \operatorname{clip}(1/P_{\text{ref}};\, 0, 1) = 1$ (for $P_{\text{ref}} \leq 1$), while $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ depends on the probability that $\pi_\theta$'s shortcut-taking succeeds. For a well-trained $\pi_\theta$, $P_{\text{cat}}(s;\, \pi_\theta) \approx 0$, giving $\Delta_{\text{urg}}(s) \approx 1$.
 
-- Under $\mathcal{S}_{\text{dist}}$: $\mathcal{S}(s) = \mathcal{S}_{\text{dist}}(s;\, \pi_\theta) < \tau$, so the shield remains active. But $L_{\text{safe}}(s) > T_{\text{rem}}(s)$ (by definition of $\mathcal{F}$), so the shielded agent cannot reach the goal before the deadline. By (B1), $Z^{\pi_d}(s) < c_{\text{cat}}$ with certainty.
-- Under $\mathcal{S}_{\text{pros}}$: $\mathcal{S}(s) = \mathcal{S}_{\text{pros}}(s) \geq \tau$, so the shield is lifted. Since $D_{\min}(s) < T_{\text{rem}}(s)$, a goal-reaching path exists, and by (B3), $\pi_\theta$ follows it with positive probability. $\blacksquare$
+**Remark (Beyond the failure band).** Outside $\mathcal{F}$, the urgency gap may be zero or near-zero. When $T_{\text{rem}} \geq L_{\text{safe}}$ (ample time), both policies succeed and $\Delta_{\text{urg}} \approx 0$. When $T_{\text{rem}} \leq D_{\min}$ (insufficient time regardless), both fail and $\Delta_{\text{urg}} \approx 0$. The bias is concentrated in $\mathcal{F}$, which is precisely where switching correctness matters.
 
-**Remark 1 (Magnitude of the bias).** In the failure band, the bias is maximal: $\mathcal{S}_{\text{pros}}(s) = \text{clip}(1/P_{\text{ref}}, 0, 1) = 1$ (for $P_{\text{ref}} \leq 1$), while $\mathcal{S}_{\text{dist}}(s;\, \pi_\theta)$ depends on the success probability of $\pi_\theta$'s shortcut-taking behavior. For a well-trained $\pi_\theta$ that reliably exploits violations, $P_{\text{cat}}(s;\, \pi_\theta)$ can be very small, making the gap $\mathcal{S}_{\text{pros}}(s) - \mathcal{S}_{\text{dist}}(s;\, \pi_\theta) \approx 1$.
+---
 
-**Remark 2 (Beyond the failure band).** Outside $\mathcal{F}$, the weak inequality (Part (a)) still holds, but may not be strict. In states where $T_{\text{rem}} \geq L_{\text{safe}}$ (ample time), both policies reach the goal with high probability and $P_{\text{cat}}(s;\, \pi_d) \approx P_{\text{cat}}(s;\, \pi_\theta) \approx 0$. In states where $T_{\text{rem}} \leq D_{\min}$ (insufficient time regardless), both policies fail and $P_{\text{cat}}(s;\, \pi_d) \approx P_{\text{cat}}(s;\, \pi_\theta) \approx 1$. The bias is concentrated in the failure band $\mathcal{F}$, which is precisely where it matters for switching correctness.
+### Theorem 4 (Late-Switch Avoidance under Prospective Stakes)
 
-**Remark 3 (Generality beyond gridworlds).** The proof structure extends to any CDDP environment where (i) catastrophe is time-critical, (ii) constraint-violating actions provide path-shortening opportunities, and (iii) the learned policy exploits them. The stochastic dominance argument requires only that enlarging the action set (from $\mathcal{A}_{\text{safe}}$ to $\mathcal{A}$) weakly improves the time-to-goal distribution, which holds whenever unsafe actions are not strictly dominated in terms of goal-reaching speed.
+> **Theorem 4.** Consider a DCSE environment (B1)–(B4) and a CDDP using exact prospective stakes $\mathcal{S}(s) = \mathcal{S}_{\text{pros}}(s)$ with threshold $\tau \in (0,\, 1/P_{\text{ref}}]$.
+>
+> Then for every state $s$ in the failure band $\mathcal{F}$:
+>
+> 1. The CDDP correctly switches to utilitarian mode: $\mathcal{S}_{\text{pros}}(s) \geq \tau$.
+> 2. The CDDP avoids guaranteed catastrophe: $P_{\text{cat}}(s;\, \pi_{\text{CDDP}}) < 1$.
+>
+> Under Assumption (CC), the same holds approximately for learned prospective stakes when $Z_\psi^{\text{deon}}$ has converged.
 
-### Theorem 2 (Utilitarian Recovery under High Stakes)
+**Proof.**
 
-> **Theorem 2.** Consider a CDDP with hard switching. If $\mathcal{S}(s_t) \geq \tau$ for all $t$ in trajectory $\xi$, then:
+For $s \in \mathcal{F}$: $L_{\text{safe}}(s) > T_{\text{rem}}(s)$, so under $\pi_d$ every trajectory misses the deadline. Therefore $P_{\text{cat}}(s;\, \pi_d) = 1$, and:
+
+$$\mathcal{S}_{\text{pros}}(s) = \operatorname{clip}\!\left(\frac{1}{P_{\text{ref}}};\, 0, 1\right) = 1 \geq \tau$$
+
+for any $\tau \leq 1/P_{\text{ref}}$ (and since $P_{\text{ref}} \leq 1$, this equals $1 \geq \tau$ for all $\tau \in (0, 1]$).
+
+Since $\mathcal{S}_{\text{pros}}(s) \geq \tau$, Definition 3 gives $\pi_{\text{CDDP}}(a \mid s) = \pi_\theta(a \mid s)$ — the shield is lifted. With the shield lifted, $\pi_\theta$ can take violation-using paths. Since $D_{\min}(s) < T_{\text{rem}}(s)$ (by membership in $\mathcal{F}$) and $\pi_\theta$ assigns positive probability to violation-using paths (by B3), $P_{\text{cat}}(s;\, \pi_\theta) < 1$. Therefore $P_{\text{cat}}(s;\, \pi_{\text{CDDP}}) < 1$.
+
+Under Assumption (CC), $Z_\psi^{\text{deon}}(s) \to Z^{\pi_d}(s)$, so $\hat{P}_{\text{cat}}(s;\, \pi_d) \to 1$ for $s \in \mathcal{F}$, and the learned $\hat{\mathcal{S}}_{\text{pros}}(s) \to 1 \geq \tau$. $\blacksquare$
+
+**Remark (Scope).** This theorem guarantees _correct switching_ under exact stakes, not optimal return. The actual reward achieved in utilitarian mode depends on the quality of $\pi_\theta$, which is a training concern rather than a structural guarantee.
+
+### Lemma 2 (Utilitarian Recovery under High Stakes)
+
+> **Lemma 2.** Consider a CDDP with hard switching. If $\mathcal{S}(s_t) \geq \tau$ for all $t$ in trajectory $\xi$, then:
 >
 > $$J_R(\pi_{\text{CDDP}} \mid \xi) = J_R(\pi_\theta \mid \xi)$$
 >
@@ -583,9 +639,9 @@ Therefore $\pi_{\text{CDDP}}$ achieves (P1) $\wedge$ (P2). $\blacksquare$
 
 ---
 
-### Proposition 2 (Relationship to Existing Frameworks)
+### Proposition 3 (Relationship to Existing Frameworks)
 
-> **Proposition 2.** The CDDP Lagrangian component ($\tilde{C} = h(s) \cdot C$) is a state-dependent cost CMDP, a structure that exists in the literature. The genuine novelty of CDDP lies in the specific combination of:
+> **Proposition 3.** The CDDP Lagrangian component ($\tilde{C} = h(s) \cdot C$) is a state-dependent cost CMDP, a structure that exists in the literature. The genuine novelty of CDDP lies in the specific combination of:
 >
 > - (a) a distributional-RL-derived stakes functional $\mathcal{S}(s)$ determining $h(s)$,
 > - (b) a mode-switched safety shield providing pointwise guarantees (Theorem 1), and
@@ -616,6 +672,33 @@ A CVaR-CMDP has objective $\max_\pi \mathbb{E}[R^\pi]$ s.t. $\text{CVaR}_\alpha(
 | Philosophical grounding | Risk aversion           | None specific             | Threshold deontology                      |
 
 $\blacksquare$
+
+---
+
+### 4.N Scope of Claims
+
+To aid reviewers and readers, we explicitly categorize the theoretical content of this paper:
+
+**Proved exactly (under stated assumptions):**
+
+- Pointwise deontic safety whenever shield is active (Theorem 1; requires Shield Feasibility + FS)
+- Structural impossibility of state-independent strategies (Theorem 3; requires E1–E4)
+- Positive urgency gap $\Delta_{\text{urg}}(s) > 0$ in the failure band (Proposition 2; requires DCSE B1–B4)
+- Late-switch avoidance under exact prospective stakes (Theorem 4; requires DCSE + exact critics)
+- Convergence of the stakes-modulated Lagrangian (Corollary 1; follows from Paternain et al.)
+
+**Approximate in practice:**
+
+- Critic estimation: $Z_\psi^{\text{deon}}(s) \approx Z^{\pi_d}(s)$ depends on function approximation quality, state coverage (especially in high-stakes regions), and sample size (Assumption CC)
+- Prospective stakes accuracy: $\hat{\mathcal{S}}_{\text{pros}}(s)$ converges to $\mathcal{S}_{\text{pros}}(s)$ only as critics converge
+- Quantile ordering (Corollary 2a): holds exactly for true distributions; approximately for learned quantile estimates
+
+**Empirical (not proved):**
+
+- Performance gains over baselines (reward, constraint satisfaction rates)
+- Robustness to hyperparameter choices ($\tau$, $P_{\text{ref}}$, $N$, $K_w$)
+- Sample efficiency of two-phase training relative to alternatives
+- Generalization of trained critics beyond the training distribution
 
 ---
 
@@ -690,7 +773,7 @@ Return: π_θ, Z_ψ^free, Z_ψ^deon
 | Shielded MDP    | Runtime filter                           | Pointwise                                  | Constrained only   |
 | **CDDP (ours)** | **Stakes-modulated shield + Lagrangian** | **Pointwise when $\mathcal{S}(s) < \tau$** | **Bimodal**        |
 
-> **Proposition 3 (Generalization).** Setting $h \equiv 0$ ($\tau = 0$) recovers the unconstrained MDP. Setting $h \equiv 1$ ($\tau = 1$) with the shield always active recovers a shielded CMDP. For $\tau \in (0, 1)$, the CDDP represents a novel interpolation.
+> **Proposition 4 (Generalization).** Setting $h \equiv 0$ ($\tau = 0$) recovers the unconstrained MDP. Setting $h \equiv 1$ ($\tau = 1$) with the shield always active recovers a shielded CMDP. For $\tau \in (0, 1)$, the CDDP represents a novel interpolation.
 
 ---
 
