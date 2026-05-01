@@ -1,0 +1,112 @@
+--- cddp/trainers/full_cddp_trainer.py	2023-10-25 00:00:00.000000000 -0700
++++ cddp/trainers/full_cddp_trainer_new.py	2023-10-25 00:00:00.000000000 -0700
+@@ -237,8 +237,55 @@
+     # ─── Phase II: Main Training Loop ───────────────────────────
+ 
+-    def collect_rollouts_with_buffers(self):
+-        """Collect rollouts, populating both replay buffers.
+-
+-        Returns on-policy data for PPO actor update.
+-        """
++    def collect_deontic_rollouts(self, num_steps):
++        """Collect strictly bounded \pi_d rollouts exclusively for Z_deon."""
++        step_count = 0
++        while step_count < num_steps:
++            use_bomb = np.random.random() > 0.5
++            timer = self.bomb_timer if use_bomb else None
++            env = InstrumentedHostageEnv.make(layout_id=self.layout_id, bomb_timer=timer)
++            obs, info = env.reset()
++            done = False
++            step = 0
++            while not done and step_count < num_steps:
++                obs_t = self._pad_obs(obs)
++                with torch.no_grad():
++                    mean, log_std = self.actor_net(obs_t.unsqueeze(0))
++                    mean = mean.squeeze(0)
++                    std = log_std.squeeze(0).exp()
++                    noise = torch.randn_like(mean)
++                    continuous_action = mean + std * noise
++                discrete_action = discretize_action(continuous_action)
++                safe = self.shield.get_safe_actions(env)
++                if discrete_action not in safe:
++                    discrete_action = self.agent.deontic_selector.select_safe_action(obs, env, safe)[0] if hasattr(self.agent.deontic_selector, 'select_safe_action') else self.agent.deontic_selector.select_action(env)
++                next_obs, reward, terminated, truncated, new_info = env.step(discrete_action)
++                done = terminated or truncated
++                
++                next_safe_actions_mask = np.zeros(4, dtype=np.float32)
++                for sa in env.get_safe_actions(tuple(env.agent_pos)):
++                    next_safe_actions_mask[sa] = 1.0
++                
++                transition = Transition(
++                    obs=obs, action=discrete_action, reward=reward,
++                    next_obs=next_obs, done=done, mode='deontic',
++                    T_rem=info.get('T_rem', float('inf')),
++                    D_min=info.get('D_min', 0),
++                    L_safe=info.get('L_safe', float('inf')),
++                    min_v=999, in_failure_band=info.get('in_failure_band', False),
++                    next_in_failure_band=False, episode_id=self.episode_counter,
++                    step_idx=step, next_safe_actions_mask=next_safe_actions_mask
++                )
++                self.buffer_deon.add(transition)
++                obs = next_obs; info = new_info; step += 1; step_count += 1
++            self.episode_counter += 1
++
++    def collect_cddp_rollouts(self):
++        """Collect rollouts from CDDP policy for PPO and Z_free."""
+         observations = []
+@@ -311,5 +358,8 @@
+                 # Add to appropriate replay buffer
++                next_safe_actions_mask = np.zeros(4, dtype=np.float32)
++                for sa in env.get_safe_actions(tuple(env.agent_pos)):
++                    next_safe_actions_mask[sa] = 1.0
+                 transition = Transition(
+                     obs=obs, action=discrete_action, reward=reward,
+                     next_obs=next_obs, done=done, mode=mode,
+                     T_rem=info.get('T_rem', float('inf')),
+@@ -317,8 +367,9 @@
+                     L_safe=info.get('L_safe', float('inf')),
++                    min_v=999,
+                     in_failure_band=info.get('in_failure_band', False),
++                    next_in_failure_band=False,
+                     episode_id=self.episode_counter,
+                     step_idx=step,
++                    next_safe_actions_mask=next_safe_actions_mask
+                 )
+-                if mode == 'deontic':
+-                    self.buffer_deon.add(transition)
+-                else:
++                if mode == 'utilitarian':
+                     self.buffer_free.add(transition)
+@@ -358,11 +409,21 @@
+                 batch = self.buffer_free.sample(self.critic_batch_size)
++                with torch.no_grad():
++                    mean, _ = self.actor_net(torch.FloatTensor(batch['next_obs']))
++                    next_a_free = discretize_action(mean)
++                    next_a_free = torch.LongTensor(next_a_free)
+                 l = self.dual_critics.update_z_free(
+-                    batch['obs'], batch['rewards'],
+-                    batch['next_obs'], batch['dones'], self.gamma)
++                    torch.FloatTensor(batch['obs']), torch.LongTensor(batch['actions']),
++                    torch.FloatTensor(batch['rewards']), torch.FloatTensor(batch['next_obs']),
++                    torch.FloatTensor(batch['dones']), next_a_free, self.gamma)
+                 losses['z_free'].append(l)
+ 
+             if len(self.buffer_deon) >= self.critic_batch_size:
+                 batch = self.buffer_deon.sample(self.critic_batch_size)
++                with torch.no_grad():
++                    mean, _ = self.actor_net(torch.FloatTensor(batch['next_obs']))
++                    next_a_deon = discretize_action(mean)
++                    next_a_deon = torch.LongTensor(next_a_deon)
+                 l = self.dual_critics.update_z_deon(
+-                    batch['obs'], batch['rewards'],
+-                    batch['next_obs'], batch['dones'], self.gamma)
++                    torch.FloatTensor(batch['obs']), torch.LongTensor(batch['actions']),
++                    torch.FloatTensor(batch['rewards']), torch.FloatTensor(batch['next_obs']),
++                    torch.FloatTensor(batch['dones']), next_a_deon, self.gamma)
+                 losses['z_deon'].append(l)
+@@ -495,3 +556,5 @@
+             # Collect rollouts (populates buffers)
+-            data = self.collect_rollouts_with_buffers()
++            self.collect_deontic_rollouts(self.steps_per_epoch // 2)
++            data = self.collect_cddp_rollouts()
+ 

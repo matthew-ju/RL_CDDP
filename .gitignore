@@ -1,27 +1,28 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+*.py[cod]
+*$py.class
 
-# Model checkpoints
+# Model weights
 *.pt
+*.pth
 
-# Visualizations
+# Data output / Generation artifacts
+*.csv
 *.png
+*.jpg
+*.json
+*.pdf
 
-# IDE
-.vscode/
+# Exception for final paper results which are tracked
+!final_paper_results/
+!final_paper_results/**
+
+# Environment / IDE
+.env
+.venv
+env/
+venv/
 .idea/
-*.swp
-*.swo
-*~
-
-# OS
+.vscode/
 .DS_Store
-Thumbs.db
-
-# Temporary files
-*.log
-*.tmp

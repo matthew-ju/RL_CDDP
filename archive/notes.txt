@@ -1,0 +1,36 @@
+Generalize beyond toy navigation:
+
+1. Use random seeds (5+ random seeds per configuration), get the mean +- STD for all metrics, and use statistical tests (e.g, t-test or mann-whitney) showing differences are significant
+- Add stochastic evaluation (not just deterministic)
+- Recommendation for grids: larger grids (10x10), narrow corridor (forces confrontation), and multiple hostages (prioritization dilemma)
+- Vary stakes continuously (don't just test bomb_timer = 5 vs None. Test: None, 10, 8, 6, 5, 4, 3)
+
+2. Use different domains. Ex:
+- Medical Triage:
+State: 3-5 patients with severity scores, time remaining for each
+Actions: Treat patient A, B, C, or do diagnostic test
+Constraint: Violating "do no harm" = using experimental treatment
+Stakes: Low = stable patients. High = multiple critical patients
+PPO: Always uses risky experimental treatment (maximizes expected survival)
+Constrained: Never uses experimental treatment (patients die while waiting for standard care)
+CDDP: Uses experimental treatment only when multiple patients critical
+- Autonomous Vehicle Emergency Braking:
+State: Distance to pedestrian, vehicle speed, road conditions
+Actions: Emergency brake (violates passenger comfort), normal brake, swerve
+Constraint: Emergency brake causes passenger injury risk
+Stakes: Low = pedestrian far, plenty of time. High = imminent collision
+PPO: Always emergency brakes (prioritizes pedestrian survival)
+Constrained: Never emergency brakes (rear-end collisions)
+CDDP: Emergency brakes only when collision imminent
+
+3. Show failures aren't due to poor hyper-parameters (test multiple learning rates, hidden dims), training time (show performance plateaus), and reward shaping (test with/without)
+
+4. Compare results against SAFE RL methods (CPO, PPO-Lagrangian), MULTI-OBJECTIVE RL (pareto front), inverse reward design (show they all fail at stakes-sensitivity)
+
+5. Higher-dimensional problems
+
+6. Evaluate a reward AND safety function (reference deepmind's ai gridworlds)
+
+Plot the agent's predicted value distribution
+- Graph A (Light OFF): should see sharp spike at 0 (agent is confident nothing huge will happen)
+- Graph B (Light ON): bi-modal distribution (one hump at +100 and one at -1000)
