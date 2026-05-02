@@ -61,6 +61,14 @@ NUM_ENVS = 64
 GOAL = torch.tensor([4.5, 4.5])
 OBS_C = torch.tensor([2.5, 2.5])
 OBS_R = 0.8
+# Layered friction zone: concentric rings outside the hard CBF boundary.
+# Each ring adds a graded step penalty on top of the -0.2 base step cost.
+LAYER_1_R = OBS_R * 1.375   # second-deepest ring
+LAYER_2_R = OBS_R * 1.750   # third ring
+LAYER_3_R = OBS_R * 2.125   # outermost ring
+LAYER_1_PENALTY = -0.25
+LAYER_2_PENALTY = -0.10
+LAYER_3_PENALTY = -0.05
 DT = 0.02
 V_MAX_ENV = 4.0
 GOAL_TOL = 0.2
@@ -513,9 +521,20 @@ def compute_reward(
     # -0.2 normal step penalty
     reward = (progress * 20.0) - 0.2
 
-    # -0.4 extra penalty for the friction zone
+    # -0.4 extra penalty for the hard friction zone (h < 0, inside CBF boundary)
     unsafe_t = torch.as_tensor(unsafe, device=pos.device, dtype=torch.bool)
     reward = torch.where(unsafe_t, reward - 0.4, reward)
+
+    # Layered friction zone: graded step penalties
+    dist_obs = (pos - OBS_C.to(pos.device)).norm(dim=-1)
+    safe_t = ~unsafe_t
+    in_layer1 = safe_t & (dist_obs < LAYER_1_R)
+    in_layer2 = safe_t & (dist_obs >= LAYER_1_R) & (dist_obs < LAYER_2_R)
+    in_layer3 = safe_t & (dist_obs >= LAYER_2_R) & (dist_obs < LAYER_3_R)
+    
+    reward = torch.where(in_layer1, reward + LAYER_1_PENALTY, reward)
+    reward = torch.where(in_layer2, reward + LAYER_2_PENALTY, reward)
+    reward = torch.where(in_layer3, reward + LAYER_3_PENALTY, reward)
 
     # 3. Terminal rewards
     reached_t = torch.as_tensor(reached, device=pos.device, dtype=torch.bool)
