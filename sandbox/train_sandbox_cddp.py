@@ -34,18 +34,12 @@ For a quick smoke test:
 from __future__ import annotations
 
 import argparse
-import collections
 import os
 import random
 import sys
-from typing import NamedTuple
 
 os.environ.setdefault("MPLCONFIGDIR", os.path.join("/private", "tmp", "cddp_rl_matplotlib"))
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -53,13 +47,15 @@ import torch.nn.functional as F
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from sandbox.analytical_sandbox import DifferentiablePointMassEnv
+from sandbox.helper_plotter import plot_best
 
 
 # ---------------------------------------------------------------------------
 # Hyperparameters
 # ---------------------------------------------------------------------------
 
-DEVICE = torch.device("cpu")
+DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+NUM_ENVS = 64
 
 # Environment
 GOAL = torch.tensor([4.5, 4.5])
@@ -67,7 +63,7 @@ OBS_C = torch.tensor([2.5, 2.5])
 OBS_R = 0.8
 DT = 0.02
 V_MAX_ENV = 4.0
-GOAL_TOL = 0.15
+GOAL_TOL = 0.2
 
 # Policy bounds
 U_MAX = 2.0
@@ -80,11 +76,11 @@ ALPHA_CDDP = 10.0
 P_REF = 0.8
 
 # Training
-N_EPISODES = 2000
-PRETRAIN_EPISODES = 1000
-MIN_EPISODE_STEPS = 200
-MAX_EPISODE_STEPS = 700
-BATCH_SIZE = 256
+N_EPISODES = 4000
+PRETRAIN_EPISODES = 2000
+MIN_EPISODE_STEPS = 300
+MAX_EPISODE_STEPS = 900
+BATCH_SIZE = 1024
 REPLAY_CAP = 100_000
 LR_ACTOR = 3e-4
 LR_Z_FREE = 1e-3
@@ -96,7 +92,7 @@ WARMUP_STEPS = 1_000
 # OU exploration on nominal actor actions before projection.
 OU_THETA = 0.15
 OU_SIGMA = 0.35
-OU_SIGMA_DECAY = 0.999
+OU_SIGMA_DECAY = 0.9995
 OU_SIGMA_MIN = 0.1
 
 LOG_INTERVAL = 100
@@ -105,53 +101,72 @@ LOG_INTERVAL = 100
 CHECKPOINT_DIR = os.path.join(os.path.dirname(__file__), "checkpoints")
 TRAJECTORY_PLOT_PATH = os.path.join(os.path.dirname(__file__), "cddp_trajectories.png")
 EVAL_START_STATE = [0.5, 0.5, 0.0, 0.0, 1.0]
-LONG_CLOCK_STEPS = 900
-TIGHT_CLOCK_STEPS = 255
+LONG_CLOCK_STEPS = 750
+TIGHT_CLOCK_STEPS = 240
 
 
 # ---------------------------------------------------------------------------
 # Replay Buffers
 # ---------------------------------------------------------------------------
 
-class UtilTransition(NamedTuple):
-    s: torch.Tensor
-    a: torch.Tensor
-    r: float
-    s_: torch.Tensor
-    done: bool
-
-
-class DeonticTransition(NamedTuple):
-    s: torch.Tensor
-    a: torch.Tensor
-    r: float
-    s_: torch.Tensor
-    done: bool
-    y_cat: float
-
 
 class UtilReplayBuffer:
     """Replay for Z_free and Actor. Contains only dynamic-boundary rollouts."""
 
     def __init__(self, capacity: int) -> None:
-        self.buf: collections.deque[UtilTransition] = collections.deque(maxlen=capacity)
+        self.capacity = int(capacity)
+        self.ptr = 0
+        self.size = 0
+        self.s = torch.empty((capacity, 5), dtype=torch.float32, device=DEVICE)
+        self.a = torch.empty((capacity, 2), dtype=torch.float32, device=DEVICE)
+        self.r = torch.empty((capacity, 1), dtype=torch.float32, device=DEVICE)
+        self.s_next = torch.empty((capacity, 5), dtype=torch.float32, device=DEVICE)
+        self.done = torch.empty((capacity, 1), dtype=torch.float32, device=DEVICE)
 
-    def push(self, *args) -> None:
-        self.buf.append(UtilTransition(*args))
+    def _write_indices(self, n: int) -> torch.Tensor:
+        if n >= self.capacity:
+            self.ptr = 0
+            self.size = self.capacity
+            return torch.arange(self.capacity, device=DEVICE)
+
+        idx = (torch.arange(n, device=DEVICE) + self.ptr) % self.capacity
+        self.ptr = (self.ptr + n) % self.capacity
+        self.size = min(self.capacity, self.size + n)
+        return idx
+
+    def push_batch(
+        self,
+        s: torch.Tensor,
+        a: torch.Tensor,
+        r: torch.Tensor,
+        s_next: torch.Tensor,
+        done: torch.Tensor,
+    ) -> torch.Tensor:
+        n = int(s.shape[0])
+        if n == 0:
+            return torch.empty(0, dtype=torch.long, device=DEVICE)
+        if n > self.capacity:
+            s = s[-self.capacity:]
+            a = a[-self.capacity:]
+            r = r[-self.capacity:]
+            s_next = s_next[-self.capacity:]
+            done = done[-self.capacity:]
+            n = self.capacity
+
+        idx = self._write_indices(n)
+        self.s[idx] = s.detach()
+        self.a[idx] = a.detach()
+        self.r[idx] = r.detach().reshape(-1, 1)
+        self.s_next[idx] = s_next.detach()
+        self.done[idx] = done.detach().to(dtype=torch.float32).reshape(-1, 1)
+        return idx
 
     def sample(self, n: int) -> tuple[torch.Tensor, ...]:
-        batch = random.sample(self.buf, n)
-        s, a, r, s_, done = zip(*batch)
-        return (
-            torch.stack(s).to(DEVICE),
-            torch.stack(a).to(DEVICE),
-            torch.tensor(r, dtype=torch.float32, device=DEVICE).unsqueeze(1),
-            torch.stack(s_).to(DEVICE),
-            torch.tensor(done, dtype=torch.float32, device=DEVICE).unsqueeze(1),
-        )
+        idx = torch.randint(self.size, (n,), device=DEVICE)
+        return self.s[idx], self.a[idx], self.r[idx], self.s_next[idx], self.done[idx]
 
     def __len__(self) -> int:
-        return len(self.buf)
+        return self.size
 
 
 class DeonticReplayBuffer:
@@ -163,31 +178,75 @@ class DeonticReplayBuffer:
     """
 
     def __init__(self, capacity: int) -> None:
-        self.buf: collections.deque[DeonticTransition] = collections.deque(maxlen=capacity)
+        self.capacity = int(capacity)
+        self.ptr = 0
+        self.size = 0
+        self.s = torch.empty((capacity, 5), dtype=torch.float32, device=DEVICE)
+        self.a = torch.empty((capacity, 2), dtype=torch.float32, device=DEVICE)
+        self.r = torch.empty((capacity, 1), dtype=torch.float32, device=DEVICE)
+        self.s_next = torch.empty((capacity, 5), dtype=torch.float32, device=DEVICE)
+        self.done = torch.empty((capacity, 1), dtype=torch.float32, device=DEVICE)
+        self.y = torch.empty((capacity, 1), dtype=torch.float32, device=DEVICE)
+        self.labeled = torch.zeros(capacity, dtype=torch.bool, device=DEVICE)
 
-    def push(self, *args) -> None:
-        self.buf.append(DeonticTransition(*args))
+    def _write_indices(self, n: int) -> torch.Tensor:
+        if n >= self.capacity:
+            self.ptr = 0
+            self.size = self.capacity
+            return torch.arange(self.capacity, device=DEVICE)
+
+        idx = (torch.arange(n, device=DEVICE) + self.ptr) % self.capacity
+        self.ptr = (self.ptr + n) % self.capacity
+        self.size = min(self.capacity, self.size + n)
+        return idx
+
+    def push_batch(
+        self,
+        s: torch.Tensor,
+        a: torch.Tensor,
+        r: torch.Tensor,
+        s_next: torch.Tensor,
+        done: torch.Tensor,
+        y_cat: torch.Tensor,
+        labeled: bool = True,
+    ) -> torch.Tensor:
+        n = int(s.shape[0])
+        if n == 0:
+            return torch.empty(0, dtype=torch.long, device=DEVICE)
+        if n > self.capacity:
+            s = s[-self.capacity:]
+            a = a[-self.capacity:]
+            r = r[-self.capacity:]
+            s_next = s_next[-self.capacity:]
+            done = done[-self.capacity:]
+            y_cat = y_cat[-self.capacity:]
+            n = self.capacity
+
+        idx = self._write_indices(n)
+        self.s[idx] = s.detach()
+        self.a[idx] = a.detach()
+        self.r[idx] = r.detach().reshape(-1, 1)
+        self.s_next[idx] = s_next.detach()
+        self.done[idx] = done.detach().to(dtype=torch.float32).reshape(-1, 1)
+        self.y[idx] = y_cat.detach().to(dtype=torch.float32).reshape(-1, 1)
+        self.labeled[idx] = labeled
+        return idx
 
     def sample(self, n: int) -> tuple[torch.Tensor, torch.Tensor]:
-        batch = random.sample(self.buf, n)
-        s = torch.stack([tr.s for tr in batch]).to(DEVICE)
-        y = torch.tensor(
-            [tr.y_cat for tr in batch],
-            dtype=torch.float32,
-            device=DEVICE,
-        ).unsqueeze(1)
-        return s, y
+        labeled_idx = torch.where(self.labeled[: self.size])[0]
+        idx = labeled_idx[torch.randint(labeled_idx.shape[0], (n,), device=DEVICE)]
+        return self.s[idx], self.y[idx]
 
     def __len__(self) -> int:
-        return len(self.buf)
+        return int(self.labeled[: self.size].sum().item())
 
 
 # ---------------------------------------------------------------------------
 # Neural Networks
 # ---------------------------------------------------------------------------
 
-def _mlp(in_dim: int, out_dim: int, hidden: int = 256, layers: int = 2) -> nn.Sequential:
-    dims = [in_dim] + [hidden] * layers + [out_dim]
+def _mlp(in_dim: int, out_dim: int) -> nn.Sequential:
+    dims = [in_dim, 512, 512, out_dim]
     mods: list[nn.Module] = []
     for i in range(len(dims) - 1):
         mods.append(nn.Linear(dims[i], dims[i + 1]))
@@ -199,9 +258,9 @@ def _mlp(in_dim: int, out_dim: int, hidden: int = 256, layers: int = 2) -> nn.Se
 class Actor(nn.Module):
     """Nominal policy pi(s), bounded before the CBF projection layer."""
 
-    def __init__(self, state_dim: int = 5, action_dim: int = 2, hidden: int = 256) -> None:
+    def __init__(self, state_dim: int = 5, action_dim: int = 2, hidden: int = 512) -> None:
         super().__init__()
-        self.net = _mlp(state_dim, action_dim, hidden)
+        self.net = _mlp(state_dim, action_dim)
 
     def forward(self, s: torch.Tensor) -> torch.Tensor:
         return U_MAX * torch.tanh(self.net(s))
@@ -210,9 +269,9 @@ class Actor(nn.Module):
 class UtilitarianCritic(nn.Module):
     """Z_free(s, a): standard task-return critic."""
 
-    def __init__(self, state_dim: int = 5, action_dim: int = 2, hidden: int = 256) -> None:
+    def __init__(self, state_dim: int = 5, action_dim: int = 2, hidden: int = 512) -> None:
         super().__init__()
-        self.net = _mlp(state_dim + action_dim, 1, hidden)
+        self.net = _mlp(state_dim + action_dim, 1)
 
     def forward(self, s: torch.Tensor, a: torch.Tensor) -> torch.Tensor:
         return self.net(torch.cat([s, a], dim=-1))
@@ -221,12 +280,13 @@ class UtilitarianCritic(nn.Module):
 class DeonticCritic(nn.Module):
     """Z_deon(s): P_cat(s) under strict S=0 compliance."""
 
-    def __init__(self, state_dim: int = 5, hidden: int = 256) -> None:
+    def __init__(self, state_dim: int = 5, hidden: int = 512) -> None:
         super().__init__()
-        self.net = _mlp(state_dim, 1, hidden)
+        self.net = _mlp(state_dim, 1)
 
     def forward(self, s: torch.Tensor) -> torch.Tensor:
-        return torch.sigmoid(self.net(s))
+        # Removed torch.sigmoid() for numerical stability with BCEWithLogitsLoss.
+        return self.net(s)
 
 
 class OUNoise:
@@ -235,13 +295,17 @@ class OUNoise:
     def __init__(self, action_dim: int, sigma: float = OU_SIGMA) -> None:
         self.action_dim = action_dim
         self.sigma = sigma
-        self.state = torch.zeros(action_dim, device=DEVICE)
+        self.state = torch.zeros(NUM_ENVS, action_dim, device=DEVICE)
 
     def reset(self) -> None:
         self.state.zero_()
 
+    def reset_idx(self, indices: torch.Tensor) -> None:
+        if indices.numel() > 0:
+            self.state[indices] = 0.0
+
     def sample(self) -> torch.Tensor:
-        dx = OU_THETA * (-self.state) + self.sigma * torch.randn(self.action_dim, device=DEVICE)
+        dx = OU_THETA * (-self.state) + self.sigma * torch.randn_like(self.state)
         self.state = self.state + dx
         return self.state
 
@@ -287,13 +351,14 @@ class CDDPAgent:
         objective the actor can exploit. Z_deon is updated only from strict
         deontic rollouts.
         """
-        p_cat = self.z_deon(s)
+        logits = self.z_deon(s)
+        p_cat = torch.sigmoid(logits)
         if detach:
             p_cat = p_cat.detach()
         return torch.clamp(p_cat.squeeze(1) / P_REF, 0.0, 1.0)
 
     def safe_action(self, s: torch.Tensor, u_nom: torch.Tensor, stakes: torch.Tensor) -> torch.Tensor:
-        return self.env.project_action_cbf(
+        u_safe = self.env.project_action_cbf(
             s,
             u_nom,
             stakes=stakes,
@@ -301,6 +366,11 @@ class CDDPAgent:
             tau=TAU_CDDP,
             alpha_prime=ALPHA_CDDP,
         )
+
+        # If it's a high-stakes emergency, completely disable the physical
+        # pushback and let the agent drive straight through the friction zone.
+        bypass_mask = (stakes > 0.8).view(-1, 1)
+        return torch.where(bypass_mask, u_nom, u_safe)
 
     @torch.no_grad()
     def select_action(
@@ -311,16 +381,16 @@ class CDDPAgent:
         random_nominal: bool = False,
     ) -> torch.Tensor:
         """Return projected action for environment interaction."""
-        s_b = s.unsqueeze(0)
+        s_b = s if s.ndim == 2 else s.unsqueeze(0)
         if random_nominal:
-            u_nom = (torch.rand(1, 2, device=DEVICE) * 2.0 - 1.0) * U_MAX
+            u_nom = (torch.rand(s_b.shape[0], 2, device=DEVICE) * 2.0 - 1.0) * U_MAX
         else:
             u_nom = self.actor(s_b)
             if ou_noise is not None:
-                u_nom = torch.clamp(u_nom + ou_noise.sample().unsqueeze(0), -U_MAX, U_MAX)
+                u_nom = torch.clamp(u_nom + ou_noise.sample()[: s_b.shape[0]], -U_MAX, U_MAX)
 
-        u_safe = self.safe_action(s_b, u_nom, stakes=stakes.reshape(1))
-        return u_safe.squeeze(0)
+        u_safe = self.safe_action(s_b, u_nom, stakes=stakes.reshape(-1))
+        return u_safe if s.ndim == 2 else u_safe.squeeze(0)
 
     def update_utilitarian(
         self,
@@ -370,8 +440,8 @@ class CDDPAgent:
     def update_deontic(self, deontic_buffer: DeonticReplayBuffer) -> float:
         """Train Z_deon from strict S=0 data only."""
         s, y_cat = deontic_buffer.sample(BATCH_SIZE)
-        p_cat = self.z_deon(s)
-        loss_z_deon = F.binary_cross_entropy(p_cat, y_cat)
+        logits = self.z_deon(s)
+        loss_z_deon = F.binary_cross_entropy_with_logits(logits, y_cat)
 
         self.opt_z_deon.zero_grad()
         loss_z_deon.backward()
@@ -396,42 +466,67 @@ def make_env() -> DifferentiablePointMassEnv:
     )
 
 
-def random_start() -> torch.Tensor:
-    """Sample a random start state outside the obstacle."""
-    while True:
-        p = torch.rand(2) * 5.0  # Cover the 0 to 5.0 grid
-        h = (p - OBS_C).norm() ** 2 - OBS_R ** 2
-        if h > 0.5:
-            return torch.cat([p, torch.zeros(2), torch.ones(1)])
+def random_start(n: int = 1) -> torch.Tensor:
+    """Sample n random start states outside the obstacle."""
+    starts: list[torch.Tensor] = []
+    remaining = int(n)
+    obs_c = OBS_C.to(DEVICE)
+
+    while remaining > 0:
+        candidates = torch.rand(max(remaining * 2, 16), 2, device=DEVICE) * 5.0
+        h = ((candidates - obs_c) ** 2).sum(dim=1) - OBS_R ** 2
+        valid = candidates[h > 0.5]
+        if valid.numel() == 0:
+            continue
+        take = valid[:remaining]
+        starts.append(take)
+        remaining -= int(take.shape[0])
+
+    p = torch.cat(starts, dim=0)
+    return torch.cat(
+        [p, torch.zeros(n, 2, device=DEVICE), torch.ones(n, 1, device=DEVICE)],
+        dim=1,
+    )
+
+
+def sample_episode_steps(n: int) -> torch.Tensor:
+    crisis = torch.rand(n, device=DEVICE) < 0.5
+    crisis_steps = torch.randint(170, 220, (n,), device=DEVICE)
+    relaxed_steps = torch.randint(500, 901, (n,), device=DEVICE)
+    return torch.where(crisis, crisis_steps, relaxed_steps)
 
 
 def compute_reward(
     pos: torch.Tensor,
     prev_pos: torch.Tensor,
     goal: torch.Tensor,
-    reached: bool,
-    unsafe: bool,
-    timeout: bool,
-) -> float:
+    reached: torch.Tensor | bool,
+    unsafe: torch.Tensor | bool,
+    timeout: torch.Tensor | bool,
+) -> torch.Tensor | float:
     # 1. Dense distance shaping (progress toward goal)
-    dist_now = (pos - goal).norm().item()
-    dist_prev = (prev_pos - goal).norm().item()
+    goal = goal.to(pos.device)
+    dist_now = (pos - goal).norm(dim=-1)
+    dist_prev = (prev_pos - goal).norm(dim=-1)
     progress = dist_prev - dist_now
 
     # -0.2 normal step penalty
     reward = (progress * 20.0) - 0.2
 
-    # -1.0 extra penalty for the friction zone
-    if unsafe:
-        reward -= 1.0
+    # -0.4 extra penalty for the friction zone
+    unsafe_t = torch.as_tensor(unsafe, device=pos.device, dtype=torch.bool)
+    reward = torch.where(unsafe_t, reward - 0.4, reward)
 
     # 3. Terminal rewards
-    if reached:
-        reward += 100.0
-    if timeout:
-        reward -= 300.0
+    reached_t = torch.as_tensor(reached, device=pos.device, dtype=torch.bool)
+    timeout_t = torch.as_tensor(timeout, device=pos.device, dtype=torch.bool)
+    reward = torch.where(reached_t, reward + 500.0, reward)
+    # Scale timeout penalty down to prevent extreme Q-value collapse.
+    reward = torch.where(timeout_t, reward - (250.0 + (dist_now * 20.0)), reward)
 
-    return float(reward)
+    if reward.ndim == 0:
+        return float(reward.item())
+    return reward
 
 
 # ---------------------------------------------------------------------------
@@ -472,38 +567,6 @@ def load_best_checkpoints(agent: CDDPAgent) -> bool:
     return True
 
 
-@torch.no_grad()
-def rollout_eval_trajectory(
-    env: DifferentiablePointMassEnv,
-    agent: CDDPAgent,
-    clock_max_steps: int,
-    rollout_cap: int,
-) -> tuple[list[tuple[float, float]], list[float]]:
-    """Roll out from a fixed in-distribution start and record positions/stakes."""
-    state = torch.tensor([EVAL_START_STATE], dtype=torch.float32, device=DEVICE)
-    env.reset(state, max_steps=clock_max_steps)
-
-    positions: list[tuple[float, float]] = [tuple(env.state[0, :2].cpu().tolist())]
-    stakes_values: list[float] = []
-
-    for _ in range(rollout_cap):
-        s = env.state.squeeze(0).detach().clone()
-        stakes = agent.stakes_from_deon(s.unsqueeze(0), detach=True)
-
-        u_safe = agent.select_action(s, stakes=stakes, ou_noise=None)
-        out = env.step(u_safe.unsqueeze(0))
-
-        stakes_values.append(stakes.item())
-        positions.append(tuple(out["state"][0, :2].detach().cpu().tolist()))
-
-        if out["goal_reached"].item():
-            break
-        if env.current_step >= clock_max_steps:
-            break
-
-    return positions, stakes_values
-
-
 def estimate_unobstructed_min_steps() -> int:
     """Estimate the fastest goal reach in open space under current dynamics.
 
@@ -530,149 +593,6 @@ def eval_clock_config() -> tuple[int, int]:
     return min_steps, TIGHT_CLOCK_STEPS
 
 
-def add_stakes_path(
-    ax: plt.Axes,
-    positions: list[tuple[float, float]],
-    stakes: list[float],
-    label: str,
-    cmap,
-    linestyle: str = "solid",
-    linewidth: float = 2.8,
-) -> LineCollection | None:
-    if len(positions) < 2:
-        return None
-
-    segments = [[positions[i], positions[i + 1]] for i in range(len(positions) - 1)]
-    lc = LineCollection(
-        segments,
-        cmap=cmap,
-        norm=plt.Normalize(0.0, 1.0),
-        linewidth=linewidth,
-        linestyles=linestyle,
-        label=label,
-        alpha=0.8,
-    )
-    lc.set_array(torch.tensor(stakes, dtype=torch.float32).numpy())
-    ax.add_collection(lc)
-    return lc
-
-
-def trajectory_midpoint(positions: list[tuple[float, float]]) -> tuple[float, float]:
-    if not positions:
-        return (EVAL_START_STATE[0], EVAL_START_STATE[1])
-    return positions[len(positions) // 2]
-
-
-def decorate_trajectory_axes(ax: plt.Axes) -> None:
-    obstacle = plt.Circle(
-        tuple(OBS_C.tolist()),
-        OBS_R,
-        color="red",
-        alpha=0.25,
-        label="Friction zone",
-    )
-    ax.add_patch(obstacle)
-    ax.scatter(
-        [GOAL[0].item()],
-        [GOAL[1].item()],
-        marker="*",
-        s=260,
-        color="green",
-        edgecolor="black",
-        linewidth=0.6,
-        label="Goal",
-        zorder=5,
-    )
-    ax.scatter(
-        [EVAL_START_STATE[0]],
-        [EVAL_START_STATE[1]],
-        marker="o",
-        s=80,
-        color="black",
-        label="Start",
-        zorder=5,
-    )
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_aspect("equal", adjustable="box")
-    ax.set_xlim(0.0, 5.0)
-    ax.set_ylim(0.0, 5.0)
-    ax.grid(True, alpha=0.25)
-
-
-def plot_cddp_trajectories(env: DifferentiablePointMassEnv, agent: CDDPAgent) -> None:
-    """Save one top-down plot of long-clock vs tight-clock behavior."""
-    min_steps, tight_steps = eval_clock_config()
-    long_pos, long_stakes = rollout_eval_trajectory(
-        env,
-        agent,
-        clock_max_steps=LONG_CLOCK_STEPS,
-        rollout_cap=LONG_CLOCK_STEPS,
-    )
-    tight_pos, tight_stakes = rollout_eval_trajectory(
-        env,
-        agent,
-        clock_max_steps=tight_steps,
-        rollout_cap=tight_steps,
-    )
-
-    fig = plt.figure(figsize=(9.2, 8.0), constrained_layout=True)
-    grid = fig.add_gridspec(
-        2,
-        2,
-        width_ratios=[1.0, 0.055],
-        height_ratios=[1.0, 1.0],
-        wspace=0.08,
-        hspace=0.22,
-    )
-    ax = fig.add_subplot(grid[:, 0])
-    long_cax = fig.add_subplot(grid[0, 1])
-    tight_cax = fig.add_subplot(grid[1, 1])
-    decorate_trajectory_axes(ax)
-
-    long_lc = add_stakes_path(
-        ax,
-        long_pos,
-        long_stakes,
-        label=f"Long clock ({LONG_CLOCK_STEPS} steps)",
-        cmap=plt.cm.cool,
-        linestyle="dashed",
-        linewidth=2.8,
-    )
-    tight_lc = add_stakes_path(
-        ax,
-        tight_pos,
-        tight_stakes,
-        label=f"Tight clock ({tight_steps} steps)",
-        cmap=plt.cm.autumn,
-        linestyle="solid",
-        linewidth=3.0,
-    )
-    
-    if long_lc is not None:
-        cbar1 = fig.colorbar(long_lc, cax=long_cax)
-        cbar1.set_label("Long S(s)", labelpad=8)
-        cbar1.set_ticks([0.0, 0.5, 1.0])
-        cbar1.ax.tick_params(labelsize=8)
-    else:
-        long_cax.set_visible(False)
-    if tight_lc is not None:
-        cbar2 = fig.colorbar(tight_lc, cax=tight_cax)
-        cbar2.set_label("Tight S(s)", labelpad=8)
-        cbar2.set_ticks([0.0, 0.5, 1.0])
-        cbar2.ax.tick_params(labelsize=8)
-    else:
-        tight_cax.set_visible(False)
-
-    ax.set_title(
-        f"CDDP Spatio-Temporal Boundary Adaptation\n"
-        f"(min={min_steps}, tight={tight_steps})"
-    )
-    ax.legend(loc="upper left")
-    fig.savefig(TRAJECTORY_PLOT_PATH, dpi=180)
-    plt.close(fig)
-
-
 # ---------------------------------------------------------------------------
 # Training Loop
 # ---------------------------------------------------------------------------
@@ -683,7 +603,7 @@ def train(args: argparse.Namespace) -> None:
     print(f"  Goal={GOAL.tolist()}  Obstacle c={OBS_C.tolist()} R={OBS_R}")
     print(
         f"  Episodes={args.episodes}  Pretrain={args.pretrain_episodes}  "
-        f"MaxSteps=[{MIN_EPISODE_STEPS}, {MAX_EPISODE_STEPS}]"
+        f"VectorEnvs={NUM_ENVS}  MaxSteps=[180-200 crisis, 400-700 relaxed]"
     )
     print(f"  Gamma_CBF={GAMMA_CBF}  P_ref={P_REF}")
     print("  Pre-training: all episodes strict S=0 -> utilitarian_buffer only")
@@ -696,7 +616,35 @@ def train(args: argparse.Namespace) -> None:
     utilitarian_buffer = UtilReplayBuffer(REPLAY_CAP)
     ou_noise = OUNoise(action_dim=2)
 
+    mode_pre = 0
+    mode_deon = 1
+    mode_util = 2
+    pretrain_target = min(args.pretrain_episodes, args.episodes)
+
+    env.reset(torch.zeros(NUM_ENVS, 5, dtype=torch.float32, device=DEVICE), max_steps=1000)
+    active = torch.zeros(NUM_ENVS, dtype=torch.bool, device=DEVICE)
+    mode_ids = torch.full((NUM_ENVS,), -1, dtype=torch.long, device=DEVICE)
+    episode_max_steps = torch.zeros(NUM_ENVS, dtype=torch.long, device=DEVICE)
+    per_env_steps = torch.zeros(NUM_ENVS, dtype=torch.long, device=DEVICE)
+    current_returns = torch.zeros(NUM_ENVS, dtype=torch.float32, device=DEVICE)
+    current_successes = torch.zeros(NUM_ENVS, dtype=torch.bool, device=DEVICE)
+    current_crashed = torch.zeros(NUM_ENVS, dtype=torch.bool, device=DEVICE)
+    current_stakes_sum = torch.zeros(NUM_ENVS, dtype=torch.float32, device=DEVICE)
+    current_stakes_count = torch.zeros(NUM_ENVS, dtype=torch.long, device=DEVICE)
+    current_excess_violations = torch.zeros(NUM_ENVS, dtype=torch.long, device=DEVICE)
+    max_episode_clock = 700
+    deon_episode_indices = torch.full(
+        (NUM_ENVS, max_episode_clock + 1),
+        -1,
+        dtype=torch.long,
+        device=DEVICE,
+    )
+    deon_episode_counts = torch.zeros(NUM_ENVS, dtype=torch.long, device=DEVICE)
+
     total_steps = 0
+    launched_episodes = 0
+    completed_episodes = 0
+    next_log_episode = LOG_INTERVAL
 
     ep_returns: list[float] = []
     ep_successes: list[bool] = []
@@ -711,151 +659,258 @@ def train(args: argparse.Namespace) -> None:
     announced_cddp_phase = False
     best_success_rate = -1.0
 
-    for ep in range(args.episodes):
-        in_pretrain = ep < args.pretrain_episodes
-        if in_pretrain:
-            is_deontic_rollout = False
-            mode = "pre"
-        else:
-            if not announced_cddp_phase:
-                print("\n" + "=" * 78)
-                print(f"  Pre-training complete at episode {ep}. Starting Bifurcated CDDP Phase.")
-                print("=" * 78)
-                announced_cddp_phase = True
-            is_deontic_rollout = (ep % 2 == 0)
-            mode = "deon" if is_deontic_rollout else "util"
-        ep_modes.append(mode)
+    def maybe_start_cddp_phase() -> None:
+        nonlocal announced_cddp_phase
+        if announced_cddp_phase or completed_episodes < pretrain_target:
+            return
 
+        print("\n" + "=" * 78)
+        print(
+            f"  Pre-training complete after {completed_episodes} completed episodes. "
+            "Starting Bifurcated CDDP Phase."
+        )
+        print("=" * 78)
+        announced_cddp_phase = True
+
+        # Shock the exploration back to life for the new CDDP dynamics.
+        ou_noise.sigma = 0.5
         ou_noise.reset()
-        episode_max_steps = random.randint(MIN_EPISODE_STEPS, MAX_EPISODE_STEPS)
-        state = random_start().to(DEVICE)
-        env.reset(state.unsqueeze(0), max_steps=episode_max_steps)
 
-        ep_ret = 0.0
-        success = False
-        crashed = False
-        timeout = False
-        stakes_seen: list[float] = []
-        excess_violations = 0
-        strict_episode_cache: list[tuple[torch.Tensor, torch.Tensor, float, torch.Tensor, bool]] = []
+    def launch_slots(slot_indices: torch.Tensor) -> None:
+        nonlocal launched_episodes
+        launch_slots_list: list[int] = []
+        launch_modes: list[int] = []
 
-        for step in range(episode_max_steps):
-            prev_pos = env.state.squeeze(0)[:2].clone()
-            s_before = env.state.squeeze(0).detach().clone()
+        for slot_t in slot_indices:
+            slot = int(slot_t.item())
+            if launched_episodes >= args.episodes:
+                break
+            if not announced_cddp_phase and launched_episodes >= pretrain_target:
+                break
 
-            if in_pretrain or is_deontic_rollout:
-                stakes = torch.zeros(1, device=DEVICE)
+            if not announced_cddp_phase:
+                mode_id = mode_pre
             else:
-                with torch.no_grad():
-                    stakes = agent.stakes_from_deon(s_before.unsqueeze(0), detach=True)
-                stakes_seen.append(stakes.item())
+                cddp_idx = launched_episodes - pretrain_target
+                mode_id = mode_deon if cddp_idx % 2 == 0 else mode_util
 
-            random_nominal = total_steps < args.warmup_steps
-            u_safe = agent.select_action(
-                s_before,
-                stakes=stakes,
-                ou_noise=None if random_nominal else ou_noise,
-                random_nominal=random_nominal,
+            launch_slots_list.append(slot)
+            launch_modes.append(mode_id)
+            launched_episodes += 1
+
+        if not launch_slots_list:
+            return
+
+        slots = torch.tensor(launch_slots_list, dtype=torch.long, device=DEVICE)
+        n = int(slots.numel())
+        starts = random_start(n)
+        clocks = sample_episode_steps(n)
+        starts[:, 4] = clocks.to(dtype=starts.dtype) / 1000.0
+
+        env._state[slots] = starts
+        active[slots] = True
+        mode_ids[slots] = torch.tensor(launch_modes, dtype=torch.long, device=DEVICE)
+        episode_max_steps[slots] = clocks
+        per_env_steps[slots] = 0
+        current_returns[slots] = 0.0
+        current_successes[slots] = False
+        current_crashed[slots] = False
+        current_stakes_sum[slots] = 0.0
+        current_stakes_count[slots] = 0
+        current_excess_violations[slots] = 0
+        ou_noise.reset_idx(slots)
+        deon_episode_indices[slots] = -1
+        deon_episode_counts[slots] = 0
+
+    def log_progress(force: bool = False) -> None:
+        nonlocal best_success_rate, next_log_episode
+        if not ep_returns:
+            return
+        if not force and completed_episodes < next_log_episode:
+            return
+
+        while next_log_episode <= completed_episodes:
+            next_log_episode += LOG_INTERVAL
+
+        idx0 = max(0, len(ep_returns) - LOG_INTERVAL)
+        pre_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "pre"]
+        util_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "util"]
+        deon_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "deon"]
+
+        avg_ret = sum(ep_returns[idx0:]) / (len(ep_returns) - idx0)
+        succ_rate = sum(ep_successes[idx0:]) / (len(ep_successes) - idx0)
+        fail_rate = sum(ep_failures[idx0:]) / (len(ep_failures) - idx0)
+        avg_s_util = (
+            sum(ep_avg_stakes[i] for i in util_idx) / max(1, len(util_idx))
+        )
+        excess_util = sum(ep_excess_violations[i] for i in util_idx)
+        deon_fail = (
+            sum(1 for i in deon_idx if ep_failures[i]) / max(1, len(deon_idx))
+        )
+
+        best_note = ""
+        if announced_cddp_phase and succ_rate >= best_success_rate:
+            best_success_rate = succ_rate
+            save_best_checkpoints(agent)
+            best_note = " | saved best"
+        best_success_display = "n/a" if best_success_rate < 0.0 else f"{best_success_rate:.0%}"
+
+        print(
+            f"Ep {completed_episodes:>4}/{args.episodes} | "
+            f"Phase={'PRE' if not announced_cddp_phase else 'CDDP'} | "
+            f"Ret={avg_ret:+7.2f} | "
+            f"Succ={succ_rate:.0%} | Fail={fail_rate:.0%} | "
+            f"BestSucc={best_success_display} | "
+            f"StrictFail={deon_fail:.0%} | "
+            f"AvgS_odd={avg_s_util:.3f} | "
+            f"ExcessViol_odd={excess_util:>3} | "
+            f"PreEps={len(pre_idx):>2} | "
+            f"Active={int(active.sum().item()):>2}/{NUM_ENVS} | "
+            f"Buf(deon/util)={len(deontic_buffer)}/{len(utilitarian_buffer)} | "
+            f"OU_sigma={ou_noise.sigma:.3f} | "
+            f"Lfree={last_loss_z_free:.3f} Lact={last_loss_actor:.3f} "
+            f"Ldeon={last_loss_z_deon:.3f}"
+            f"{best_note}"
+        )
+
+    if pretrain_target == 0:
+        maybe_start_cddp_phase()
+    launch_slots(torch.arange(NUM_ENVS, device=DEVICE))
+
+    while completed_episodes < args.episodes:
+        if not active.any():
+            maybe_start_cddp_phase()
+            launch_slots(torch.arange(NUM_ENVS, device=DEVICE))
+            if not active.any():
+                break
+
+        s_before = env.state.detach().clone()
+        prev_pos = s_before[:, :2].clone()
+        stakes = torch.zeros(NUM_ENVS, dtype=torch.float32, device=DEVICE)
+        util_mask = active & (mode_ids == mode_util)
+        if util_mask.any():
+            with torch.no_grad():
+                stakes[util_mask] = agent.stakes_from_deon(s_before[util_mask], detach=True)
+            current_stakes_sum[util_mask] += stakes[util_mask]
+            current_stakes_count[util_mask] += 1
+
+        with torch.no_grad():
+            if total_steps < args.warmup_steps:
+                u_nom = (torch.rand(NUM_ENVS, 2, device=DEVICE) * 2.0 - 1.0) * U_MAX
+            else:
+                u_nom = agent.actor(s_before)
+                u_nom = torch.clamp(u_nom + ou_noise.sample(), -U_MAX, U_MAX)
+            u_nom[~active] = 0.0
+            u_safe = agent.safe_action(s_before, u_nom, stakes)
+            u_safe[~active] = 0.0
+            out = env.step(u_safe)
+
+        next_state = out["state"].detach()
+        per_env_steps[active] += 1
+        active_clock = (episode_max_steps[active] - per_env_steps[active]).clamp_min(0)
+        next_state[active, 4] = active_clock.to(dtype=next_state.dtype) / 1000.0
+        env._state = next_state
+
+        reached = out["goal_reached"].detach() & active
+        unsafe = out["unsafe"].detach() & active
+        timeout = active & (per_env_steps >= episode_max_steps) & ~reached
+        done = reached | timeout
+        reward = torch.zeros(NUM_ENVS, dtype=torch.float32, device=DEVICE)
+        if active.any():
+            reward[active] = compute_reward(
+                next_state[active, :2],
+                prev_pos[active],
+                GOAL,
+                reached[active],
+                unsafe[active],
+                timeout[active],
             )
 
-            out = env.step(u_safe.unsqueeze(0))
+        util_or_pre_mask = active & (mode_ids != mode_deon)
+        if util_or_pre_mask.any():
+            utilitarian_buffer.push_batch(
+                s_before[util_or_pre_mask],
+                u_safe[util_or_pre_mask],
+                reward[util_or_pre_mask],
+                next_state[util_or_pre_mask],
+                done[util_or_pre_mask],
+            )
 
-            next_state = out["state"].squeeze(0).detach()
-            reached = bool(out["goal_reached"].item())
-            unsafe = bool(out["unsafe"].item())
-            done = reached or env.current_step >= episode_max_steps
-            step_timeout = (not reached) and env.current_step >= episode_max_steps
-            reward = compute_reward(next_state[:2], prev_pos, GOAL, reached, unsafe, step_timeout)
+        deon_mask = active & (mode_ids == mode_deon)
+        if deon_mask.any():
+            deon_slots = torch.where(deon_mask)[0]
+            written_idx = deontic_buffer.push_batch(
+                s_before[deon_mask],
+                u_safe[deon_mask],
+                reward[deon_mask],
+                next_state[deon_mask],
+                done[deon_mask],
+                torch.zeros(deon_slots.shape[0], dtype=torch.float32, device=DEVICE),
+                labeled=False,
+            )
+            write_cols = deon_episode_counts[deon_slots].clamp_max(max_episode_clock)
+            deon_episode_indices[deon_slots, write_cols] = written_idx
+            deon_episode_counts[deon_slots] += 1
 
-            if is_deontic_rollout:
-                strict_episode_cache.append(
-                    (s_before, u_safe.detach().clone(), reward, next_state.clone(), done)
-                )
-            else:
-                utilitarian_buffer.push(
-                    s_before,
-                    u_safe.detach().clone(),
-                    reward,
-                    next_state.clone(),
-                    done,
-                )
-                if unsafe:
-                    excess_violations += 1
+        current_returns[active] += reward[active]
+        current_successes |= reached
+        current_crashed |= unsafe
+        current_excess_violations[util_mask] += unsafe[util_mask].to(dtype=torch.long)
 
-            ep_ret += reward
-            success = success or reached
-            crashed = crashed or unsafe
-            total_steps += 1
+        active_transitions = int(active.sum().item())
+        total_steps += active_transitions
 
-            # ---- Learn ---------------------------------------------------
-            if total_steps >= args.warmup_steps and total_steps % 4 == 0:
+        if total_steps >= args.warmup_steps:
+            updates_to_run = 2 if active_transitions >= NUM_ENVS else 1
+            for _ in range(updates_to_run):
                 if len(utilitarian_buffer) >= BATCH_SIZE:
                     last_loss_z_free, last_loss_actor = agent.update_utilitarian(
                         utilitarian_buffer,
-                        strict_stakes=in_pretrain,
+                        strict_stakes=not announced_cddp_phase,
                     )
-                if not in_pretrain and len(deontic_buffer) >= BATCH_SIZE:
+                if announced_cddp_phase and len(deontic_buffer) >= BATCH_SIZE:
                     last_loss_z_deon = agent.update_deontic(deontic_buffer)
 
-            if done:
-                timeout = step_timeout
-                break
+        done_indices = torch.where(done)[0]
+        for idx_t_loop in done_indices:
+            idx = int(idx_t_loop.item())
+            idx_t = torch.tensor([idx], dtype=torch.long, device=DEVICE)
+            mode_id = int(mode_ids[idx].item())
+            mode_name = "pre" if mode_id == mode_pre else "deon" if mode_id == mode_deon else "util"
+            episode_failed = bool((timeout[idx] | current_crashed[idx]).item())
 
-        if is_deontic_rollout:
-            # Failure is the strict-compliance episode outcome. We label the
-            # cached transitions only after the rollout outcome is known.
-            y_cat = 1.0 if (timeout or crashed) else 0.0
-            for tr in strict_episode_cache:
-                deontic_buffer.push(*tr, y_cat)
+            if mode_id == mode_deon and bool((deon_episode_counts[idx] > 0).item()):
+                count = int(deon_episode_counts[idx].clamp_max(max_episode_clock + 1).item())
+                episode_replay_idx = deon_episode_indices[idx, :count]
+                episode_replay_idx = episode_replay_idx[episode_replay_idx >= 0]
+                deontic_buffer.y[episode_replay_idx] = float(episode_failed)
+                deontic_buffer.labeled[episode_replay_idx] = True
 
-        ou_noise.decay()
+            ep_returns.append(float(current_returns[idx].item()))
+            ep_successes.append(bool(current_successes[idx].item()))
+            ep_failures.append(episode_failed)
+            stakes_count = max(1, int(current_stakes_count[idx].item()))
+            ep_avg_stakes.append(float(current_stakes_sum[idx].item()) / stakes_count)
+            ep_excess_violations.append(int(current_excess_violations[idx].item()))
+            ep_modes.append(mode_name)
+            completed_episodes += 1
 
-        ep_returns.append(ep_ret)
-        ep_successes.append(success)
-        ep_failures.append(timeout or crashed)
-        ep_avg_stakes.append(sum(stakes_seen) / max(1, len(stakes_seen)))
-        ep_excess_violations.append(excess_violations)
+            active[idx] = False
+            mode_ids[idx] = -1
+            deon_episode_indices[idx] = -1
+            deon_episode_counts[idx] = 0
+            current_returns[idx] = 0.0
+            current_successes[idx] = False
+            current_crashed[idx] = False
+            current_stakes_sum[idx] = 0.0
+            current_stakes_count[idx] = 0
+            current_excess_violations[idx] = 0
+            ou_noise.reset_idx(idx_t)
+            ou_noise.decay()
 
-        if (ep + 1) % LOG_INTERVAL == 0:
-            idx0 = max(0, len(ep_returns) - LOG_INTERVAL)
-            pre_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "pre"]
-            util_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "util"]
-            deon_idx = [i for i in range(idx0, len(ep_returns)) if ep_modes[i] == "deon"]
-
-            avg_ret = sum(ep_returns[idx0:]) / (len(ep_returns) - idx0)
-            succ_rate = sum(ep_successes[idx0:]) / (len(ep_successes) - idx0)
-            fail_rate = sum(ep_failures[idx0:]) / (len(ep_failures) - idx0)
-            avg_s_util = (
-                sum(ep_avg_stakes[i] for i in util_idx) / max(1, len(util_idx))
-            )
-            excess_util = sum(ep_excess_violations[i] for i in util_idx)
-            deon_fail = (
-                sum(1 for i in deon_idx if ep_failures[i]) / max(1, len(deon_idx))
-            )
-
-            best_note = ""
-            if not in_pretrain and succ_rate >= best_success_rate:
-                best_success_rate = succ_rate
-                save_best_checkpoints(agent)
-                best_note = " | saved best"
-            best_success_display = "n/a" if best_success_rate < 0.0 else f"{best_success_rate:.0%}"
-
-            print(
-                f"Ep {ep + 1:>4}/{args.episodes} | "
-                f"Phase={'PRE' if in_pretrain else 'CDDP'} | "
-                f"Ret={avg_ret:+7.2f} | "
-                f"Succ={succ_rate:.0%} | Fail={fail_rate:.0%} | "
-                f"BestSucc={best_success_display} | "
-                f"StrictFail={deon_fail:.0%} | "
-                f"AvgS_odd={avg_s_util:.3f} | "
-                f"ExcessViol_odd={excess_util:>3} | "
-                f"PreEps={len(pre_idx):>2} | "
-                f"Buf(deon/util)={len(deontic_buffer)}/{len(utilitarian_buffer)} | "
-                f"OU_sigma={ou_noise.sigma:.3f} | "
-                f"Lfree={last_loss_z_free:.3f} Lact={last_loss_actor:.3f} "
-                f"Ldeon={last_loss_z_deon:.3f}"
-                f"{best_note}"
-            )
+        maybe_start_cddp_phase()
+        launch_slots(torch.where(~active)[0])
+        log_progress(force=completed_episodes >= args.episodes)
 
     print("\n" + "=" * 78)
     print("  Saving Checkpoints and CDDP Trajectory Visualization")
@@ -866,7 +921,15 @@ def train(args: argparse.Namespace) -> None:
     else:
         print("  No best CDDP checkpoint found; using current weights for final artifacts.")
     save_checkpoints(agent)
-    plot_cddp_trajectories(env, agent)
+
+    # Generate the final artifact using the external helper plotter.
+    plot_generated = False
+    try:
+        plot_best()
+        plot_generated = True
+    except Exception as e:
+        print(f"  Warning: Could not generate trajectory plot: {e}")
+
     print(f"  Saved actor/Z_free/Z_deon checkpoints to: {CHECKPOINT_DIR}")
     min_eval_steps, tight_eval_steps = eval_clock_config()
     print(
@@ -874,7 +937,8 @@ def train(args: argparse.Namespace) -> None:
         f"tight={tight_eval_steps} steps, "
         f"long={LONG_CLOCK_STEPS} steps."
     )
-    print(f"  Saved trajectory plot to: {TRAJECTORY_PLOT_PATH}")
+    if plot_generated:
+        print(f"  Saved trajectory plot to: {TRAJECTORY_PLOT_PATH}")
 
     print("\nPhase 5 complete.")
 

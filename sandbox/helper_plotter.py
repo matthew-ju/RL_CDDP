@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import sys
+import importlib
 
 os.environ.setdefault("MPLCONFIGDIR", os.path.join("/private", "tmp", "cddp_rl_matplotlib"))
 
@@ -22,40 +23,33 @@ REPO_ROOT = os.path.abspath(os.path.join(ROOT_DIR, ".."))
 sys.path.insert(0, REPO_ROOT)
 sys.path.insert(0, ROOT_DIR)
 
-from train_sandbox_cddp import (  # noqa: E402
-    ALPHA_CDDP,
-    CHECKPOINT_DIR,
-    DEVICE,
-    EVAL_START_STATE,
-    GAMMA_CBF,
-    GOAL,
-    LONG_CLOCK_STEPS,
-    OBS_C,
-    OBS_R,
-    TAU_CDDP,
-    CDDPAgent,
-    eval_clock_config,
-    make_env,
-)
-
 
 PLOT_PATH = os.path.join(ROOT_DIR, "cddp_trajectories.png")
-START_STATE = EVAL_START_STATE
 
 
-def load_best_agent() -> tuple[CDDPAgent, object]:
-    env = make_env()
-    agent = CDDPAgent(env)
+def _train_module():
+    required = ("CDDPAgent", "make_env", "CHECKPOINT_DIR", "DEVICE")
+    for module_name in ("__main__", "train_sandbox_cddp", "sandbox.train_sandbox_cddp"):
+        module = sys.modules.get(module_name)
+        if module is not None and all(hasattr(module, name) for name in required):
+            return module
+    return importlib.import_module("train_sandbox_cddp")
+
+
+def load_best_agent() -> tuple[object, object]:
+    cddp = _train_module()
+    env = cddp.make_env()
+    agent = cddp.CDDPAgent(env)
 
     try:
         agent.actor.load_state_dict(
-            torch.load(os.path.join(CHECKPOINT_DIR, "cddp_actor_best.pt"), map_location=DEVICE)
+            torch.load(os.path.join(cddp.CHECKPOINT_DIR, "cddp_actor_best.pt"), map_location=cddp.DEVICE)
         )
         agent.z_free.load_state_dict(
-            torch.load(os.path.join(CHECKPOINT_DIR, "cddp_z_free_best.pt"), map_location=DEVICE)
+            torch.load(os.path.join(cddp.CHECKPOINT_DIR, "cddp_z_free_best.pt"), map_location=cddp.DEVICE)
         )
         agent.z_deon.load_state_dict(
-            torch.load(os.path.join(CHECKPOINT_DIR, "cddp_z_deon_best.pt"), map_location=DEVICE)
+            torch.load(os.path.join(cddp.CHECKPOINT_DIR, "cddp_z_deon_best.pt"), map_location=cddp.DEVICE)
         )
     except RuntimeError as exc:
         raise RuntimeError(
@@ -70,12 +64,14 @@ def load_best_agent() -> tuple[CDDPAgent, object]:
 
 @torch.no_grad()
 def rollout(
-    agent: CDDPAgent,
+    agent: object,
     env: object,
     clock_max_steps: int,
     rollout_cap: int,
 ) -> tuple[list[tuple[float, float]], list[float]]:
-    s0 = torch.tensor([START_STATE], dtype=torch.float32, device=DEVICE)
+    cddp = _train_module()
+    start_state = cddp.EVAL_START_STATE
+    s0 = torch.tensor([start_state], dtype=torch.float32, device=cddp.DEVICE)
     env.reset(s0, max_steps=clock_max_steps)
 
     traj: list[tuple[float, float]] = [tuple(env.state[0, :2].detach().cpu().tolist())]
@@ -85,14 +81,7 @@ def rollout(
         s = env.state.detach()
         u_nom = agent.actor(s)
         stake = agent.stakes_from_deon(s, detach=True)
-        u_safe = env.project_action_cbf(
-            s,
-            u_nom,
-            stakes=stake,
-            gamma=GAMMA_CBF,
-            tau=TAU_CDDP,
-            alpha_prime=ALPHA_CDDP,
-        )
+        u_safe = agent.safe_action(s, u_nom, stakes=stake)
 
         out = env.step(u_safe)
         stakes.append(stake.item())
@@ -113,6 +102,7 @@ def add_colored_path(
     label: str,
     linestyle: str,
     linewidth: float,
+    cmap_name: str = "plasma",
 ) -> LineCollection | None:
     if len(traj) < 2:
         return None
@@ -120,12 +110,12 @@ def add_colored_path(
     segments = [[traj[i], traj[i + 1]] for i in range(len(traj) - 1)]
     lc = LineCollection(
         segments,
-        cmap=plt.cm.plasma,
+        cmap=plt.get_cmap(cmap_name),
         norm=plt.Normalize(0.0, 1.0),
         linewidth=linewidth,
         linestyles=linestyle,
         label=label,
-        alpha=0.6,
+        alpha=0.8,
     )
     lc.set_array(torch.tensor(stakes, dtype=torch.float32).numpy())
     ax.add_collection(lc)
@@ -134,31 +124,43 @@ def add_colored_path(
 
 def trajectory_midpoint(traj: list[tuple[float, float]]) -> tuple[float, float]:
     if not traj:
-        return (START_STATE[0], START_STATE[1])
+        start_state = _train_module().EVAL_START_STATE
+        return (start_state[0], start_state[1])
     return traj[len(traj) // 2]
 
 
 def decorate_axes(ax: plt.Axes) -> None:
-    obstacle = plt.Circle(tuple(OBS_C.tolist()), OBS_R, color="red", alpha=0.28, label="Friction zone")
+    cddp = _train_module()
+    start_state = cddp.EVAL_START_STATE
+
+    obstacle = plt.Circle(tuple(cddp.OBS_C.tolist()), cddp.OBS_R, color="red", alpha=0.28)
     ax.add_patch(obstacle)
-    ax.plot(GOAL[0].item(), GOAL[1].item(), "g*", markersize=16, label="Goal")
-    ax.plot(START_STATE[0], START_STATE[1], "ks", markersize=7, label="Start")
-    ax.set_xlim(0.0, 5.0)
-    ax.set_ylim(0.0, 5.0)
+
+    # Plot goal as a circle matching the exact physics hit-box.
+    goal_hitbox = plt.Circle(tuple(cddp.GOAL.tolist()), cddp.GOAL_TOL, color="green", alpha=0.4)
+    ax.add_patch(goal_hitbox)
+
+    ax.plot(start_state[0], start_state[1], "ks", markersize=7)
+
+    # Expand view to see out-of-bounds maneuvers.
+    ax.set_xlim(-2.0, 6.0)
+    ax.set_ylim(-2.0, 6.0)
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.grid(True, alpha=0.25)
 
+
 def plot_best() -> None:
+    cddp = _train_module()
     agent, env = load_best_agent()
-    min_steps, tight_steps = eval_clock_config()
+    min_steps, tight_steps = cddp.eval_clock_config()
 
     long_traj, long_stakes = rollout(
         agent,
         env,
-        clock_max_steps=LONG_CLOCK_STEPS,
-        rollout_cap=LONG_CLOCK_STEPS,
+        clock_max_steps=cddp.LONG_CLOCK_STEPS,
+        rollout_cap=cddp.LONG_CLOCK_STEPS,
     )
     tight_traj, tight_stakes = rollout(
         agent,
@@ -167,55 +169,61 @@ def plot_best() -> None:
         rollout_cap=tight_steps,
     )
 
-    fig, ax = plt.subplots(figsize=(7, 7))
+    fig, ax = plt.subplots(figsize=(8, 7))
     decorate_axes(ax)
 
     long_lc = add_colored_path(
         ax,
         long_traj,
         long_stakes,
-        f"Long clock max_steps={LONG_CLOCK_STEPS}",
+        "",
         "dashed",
         2.6,
+        cmap_name="Blues",
     )
     tight_lc = add_colored_path(
         ax,
         tight_traj,
         tight_stakes,
-        f"Tight clock max_steps={tight_steps}",
+        "",
         "solid",
         3.0,
+        cmap_name="Reds",
     )
-    colorbar_source = tight_lc if tight_lc is not None else long_lc
-    if colorbar_source is not None:
-        plt.colorbar(colorbar_source, ax=ax, label="Stakes S(s)")
+    if long_lc is not None:
+        cbar_long = plt.colorbar(long_lc, ax=ax, fraction=0.046, pad=0.04)
+        cbar_long.set_label("Stakes S(s) - Long Clock")
 
-    long_mid = trajectory_midpoint(long_traj)
-    tight_mid = trajectory_midpoint(tight_traj)
-    ax.annotate(
-        "Long Clock",
-        xy=long_mid,
-        xytext=(max(0.15, long_mid[0] - 0.9), min(4.85, long_mid[1] + 0.8)),
-        arrowprops={"arrowstyle": "->", "color": "black", "lw": 1.4},
-        fontsize=12,
-        bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "black", "alpha": 0.85},
-    )
-    ax.annotate(
-        "Tight Clock",
-        xy=tight_mid,
-        xytext=(min(4.65, tight_mid[0] + 0.45), max(0.15, tight_mid[1] - 0.65)),
-        arrowprops={"arrowstyle": "->", "color": "black", "lw": 1.4},
-        fontsize=12,
-        bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "black", "alpha": 0.85},
-    )
+    if tight_lc is not None:
+        cbar_tight = plt.colorbar(tight_lc, ax=ax, fraction=0.046, pad=0.04)
+        cbar_tight.set_label("Stakes S(s) - Tight Clock")
 
     ax.set_title(f"CDDP Spatio-Temporal Adaptation (min={min_steps}, tight={tight_steps})")
-    ax.legend(loc="upper left")
+
+    # Add direct text labels to the plot instead of a legend.
+    if len(long_traj) > 5:
+        ax.text(
+            long_traj[5][0],
+            long_traj[5][1] + 0.3,
+            "Long Clock",
+            color="blue",
+            fontsize=11,
+            fontweight="bold",
+        )
+    if len(tight_traj) > 5:
+        ax.text(
+            tight_traj[5][0],
+            tight_traj[5][1] - 0.3,
+            "Tight Clock",
+            color="red",
+            fontsize=11,
+            fontweight="bold",
+        )
 
     fig.tight_layout()
     fig.savefig(PLOT_PATH, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    print(f"Annotated plot saved to {PLOT_PATH}")
+    print(f"Plot saved to {PLOT_PATH}")
 
 
 if __name__ == "__main__":
