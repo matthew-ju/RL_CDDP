@@ -1,0 +1,58 @@
+==============================================================================
+  Phase 5: CDDP-DDPG with Checkpointing and Trajectory Visualization
+  Plane=[0.0, 10.0]^2  GoalZone=[[8.0, 8.0], [10.0, 10.0]]  Obstacles=5
+  Success=sampled goal tolerance  GoalTol=0.400  TimerCurriculum=compression
+  Episodes=2000  Pretrain=10000  VectorEnvs=128  MaxSteps=[tight 420, long 2500]
+  Learner: batch=512  train_every=12 vector steps  gradient_steps=3  replay_cap=500000
+  Gamma_CBF=0.7  Gamma_RL=0.99  P_ref=0.35
+  Reward constants: goal_capture_shaping=True goal_distance_penalty=0.02 near_goal_radius=1.0 near_goal_bonus_scale=0.5 action_penalty=0.0
+  Hard CBF bypass allowed=False
+  Pre-training: all episodes strict S=0 -> utilitarian_buffer only
+  CDDP phase: even strict -> deontic_buffer, odd dynamic -> utilitarian_buffer (deontic exploration noise=False)
+  Run artifacts: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf
+==============================================================================
+  [checkpoint] Saved full resume snapshot at episode 0 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints/ep0000000
+Ep  100/2000 | Phase=PRE | Ret=-982.99 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=218573/0/0 | Rate=1.18eps/s 3654steps/s 1.2upd/s ETA=26m48s | OU_sigma=0.348 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  200/2000 | Phase=PRE | Ret=-1005.65 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=362626/0/0 | Rate=1.28eps/s 3719steps/s 4.1upd/s ETA=23m26s | OU_sigma=0.347 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  300/2000 | Phase=PRE | Ret=-1007.65 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=325791/0/0 | Rate=1.33eps/s 3749steps/s 5.1upd/s ETA=21m15s | OU_sigma=0.345 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  401/2000 | Phase=PRE | Ret=-1003.57 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=298050/0/0 | Rate=1.37eps/s 3764steps/s 5.6upd/s ETA=19m24s | OU_sigma=0.343 | Lfree=nan Lact=nan Ldeon=0.000
+[Z_deon diag ep=500] mean_P_cat=1.000 frac>0.8=1.000 label_pos_rate=1.000
+  [checkpoint] Saved full resume snapshot at episode 500 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints/ep0000500
+Ep  500/2000 | Phase=PRE | Ret=-990.72 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=416061/0/0 | Rate=1.56eps/s 3749steps/s 5.8upd/s ETA=16m00s | OU_sigma=0.341 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  601/2000 | Phase=PRE | Ret=-946.75 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=394229/0/0 | Rate=1.57eps/s 3747steps/s 6.0upd/s ETA=14m51s | OU_sigma=0.340 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  701/2000 | Phase=PRE | Ret=-930.10 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=360262/0/0 | Rate=1.57eps/s 3746steps/s 6.2upd/s ETA=13m48s | OU_sigma=0.338 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  800/2000 | Phase=PRE | Ret=-944.19 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=341716/0/0 | Rate=1.58eps/s 3743steps/s 6.3upd/s ETA=12m40s | OU_sigma=0.336 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  900/2000 | Phase=PRE | Ret=-909.93 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=384728/0/0 | Rate=1.64eps/s 3732steps/s 6.4upd/s ETA=11m12s | OU_sigma=0.335 | Lfree=nan Lact=nan Ldeon=0.000
+[Z_deon diag ep=1000] mean_P_cat=1.000 frac>0.8=1.000 label_pos_rate=1.000
+  [checkpoint] Saved full resume snapshot at episode 1000 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints/ep0001000
+Ep 1000/2000 | Phase=PRE | Ret=-862.12 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=386647/0/0 | Rate=1.67eps/s 3727steps/s 6.4upd/s ETA=10m00s | OU_sigma=0.333 | Lfree=nan Lact=nan Ldeon=0.000
+Ep 1100/2000 | Phase=PRE | Ret=-834.10 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=374929/0/0 | Rate=1.68eps/s 3716steps/s 6.5upd/s ETA=8m54s | OU_sigma=0.331 | Lfree=nan Lact=nan Ldeon=0.000
+Ep 1200/2000 | Phase=PRE | Ret=-836.10 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=387859/0/0 | Rate=1.71eps/s 3697steps/s 6.5upd/s ETA=7m47s | OU_sigma=0.330 | Lfree=nan Lact=nan Ldeon=0.000
+Ep 1300/2000 | Phase=PRE | Ret=-796.98 | Succ=1% | Fail=99% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=388159/0/0 | Rate=1.73eps/s 3678steps/s 6.5upd/s ETA=6m44s | OU_sigma=0.328 | Lfree=nan Lact=nan Ldeon=0.016
+Ep 1400/2000 | Phase=PRE | Ret=-787.56 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=386510/0/0 | Rate=1.75eps/s 3663steps/s 6.5upd/s ETA=5m43s | OU_sigma=0.326 | Lfree=nan Lact=nan Ldeon=0.001
+[Z_deon diag ep=1500] mean_P_cat=1.000 frac>0.8=1.000 label_pos_rate=1.000
+  [checkpoint] Saved full resume snapshot at episode 1500 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints/ep0001500
+Ep 1500/2000 | Phase=PRE | Ret=-728.57 | Succ=1% | Fail=99% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=398934/0/0 | Rate=1.78eps/s 3646steps/s 6.5upd/s ETA=4m41s | OU_sigma=0.325 | Lfree=nan Lact=nan Ldeon=0.000
+Ep 1600/2000 | Phase=PRE | Ret=-663.36 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=383957/0/0 | Rate=1.80eps/s 3634steps/s 6.5upd/s ETA=3m41s | OU_sigma=0.323 | Lfree=nan Lact=nan Ldeon=0.002
+Ep 1700/2000 | Phase=PRE | Ret=-756.05 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=392948/0/0 | Rate=1.83eps/s 3624steps/s 6.5upd/s ETA=2m44s | OU_sigma=0.321 | Lfree=nan Lact=nan Ldeon=0.001
+Ep 1800/2000 | Phase=PRE | Ret=-714.59 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=128/128 | Buf(deon/tight/loose)=384796/0/0 | Rate=1.85eps/s 3615steps/s 6.5upd/s ETA=1m48s | OU_sigma=0.320 | Lfree=nan Lact=nan Ldeon=0.000
+Ep 1900/2000 | Phase=PRE | Ret=-730.94 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=100/128 | Buf(deon/tight/loose)=392893/0/0 | Rate=1.86eps/s 3587steps/s 6.5upd/s ETA=53s | OU_sigma=0.318 | Lfree=nan Lact=nan Ldeon=0.000
+[Z_deon diag ep=2000] mean_P_cat=1.000 frac>0.8=1.000 label_pos_rate=1.000
+  [checkpoint] Saved full resume snapshot at episode 2000 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints/ep0002000
+
+==============================================================================
+  Seed phase complete after 2000 episodes. Starting pre-training.
+==============================================================================
+Ep 2000/2000 | Phase=PRE | Ret=-779.21 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active= 0/128 | Buf(deon/tight/loose)=500000/0/0 | Rate=1.81eps/s 3383steps/s 6.4upd/s ETA=0s | OU_sigma=0.350 | Lfree=nan Lact=nan Ldeon=0.000
+
+==============================================================================
+  Saving Checkpoints and CDDP Trajectory Visualization
+==============================================================================
+  No best CDDP checkpoint found; using current weights for final artifacts.
+Plot saved to /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/cddp_trajectories.png
+Evaluation logs saved to /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/cddp_eval_log.json and /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/cddp_eval_log.csv
+  Saved actor/Z_free/Z_deon checkpoints to: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/checkpoints
+  Eval clock calibration: tight=420 steps, long=2500 steps.
+  Saved trajectory plot to: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_perf/cddp_trajectories.png
+
+Phase 5 complete.

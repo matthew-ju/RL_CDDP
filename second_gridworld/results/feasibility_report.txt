@@ -1,0 +1,11 @@
+=== FEASIBILITY REPORT ===
+Tight clock (420 steps): 0/200 = 0.0%
+  Avg min_dist when fail:  2.77, max: 4.36
+Loose clock (2500 steps): 200/200 = 100.0%
+  Avg steps when success: 507.2, min: 441.0
+
+VERDICT:
+  INFEASIBLE (0.0% < 30% threshold)
+  A greedy max-thrust CBF-safe controller cannot reliably solve 420-step episodes.
+  RL policy cannot be expected to do better.
+  ACTION: Remove tight-clock. Train on long-clock only (Phase 1A).

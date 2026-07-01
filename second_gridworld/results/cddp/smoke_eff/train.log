@@ -1,0 +1,37 @@
+==============================================================================
+  Phase 5: CDDP-DDPG with Checkpointing and Trajectory Visualization
+  Plane=[0.0, 10.0]^2  GoalZone=[[8.0, 8.0], [10.0, 10.0]]  Obstacles=5
+  Success=sampled goal tolerance  GoalTol=0.400  TimerCurriculum=bimodal
+  Episodes=500  Pretrain=10000  VectorEnvs=64  MaxSteps=[tight 420, long 2500]
+  Learner: batch=512  train_every=12 vector steps  gradient_steps=3  replay_cap=500000
+  Gamma_CBF=0.7  Gamma_RL=0.99  P_ref=0.35
+  Reward constants: goal_capture_shaping=True goal_distance_penalty=0.02 near_goal_radius=1.0 near_goal_bonus_scale=0.5 action_penalty=0.0
+  Hard CBF bypass allowed=False
+  Pre-training: all episodes strict S=0 -> utilitarian_buffer only
+  CDDP phase: even strict -> deontic_buffer, odd dynamic -> utilitarian_buffer (deontic exploration noise=False)
+  Run artifacts: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff
+==============================================================================
+  [checkpoint] Saved full resume snapshot at episode 0 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/checkpoints/ep0000000
+Ep  100/500 | Phase=PRE | Ret=-2159.25 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=64/64 | Buf(deon/util)=85708/0 | Rate=0.92eps/s 1607steps/s 5.5upd/s ETA=7m13s | OU_sigma=0.348 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  200/500 | Phase=PRE | Ret=-3485.35 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=64/64 | Buf(deon/util)=211667/0 | Rate=1.06eps/s 1649steps/s 6.0upd/s ETA=4m42s | OU_sigma=0.347 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  300/500 | Phase=PRE | Ret=-3984.23 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=64/64 | Buf(deon/util)=355477/0 | Rate=1.17eps/s 1658steps/s 6.2upd/s ETA=2m50s | OU_sigma=0.345 | Lfree=nan Lact=nan Ldeon=0.000
+Ep  400/500 | Phase=PRE | Ret=-4012.89 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active=64/64 | Buf(deon/util)=409343/0 | Rate=1.13eps/s 1672steps/s 6.3upd/s ETA=1m28s | OU_sigma=0.343 | Lfree=nan Lact=nan Ldeon=0.000
+[Z_deon diag ep=500] mean_P_cat=1.000 frac>0.8=1.000 label_pos_rate=1.000
+  [checkpoint] Saved full resume snapshot at episode 500 → /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/checkpoints/ep0000500
+
+==============================================================================
+  Seed phase complete after 500 episodes. Starting pre-training.
+==============================================================================
+Ep  500/500 | Phase=PRE | Ret=-5207.21 | Succ=0% | Fail=100% | BestScore=n/a | BestUtilSucc=n/a | BestUtilPExcess=n/a | BestUtilAvgViol=n/a | BestAvgGoalZoneSteps=n/a | StrictFail=0% | AvgS_odd=0.000 | ExcessViol_odd=  0 | PreEps= 0 | Active= 0/64 | Buf(deon/util)=476893/0 | Rate=1.00eps/s 1428steps/s 6.3upd/s ETA=0s | OU_sigma=0.350 | Lfree=nan Lact=nan Ldeon=0.000
+
+==============================================================================
+  Saving Checkpoints and CDDP Trajectory Visualization
+==============================================================================
+  No best CDDP checkpoint found; using current weights for final artifacts.
+Plot saved to /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/cddp_trajectories.png
+Evaluation logs saved to /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/cddp_eval_log.json and /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/cddp_eval_log.csv
+  Saved actor/Z_free/Z_deon checkpoints to: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/checkpoints
+  Eval clock calibration: tight=420 steps, long=2500 steps.
+  Saved trajectory plot to: /Users/matthewju/Downloads/CDDP_RL/second_gridworld/results/cddp/smoke_eff/cddp_trajectories.png
+
+Phase 5 complete.

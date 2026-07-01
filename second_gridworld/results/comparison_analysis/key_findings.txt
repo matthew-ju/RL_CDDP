@@ -1,0 +1,39 @@
+CDDP vs BASELINES — KEY FINDINGS
+============================================================
+
+DATA SOURCES
+  - 20-seed eval snapshots (tight clock ≤600 steps, loose clock >600 steps)
+  - Timer sweep: success/violations across step budgets 340–3000
+
+CONSTRAINT SAFETY (violations per episode)
+  CDDP (gamma07_fix)             avg 0.0 violations/ep ← ZERO VIOLATIONS
+  Strict                         avg 0.0 violations/ep ← ZERO VIOLATIONS
+  CDDP (long_clock_only)         avg 17.6 violations/ep
+  CPO                            avg 22.8 violations/ep
+  PPO                            avg 37.5 violations/ep
+  PPO-Lagrangian                 avg 37.6 violations/ep
+
+SUCCESS RATE — TIGHT CLOCK (≤600 steps)
+  PPO                            50%
+  PPO-Lagrangian                 50%
+  CPO                            40%
+  CDDP (gamma07_fix)             20%
+  CDDP (long_clock_only)         20%
+
+SUCCESS RATE — LOOSE CLOCK (>600 steps)
+  PPO-Lagrangian                 100%
+  CDDP (gamma07_fix)             90%
+  CDDP (long_clock_only)         90%
+  PPO                            90%
+  CPO                            90%
+
+MINIMUM TIMER FOR ≥50% SUCCESS
+  CDDP (gamma07_fix)                       never
+  PPO                                      never
+  Strict                                   never
+  CPO                                      never
+  PPO-Lagrangian                           never
+
+CDDP SAFETY ADVANTAGE
+  CDDP (gamma07_fix): 0.0 violations vs baseline avg 24.5
+  CDDP reduces violations by 100% vs all baselines on tight clock

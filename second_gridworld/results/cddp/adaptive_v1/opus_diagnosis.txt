@@ -1,0 +1,189 @@
+Good — `run_baseline_timer_comparison.py` is not called in the post-training pipeline. The pipeline is: training → `plot_best()` (helper_plotter) → `compare_with_baselines.py` → `analyze_adaptive_results.py`. So fixing `train_sandbox_cddp.py` and `helper_plotter.py` covers the critical path.
+
+Now I have everything needed for the complete diagnosis and solution. Here it is:
+
+---DIAGNOSIS---
+
+## PRIMARY HYPOTHESIS: Train/Eval Clock Encoding Mismatch (Confidence: HIGH)
+
+**The actor and Z_deon were trained on one state representation but evaluated on a completely different one.** This is a data bug, not a learning failure.
+
+During **training** (`train_sandbox_cddp.py:1531,1747-1750`):
+- `state[4]` is initialized to `1.0` (line 1531 overwrites the `/1000.0` on line 1528)
+- Each step: `state[4] = remaining_steps / max_episode_steps` → normalized ∈ [0, 1]
+- A tight-clock (420 steps) and loose-clock (2500 steps) episode both start at `state[4]=1.0`
+
+During **evaluation** (`helper_plotter.py:366,405`):
+- `state[4] = remaining_steps / 1000.0` → raw absolute divided by 1000
+- Tight clock (420): starts at `0.42`, not `1.0`
+- Loose clock (2500): starts at `2.5`, not `1.0`
+
+**Evidence:**
+1. `BestUtilSucc=92%` — measured during training with correct clock encoding. The actor IS competent.
+2. Eval: `tight success=0%, loose success=10%` — measured with wrong clock encoding. The actor receives OOD inputs.
+3. Loose-clock `path_efficiency=0.38` — agent covers only 38% of the optimal path. With `state[4]=2.5` (completely OOD, training never produced values >1.0), the actor's output is unpredictable. The agent wanders aimlessly.
+4. Tight-clock `199 avg violations, 0% success` — `state[4]=0.42` at start. The actor interprets this as "58% of clock already spent" and Z_deon may predict high failure → stakes saturate → CBF fully relaxed → massive violations → but navigation is wrong → 0% success.
+5. Baseline PPO/CPO use `/1000.0` in both training AND eval (confirmed in `train_baselines_ppo.py:277,313` and `run_baseline_timer_comparison.py:138,199`). Their encodings are consistent → they work (50-100% success). CDDP's training diverged from this convention.
+
+## SECONDARY ISSUE WITHIN THE PRIMARY: Normalized Clock Blinds Z_deon (Confidence: MEDIUM)
+
+Even correcting the eval to match training's normalized encoding would not produce true adaptive behavior. With normalized `state[4] = remaining / max_episode_steps`, the state `(pos=(5,5), clock=0.5)` is identical whether max_episode_steps is 420 (210 absolute steps left) or 2500 (1250 absolute steps left). Z_deon sees the same 5D input but the correct label differs — it learns an average → `mean_P_cat ≈ 0.50`, exactly matching the diagnostic data. The `Z_deon diag` shows `mean_P_cat` hovering at 0.47–0.55 throughout training, which is characteristic of a classifier receiving ambiguous/conflicting supervision.
+
+**Evidence:**
+- Z_deon `mean_P_cat` ≈ 0.50 across all diagnostic checkpoints (50000–59500)
+- `frac>0.8` only 6–32% — Z_deon rarely has high confidence
+- `label_pos_rate` drifts from 0.37 to 0.63 as compression curriculum adds more tight-clock episodes, but Z_deon `mean_P_cat` barely tracks it
+
+## ALTERNATIVE HYPOTHESIS 1: Late-Training Death Spiral (Confidence: MEDIUM, but secondary)
+
+From ep ~57800, returns collapsed from ~500 to ~100, `AvgS_odd` climbed to 0.85+, and `ExcessViol_odd` spiked to 31230. This suggests a feedback loop: more tight-clock episodes → more failures → Z_deon predicts higher → stakes higher → CBF more relaxed → more violations → actor gradients degrade (`Lact` went from -35 to +7.283).
+
+**Evidence:** training log shows clear correlated degradation of returns, success rate, and actor loss magnitude from ep 57800. But note: the best checkpoint was captured before this collapse (`BestScore` frozen since much earlier), so the collapse doesn't affect the eval model. The collapse IS evidence that the normalized clock creates unstable training dynamics — the actor can't distinguish tight vs loose episodes and gets conflicting gradients as the curriculum compresses.
+
+## ALTERNATIVE HYPOTHESIS 2: No Obstacle Penalties → Actor Can't Navigate With CBF (Confidence: LOW)
+
+Without obstacle penalties, the actor might only learn "go straight to goal" and get stuck at CBF boundaries. However, `BestUtilSucc=92%` disproves this — the actor IS competent at navigation during training (where 10K pre-training episodes under strict S=0 taught it CBF-compatible paths). The hypothesis is wrong as the primary cause.
+
+**[UNCERTAIN: I cannot directly verify that the baseline runs (gamma07_fix with 90% loose success) used a different code version without the clock mismatch, or whether they too had the mismatch but happened to be more robust to OOD clock inputs. The git history would clarify this, but I have not checked it.]**
+
+---SOLUTION CHOSEN---
+
+## Solution: Fixed-Denominator Absolute Clock Encoding
+
+**Mechanism:** Change `state[4]` encoding from per-episode normalized (`remaining / max_episode_steps`) to absolute-time normalized (`remaining / LONG_CLOCK_STEPS`), using the maximum clock budget (2500) as a fixed denominator in both training and evaluation.
+
+**What this achieves:**
+- Tight clock (420 steps): `state[4]` starts at `420/2500 = 0.168`, decreases to 0.0
+- Loose clock (2500 steps): `state[4]` starts at `2500/2500 = 1.0`, decreases to 0.0
+- All values remain ∈ [0, 1] — within the range neural networks expect
+- Z_deon now sees different starting clock values for tight vs loose episodes → can learn `"state[4] < 0.3 at start → tight clock → high P(failure under strict CBF)"` → correct stakes
+- Actor now knows absolute time pressure → can adopt different strategies for tight vs loose
+- Training and eval use identical encoding → no OOD inputs
+
+**Code changes:**
+1. `train_sandbox_cddp.py:1528`: Change `/1000.0` → `/float(LONG_CLOCK_STEPS)` 
+2. `train_sandbox_cddp.py:1530-1531`: Remove the override that sets `starts[:, 4] = 1.0`
+3. `train_sandbox_cddp.py:1747-1750`: Change normalization from `/ _ems_active` to `/ float(LONG_CLOCK_STEPS)`
+4. `helper_plotter.py:366`: Change `/1000.0` → `/float(cddp.LONG_CLOCK_STEPS)`
+5. `helper_plotter.py:405`: Change `/1000.0` → `/float(cddp.LONG_CLOCK_STEPS)`
+
+**Why this is more robust than the alternatives:**
+
+*Alternative A (just fix eval to match training's normalized encoding)* fixes the OOD problem but leaves Z_deon blind to absolute time — it still can't distinguish tight from loose clocks, so stakes will remain ~0.5/P_REF everywhere and the adaptive mechanism won't engage. 
+
+*Alternative B (change encoding to `/1000.0` everywhere)* works but produces `state[4]` values up to 2.5 for loose clocks, which is less clean than the [0, 1] range from `/LONG_CLOCK_STEPS`.
+
+**NICK:** The actor was previously trained on normalized clock values ∈ [0, 1] where all episodes started at 1.0. Now tight-clock episodes start at 0.168. The actor must learn FROM SCRATCH that `state[4] = 0.168` means "tight clock, need to be efficient" rather than "almost out of time." This requires the full training run to establish the new mapping, but the compression curriculum should handle this naturally (early training uses long clocks → state[4] ≈ 1.0, then gradually introduces tighter clocks with lower state[4]).
+
+**What to monitor:**
+- `mean_P_cat` should diverge by clock type: high for tight-clock states, low for loose-clock states. The aggregate `mean_P_cat` may still be ~0.5, but `frac>0.8` should increase beyond 30%.
+- `AvgS_odd` on utilitarian episodes should correlate with episode clock budget, not hover at a single value.
+- `BestUtilSucc` should remain >80% — the actor should still navigate well.
+- The late-training collapse should not recur because the actor now receives unambiguous time-pressure information.
+
+**Early warning (nick):**
+- If `BestUtilSucc` drops below 60% during training, the absolute clock encoding may be confusing the actor. Check whether the actor is learning "low state[4] = give up" instead of "low state[4] = be efficient."
+- If `AvgS_odd` saturates at 1.0 early (before ep 30K), the compression curriculum may be interacting badly with the new encoding — Z_deon sees mostly low clock values and predicts high P(failure) everywhere.
+
+---CLAUDE CODE PROMPT---
+
+```
+# CDDP Fix: Train/eval clock encoding mismatch + Z_deon absolute time blindness
+#
+# ROOT CAUSE: state[4] (clock feature) is encoded differently in training vs eval.
+#   Training: state[4] = remaining_steps / max_episode_steps → normalized [0,1] per episode
+#   Eval:     state[4] = remaining_steps / 1000.0 → absolute time / fixed constant
+# This causes the actor and Z_deon to receive completely OOD inputs during eval
+# (e.g. state[4]=2.5 for loose clocks, vs training range [0,1]).
+#
+# Additionally, the per-episode normalization means Z_deon cannot distinguish
+# tight-clock from loose-clock episodes (both start at state[4]=1.0), making
+# the stakes/adaptive mechanism fundamentally unable to differentiate.
+#
+# FIX: Use state[4] = remaining_steps / LONG_CLOCK_STEPS (=2500) everywhere.
+# Tight clock (420) starts at 0.168; loose clock (2500) starts at 1.0.
+# Z_deon gets absolute time information; eval matches training.
+#
+# CONSTRAINTS: Do NOT touch GAMMA_CBF, weighted-BCE Z_deon loss, or terminal rewards.
+
+# Step 1: Read the files we need to modify
+Read src/train_sandbox_cddp.py
+Read src/helper_plotter.py
+
+# Step 2: Fix training clock encoding in train_sandbox_cddp.py
+
+# 2a. Fix episode launch: change /1000.0 to /LONG_CLOCK_STEPS and remove the
+#     override that sets state[4]=1.0. Lines 1528-1531.
+#
+#     BEFORE:
+#         starts[:, 4] = clocks.to(device=DEVICE, dtype=starts.dtype) / 1000.0
+#
+#         # time_remaining_normalized = 1.0 at episode start (full budget)
+#         starts[:, 4] = 1.0
+#
+#     AFTER:
+#         starts[:, 4] = clocks.to(device=DEVICE, dtype=starts.dtype) / float(LONG_CLOCK_STEPS)
+
+Edit src/train_sandbox_cddp.py:
+  old: |
+        starts[:, 4] = clocks.to(device=DEVICE, dtype=starts.dtype) / 1000.0
+
+        # time_remaining_normalized = 1.0 at episode start (full budget)
+        starts[:, 4] = 1.0
+  new: |
+        starts[:, 4] = clocks.to(device=DEVICE, dtype=starts.dtype) / float(LONG_CLOCK_STEPS)
+
+# 2b. Fix per-step clock update. Lines 1746-1750.
+#
+#     BEFORE (normalizes by per-episode max_episode_steps):
+#         # Normalize clock to [0, 1]: 1.0=full budget, 0.0=expired
+#         next_state[active, 4] = (
+#             active_steps_remaining.to(dtype=next_state.dtype)
+#             / _ems_active.to(dtype=next_state.dtype).clamp(min=1.0)
+#         )
+#
+#     AFTER (normalizes by fixed LONG_CLOCK_STEPS):
+#         next_state[active, 4] = (
+#             active_steps_remaining.to(dtype=next_state.dtype)
+#             / float(LONG_CLOCK_STEPS)
+#         )
+
+Edit src/train_sandbox_cddp.py:
+  old: |
+        # Normalize clock to [0, 1]: 1.0=full budget, 0.0=expired
+        next_state[active, 4] = (
+            active_steps_remaining.to(dtype=next_state.dtype)
+            / _ems_active.to(dtype=next_state.dtype).clamp(min=1.0)
+        )
+  new: |
+        next_state[active, 4] = (
+            active_steps_remaining.to(dtype=next_state.dtype)
+            / float(LONG_CLOCK_STEPS)
+        )
+
+# Step 3: Fix eval clock encoding in helper_plotter.py
+
+# 3a. Fix initial state clock. Line 366.
+#     BEFORE: start_batch[:, 4] = float(clock_max_steps) / 1000.0
+#     AFTER:  start_batch[:, 4] = float(clock_max_steps) / float(cddp.LONG_CLOCK_STEPS)
+
+Edit src/helper_plotter.py:
+  old: "start_batch[:, 4] = float(clock_max_steps) / 1000.0"
+  new: "start_batch[:, 4] = float(clock_max_steps) / float(cddp.LONG_CLOCK_STEPS)"
+
+# 3b. Fix per-step clock update. Line 405.
+#     BEFORE: next_state[:, 4] = float(remaining_steps) / 1000.0
+#     AFTER:  next_state[:, 4] = float(remaining_steps) / float(cddp.LONG_CLOCK_STEPS)
+
+Edit src/helper_plotter.py:
+  old: "next_state[:, 4] = float(remaining_steps) / 1000.0"
+  new: "next_state[:, 4] = float(remaining_steps) / float(cddp.LONG_CLOCK_STEPS)"
+
+# Step 4: Launch training
+bash run_v2.sh adaptive_v2 --timer-curriculum compression --seed-episodes 3000 --pretrain-episodes 10000 --episodes 60000
+
+# Monitor: Z_deon frac>0.8 should climb above 0.30 by ep 40K (tight-clock states get confident high predictions). AvgS_odd should track clock budget: higher on tight episodes, lower on loose.
+# Early warning nick: If BestUtilSucc drops below 60% by ep 25K, the actor may be confused by the new clock range. If AvgS_odd saturates at 1.0 before ep 30K, Z_deon is over-predicting failure everywhere.
+```
+
+---END---

@@ -1,0 +1,29 @@
+Both code edits are done. Here's what was applied:
+
+**Step 2 — new constants at line ~145** (after `ALLOW_HARD_CBF_BYPASS = False`):
+```python
+GOAL_SEEK_BLEND = 0.3
+GOAL_SEEK_STAKES_THRESHOLD = 0.7
+```
+
+**Step 3 — goal-seeking blend injected in the training loop** (between the OU noise `clamp` and `u_nom[~active] = 0.0`):
+```python
+if announced_cddp_phase and GOAL_SEEK_BLEND > 0:
+    high_stakes_util = util_mask & (stakes > GOAL_SEEK_STAKES_THRESHOLD)
+    if high_stakes_util.any():
+        hs_pos = s_before[high_stakes_util, :2]
+        hs_goals = current_goals[high_stakes_util]
+        goal_dir = hs_goals - hs_pos
+        goal_dir = F.normalize(goal_dir, dim=-1) * U_MAX
+        u_nom[high_stakes_util] = (
+            (1.0 - GOAL_SEEK_BLEND) * u_nom[high_stakes_util]
+            + GOAL_SEEK_BLEND * goal_dir
+        )
+```
+
+**Steps 4 & 5 are ready to run — confirm before I execute them:**
+
+- Step 4 (irreversible): `rm -rf results/cddp/adaptive_v2/checkpoints`
+- Step 5: `bash run_v2.sh adaptive_v2 --timer-curriculum compression --seed-episodes 3000 --pretrain-episodes 10000 --episodes 60000`
+
+Should I go ahead?
