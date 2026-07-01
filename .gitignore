@@ -14,9 +14,13 @@ __pycache__/
 *.json
 *.pdf
 
-# Exception for final paper results which are tracked
+# Exception for tracked results
 !final_paper_results/
 !final_paper_results/**
+!summary_results/
+!summary_results/**
+!second_gridworld/results/
+!second_gridworld/results/**
 
 # Environment / IDE
 .env

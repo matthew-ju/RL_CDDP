@@ -1,0 +1,7040 @@
+[
+  {
+    "seed": 42,
+    "context_id": "seed-42",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.8822692632675171,
+    "start_y": 0.9150039553642273,
+    "goal_x": 8.765727996826172,
+    "goal_y": 9.918611526489258,
+    "total_reward": -598.8464076071978,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 10.774641488207607,
+    "min_distance_to_goal": 10.774641488207607,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 1.7168860636828214,
+    "straight_line_distance": 11.967199793541603,
+    "path_efficiency": 6.970293513753182,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 43,
+    "context_id": "seed-43",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.4539682865142822,
+    "start_y": 0.19649124145507812,
+    "goal_x": 9.842071533203125,
+    "goal_y": 8.692358016967773,
+    "total_reward": -684.9025453329086,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 12.523730715332567,
+    "min_distance_to_goal": 12.523730715332567,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.29308862487967974,
+    "straight_line_distance": 12.661604749704916,
+    "path_efficiency": 43.2006010294764,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 44,
+    "context_id": "seed-44",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.719590425491333,
+    "start_y": 0.7306768298149109,
+    "goal_x": 9.655607223510742,
+    "goal_y": 8.268697738647461,
+    "total_reward": -627.8965905606747,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 11.085731108308952,
+    "min_distance_to_goal": 11.085731108308952,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 1.2348582349135733,
+    "straight_line_distance": 11.690772234394174,
+    "path_efficiency": 9.467299082483263,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 45,
+    "context_id": "seed-45",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.1869475245475769,
+    "start_y": 0.961328387260437,
+    "goal_x": 9.366897583007812,
+    "goal_y": 9.797592163085938,
+    "total_reward": -632.2006681710482,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 11.729220410812161,
+    "min_distance_to_goal": 11.729220410812161,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 1.0928173997182917,
+    "straight_line_distance": 12.741704775727227,
+    "path_efficiency": 11.659500277916333,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 46,
+    "context_id": "seed-46",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.6610830426216125,
+    "start_y": 0.059986412525177,
+    "goal_x": 9.034855842590332,
+    "goal_y": 8.319257736206055,
+    "total_reward": -645.145850121975,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 11.396937950290145,
+    "min_distance_to_goal": 11.396937950290145,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.4627337720059733,
+    "straight_line_distance": 11.761616968073447,
+    "path_efficiency": 25.41767573411871,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 47,
+    "context_id": "seed-47",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.05304759740829468,
+    "start_y": 0.0499194860458374,
+    "goal_x": 8.935341835021973,
+    "goal_y": 9.751374244689941,
+    "total_reward": -756.3083516359329,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 13.932547930766283,
+    "min_distance_to_goal": 13.153454882940963,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.9037694956850347,
+    "straight_line_distance": 13.153454882940963,
+    "path_efficiency": 14.553992965840225,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 48,
+    "context_id": "seed-48",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.477508544921875,
+    "start_y": 0.17984312772750854,
+    "goal_x": 8.485513687133789,
+    "goal_y": 8.433280944824219,
+    "total_reward": -651.6219871640205,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 11.357317076188359,
+    "min_distance_to_goal": 11.357317076188359,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.3023729431273193,
+    "straight_line_distance": 11.499886180235636,
+    "path_efficiency": 38.032127019359045,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 49,
+    "context_id": "seed-49",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.046900391578674316,
+    "start_y": 0.27671319246292114,
+    "goal_x": 8.49565601348877,
+    "goal_y": 9.853453636169434,
+    "total_reward": -727.1765173077583,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 13.259178562242985,
+    "min_distance_to_goal": 12.770882079358554,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.7202002225638476,
+    "straight_line_distance": 12.770882079358554,
+    "path_efficiency": 17.732405071877608,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 50,
+    "context_id": "seed-50",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.6180219650268555,
+    "start_y": 0.06869316101074219,
+    "goal_x": 8.778550148010254,
+    "goal_y": 8.08082389831543,
+    "total_reward": -639.163986325264,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 11.123174982943091,
+    "min_distance_to_goal": 11.123174982943091,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 0.44701428391682924,
+    "straight_line_distance": 11.43627820477138,
+    "path_efficiency": 25.58369747061415,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 51,
+    "context_id": "seed-51",
+    "agent_profile": "Tight Clock Agent",
+    "timer": 420,
+    "max_steps": 420,
+    "start_x": 0.9872435331344604,
+    "start_y": 0.7403598427772522,
+    "goal_x": 8.8926362991333,
+    "goal_y": 8.71114730834961,
+    "total_reward": -597.4207745492458,
+    "constraint_violations": [],
+    "success": false,
+    "total_steps": 420,
+    "total_violations": 0,
+    "final_distance_to_goal": 10.347329345876169,
+    "min_distance_to_goal": 10.347329345876169,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 1.6057618603630837,
+    "straight_line_distance": 11.226249935131152,
+    "path_efficiency": 6.9912296538122725,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 42,
+    "context_id": "seed-42",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.8822692632675171,
+    "start_y": 0.9150039553642273,
+    "goal_x": 8.765727996826172,
+    "goal_y": 9.918611526489258,
+    "total_reward": -4215.527882114053,
+    "constraint_violations": [
+      {
+        "step": 438,
+        "obstacle": 1,
+        "x": 4.295985698699951,
+        "y": 5.029468536376953,
+        "distance": 0.7046307921409607,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 439,
+        "obstacle": 1,
+        "x": 4.306632995605469,
+        "y": 5.0443267822265625,
+        "distance": 0.6947824358940125,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 440,
+        "obstacle": 1,
+        "x": 4.317282676696777,
+        "y": 5.059192657470703,
+        "distance": 0.685278594493866,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 441,
+        "obstacle": 1,
+        "x": 4.327934741973877,
+        "y": 5.074066162109375,
+        "distance": 0.6761342287063599,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 442,
+        "obstacle": 1,
+        "x": 4.338588714599609,
+        "y": 5.088947296142578,
+        "distance": 0.6673653721809387,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 443,
+        "obstacle": 1,
+        "x": 4.349245071411133,
+        "y": 5.1038360595703125,
+        "distance": 0.6589869856834412,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 444,
+        "obstacle": 1,
+        "x": 4.359903335571289,
+        "y": 5.118732929229736,
+        "distance": 0.6510155200958252,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 445,
+        "obstacle": 1,
+        "x": 4.370563983917236,
+        "y": 5.133637428283691,
+        "distance": 0.6434661149978638,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 446,
+        "obstacle": 1,
+        "x": 4.381226539611816,
+        "y": 5.148549556732178,
+        "distance": 0.636354923248291,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 447,
+        "obstacle": 1,
+        "x": 4.3918914794921875,
+        "y": 5.163469314575195,
+        "distance": 0.6296969056129456,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 448,
+        "obstacle": 1,
+        "x": 4.402558326721191,
+        "y": 5.178396701812744,
+        "distance": 0.6235077977180481,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 449,
+        "obstacle": 1,
+        "x": 4.413227081298828,
+        "y": 5.193332195281982,
+        "distance": 0.6178023815155029,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 450,
+        "obstacle": 1,
+        "x": 4.423898220062256,
+        "y": 5.208275318145752,
+        "distance": 0.6125943660736084,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 451,
+        "obstacle": 1,
+        "x": 4.434571266174316,
+        "y": 5.223226070404053,
+        "distance": 0.6078976392745972,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 452,
+        "obstacle": 1,
+        "x": 4.44524621963501,
+        "y": 5.238184452056885,
+        "distance": 0.6037247776985168,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 453,
+        "obstacle": 1,
+        "x": 4.455923080444336,
+        "y": 5.253150463104248,
+        "distance": 0.6000874042510986,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 454,
+        "obstacle": 1,
+        "x": 4.466601848602295,
+        "y": 5.268124103546143,
+        "distance": 0.5969958901405334,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 455,
+        "obstacle": 1,
+        "x": 4.477283000946045,
+        "y": 5.283105373382568,
+        "distance": 0.5944591760635376,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 456,
+        "obstacle": 1,
+        "x": 4.487966060638428,
+        "y": 5.298093795776367,
+        "distance": 0.5924851894378662,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 457,
+        "obstacle": 1,
+        "x": 4.498651027679443,
+        "y": 5.313089847564697,
+        "distance": 0.5910804271697998,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 458,
+        "obstacle": 1,
+        "x": 4.509337902069092,
+        "y": 5.328093528747559,
+        "distance": 0.5902496576309204,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 459,
+        "obstacle": 1,
+        "x": 4.520026683807373,
+        "y": 5.343104362487793,
+        "distance": 0.5899957418441772,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 460,
+        "obstacle": 1,
+        "x": 4.530717372894287,
+        "y": 5.358122825622559,
+        "distance": 0.590320348739624,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 461,
+        "obstacle": 1,
+        "x": 4.541409969329834,
+        "y": 5.3731489181518555,
+        "distance": 0.5912232398986816,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 462,
+        "obstacle": 1,
+        "x": 4.5521039962768555,
+        "y": 5.388182163238525,
+        "distance": 0.5927024483680725,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 463,
+        "obstacle": 1,
+        "x": 4.56279993057251,
+        "y": 5.403223037719727,
+        "distance": 0.5947543382644653,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 464,
+        "obstacle": 1,
+        "x": 4.573497772216797,
+        "y": 5.418271064758301,
+        "distance": 0.5973733067512512,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 465,
+        "obstacle": 1,
+        "x": 4.584197521209717,
+        "y": 5.433326721191406,
+        "distance": 0.6005529165267944,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 466,
+        "obstacle": 1,
+        "x": 4.5948991775512695,
+        "y": 5.448389530181885,
+        "distance": 0.6042845845222473,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 467,
+        "obstacle": 1,
+        "x": 4.605602741241455,
+        "y": 5.463459491729736,
+        "distance": 0.6085588932037354,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 468,
+        "obstacle": 1,
+        "x": 4.616308212280273,
+        "y": 5.478537082672119,
+        "distance": 0.6133654117584229,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 469,
+        "obstacle": 1,
+        "x": 4.627015590667725,
+        "y": 5.493621826171875,
+        "distance": 0.6186921000480652,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 470,
+        "obstacle": 1,
+        "x": 4.637724876403809,
+        "y": 5.508713722229004,
+        "distance": 0.6245261430740356,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 471,
+        "obstacle": 1,
+        "x": 4.648436069488525,
+        "y": 5.523813247680664,
+        "distance": 0.630854606628418,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 472,
+        "obstacle": 1,
+        "x": 4.659149169921875,
+        "y": 5.538919925689697,
+        "distance": 0.6376628875732422,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 473,
+        "obstacle": 1,
+        "x": 4.669864654541016,
+        "y": 5.5540337562561035,
+        "distance": 0.644936203956604,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 474,
+        "obstacle": 1,
+        "x": 4.680582046508789,
+        "y": 5.569155216217041,
+        "distance": 0.6526603102684021,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 475,
+        "obstacle": 1,
+        "x": 4.691301345825195,
+        "y": 5.584283828735352,
+        "distance": 0.6608195304870605,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 476,
+        "obstacle": 1,
+        "x": 4.702022552490234,
+        "y": 5.599419593811035,
+        "distance": 0.6693985462188721,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 477,
+        "obstacle": 1,
+        "x": 4.712745666503906,
+        "y": 5.61456298828125,
+        "distance": 0.6783824563026428,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 478,
+        "obstacle": 1,
+        "x": 4.723470687866211,
+        "y": 5.629713535308838,
+        "distance": 0.6877554655075073,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 479,
+        "obstacle": 1,
+        "x": 4.734197616577148,
+        "y": 5.644871711730957,
+        "distance": 0.6975029706954956,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 633,
+        "obstacle": 4,
+        "x": 6.4157280921936035,
+        "y": 8.06843376159668,
+        "distance": 0.4397171437740326,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 634,
+        "obstacle": 4,
+        "x": 6.4269208908081055,
+        "y": 8.084754943847656,
+        "distance": 0.42162662744522095,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 635,
+        "obstacle": 4,
+        "x": 6.4381184577941895,
+        "y": 8.101082801818848,
+        "distance": 0.40368831157684326,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 636,
+        "obstacle": 4,
+        "x": 6.449320316314697,
+        "y": 8.11741828918457,
+        "distance": 0.385923832654953,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 637,
+        "obstacle": 4,
+        "x": 6.460526943206787,
+        "y": 8.133761405944824,
+        "distance": 0.36835965514183044,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 638,
+        "obstacle": 4,
+        "x": 6.471737861633301,
+        "y": 8.15011215209961,
+        "distance": 0.3510274291038513,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 639,
+        "obstacle": 4,
+        "x": 6.4829535484313965,
+        "y": 8.166470527648926,
+        "distance": 0.3339647948741913,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 640,
+        "obstacle": 4,
+        "x": 6.494174003601074,
+        "y": 8.182836532592773,
+        "distance": 0.3172169625759125,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 641,
+        "obstacle": 4,
+        "x": 6.505399227142334,
+        "y": 8.199209213256836,
+        "distance": 0.30083924531936646,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 642,
+        "obstacle": 4,
+        "x": 6.516629219055176,
+        "y": 8.21558952331543,
+        "distance": 0.28489619493484497,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 643,
+        "obstacle": 4,
+        "x": 6.5278639793396,
+        "y": 8.231977462768555,
+        "distance": 0.2694670557975769,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 644,
+        "obstacle": 4,
+        "x": 6.5391035079956055,
+        "y": 8.248373031616211,
+        "distance": 0.25464722514152527,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 645,
+        "obstacle": 4,
+        "x": 6.550347805023193,
+        "y": 8.264776229858398,
+        "distance": 0.24055169522762299,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 646,
+        "obstacle": 4,
+        "x": 6.561596870422363,
+        "y": 8.281187057495117,
+        "distance": 0.22731757164001465,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 647,
+        "obstacle": 4,
+        "x": 6.572851181030273,
+        "y": 8.297605514526367,
+        "distance": 0.2151065319776535,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 648,
+        "obstacle": 4,
+        "x": 6.584110260009766,
+        "y": 8.314031600952148,
+        "distance": 0.20410482585430145,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 649,
+        "obstacle": 4,
+        "x": 6.59537410736084,
+        "y": 8.330465316772461,
+        "distance": 0.194520503282547,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 650,
+        "obstacle": 4,
+        "x": 6.606643199920654,
+        "y": 8.346906661987305,
+        "distance": 0.1865752935409546,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 651,
+        "obstacle": 4,
+        "x": 6.617917060852051,
+        "y": 8.36335563659668,
+        "distance": 0.18048854172229767,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 652,
+        "obstacle": 4,
+        "x": 6.6291961669921875,
+        "y": 8.379812240600586,
+        "distance": 0.17645607888698578,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 653,
+        "obstacle": 4,
+        "x": 6.640480041503906,
+        "y": 8.396275520324707,
+        "distance": 0.17462362349033356,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 654,
+        "obstacle": 4,
+        "x": 6.651768684387207,
+        "y": 8.41274642944336,
+        "distance": 0.1750626116991043,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 655,
+        "obstacle": 4,
+        "x": 6.663062572479248,
+        "y": 8.429224967956543,
+        "distance": 0.17775969207286835,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 656,
+        "obstacle": 4,
+        "x": 6.674361228942871,
+        "y": 8.445711135864258,
+        "distance": 0.1826174110174179,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 657,
+        "obstacle": 4,
+        "x": 6.685665130615234,
+        "y": 8.462204933166504,
+        "distance": 0.1894729733467102,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 658,
+        "obstacle": 4,
+        "x": 6.696974277496338,
+        "y": 8.478706359863281,
+        "distance": 0.19812189042568207,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 659,
+        "obstacle": 4,
+        "x": 6.708288192749023,
+        "y": 8.49521541595459,
+        "distance": 0.20834313333034515,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 660,
+        "obstacle": 4,
+        "x": 6.719607353210449,
+        "y": 8.51173210144043,
+        "distance": 0.21992051601409912,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 661,
+        "obstacle": 4,
+        "x": 6.730931758880615,
+        "y": 8.5282564163208,
+        "distance": 0.23265404999256134,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 662,
+        "obstacle": 4,
+        "x": 6.742260932922363,
+        "y": 8.544787406921387,
+        "distance": 0.24636612832546234,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 663,
+        "obstacle": 4,
+        "x": 6.753595352172852,
+        "y": 8.561326026916504,
+        "distance": 0.26090511679649353,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 664,
+        "obstacle": 4,
+        "x": 6.76493501663208,
+        "y": 8.577872276306152,
+        "distance": 0.2761424481868744,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 665,
+        "obstacle": 4,
+        "x": 6.776279926300049,
+        "y": 8.594426155090332,
+        "distance": 0.29197070002555847,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 666,
+        "obstacle": 4,
+        "x": 6.787630081176758,
+        "y": 8.610987663269043,
+        "distance": 0.3083007037639618,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 667,
+        "obstacle": 4,
+        "x": 6.798985004425049,
+        "y": 8.627556800842285,
+        "distance": 0.32505810260772705,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 668,
+        "obstacle": 4,
+        "x": 6.81034517288208,
+        "y": 8.644132614135742,
+        "distance": 0.3421817123889923,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 669,
+        "obstacle": 4,
+        "x": 6.821710586547852,
+        "y": 8.66071605682373,
+        "distance": 0.3596211373806,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 670,
+        "obstacle": 4,
+        "x": 6.833081245422363,
+        "y": 8.67730712890625,
+        "distance": 0.37733399868011475,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 671,
+        "obstacle": 4,
+        "x": 6.844457149505615,
+        "y": 8.6939058303833,
+        "distance": 0.3952849507331848,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 672,
+        "obstacle": 4,
+        "x": 6.855838298797607,
+        "y": 8.710512161254883,
+        "distance": 0.4134443700313568,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 673,
+        "obstacle": 4,
+        "x": 6.86722469329834,
+        "y": 8.72712516784668,
+        "distance": 0.43178677558898926,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 83,
+    "final_distance_to_goal": 45.079445918542056,
+    "min_distance_to_goal": 0.8917157096396768,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 43,
+    "path_length": 57.008972373753025,
+    "straight_line_distance": 11.967199793541603,
+    "path_efficiency": 0.20991783039140188,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 43,
+    "context_id": "seed-43",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.4539682865142822,
+    "start_y": 0.19649124145507812,
+    "goal_x": 9.842071533203125,
+    "goal_y": 8.692358016967773,
+    "total_reward": -3950.192250818014,
+    "constraint_violations": [
+      {
+        "step": 532,
+        "obstacle": 1,
+        "x": 4.386908531188965,
+        "y": 4.670356750488281,
+        "distance": 0.6960932612419128,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 533,
+        "obstacle": 1,
+        "x": 4.397242069244385,
+        "y": 4.685153961181641,
+        "distance": 0.6800332069396973,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 534,
+        "obstacle": 1,
+        "x": 4.40757942199707,
+        "y": 4.6999592781066895,
+        "distance": 0.6640682220458984,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 535,
+        "obstacle": 1,
+        "x": 4.4179205894470215,
+        "y": 4.7147722244262695,
+        "distance": 0.6482062339782715,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 536,
+        "obstacle": 1,
+        "x": 4.42826509475708,
+        "y": 4.729592800140381,
+        "distance": 0.6324562430381775,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 537,
+        "obstacle": 1,
+        "x": 4.438613414764404,
+        "y": 4.744421482086182,
+        "distance": 0.6168267726898193,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 538,
+        "obstacle": 1,
+        "x": 4.448965072631836,
+        "y": 4.759257793426514,
+        "distance": 0.6013287901878357,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 539,
+        "obstacle": 1,
+        "x": 4.459320545196533,
+        "y": 4.774101734161377,
+        "distance": 0.5859729647636414,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 540,
+        "obstacle": 1,
+        "x": 4.469679355621338,
+        "y": 4.78895378112793,
+        "distance": 0.5707718133926392,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 541,
+        "obstacle": 1,
+        "x": 4.48004150390625,
+        "y": 4.803813457489014,
+        "distance": 0.555739164352417,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 542,
+        "obstacle": 1,
+        "x": 4.490407466888428,
+        "y": 4.818680763244629,
+        "distance": 0.540889322757721,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 543,
+        "obstacle": 1,
+        "x": 4.500776767730713,
+        "y": 4.833556175231934,
+        "distance": 0.5262389183044434,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 544,
+        "obstacle": 1,
+        "x": 4.5111494064331055,
+        "y": 4.8484392166137695,
+        "distance": 0.5118061900138855,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 545,
+        "obstacle": 1,
+        "x": 4.5215253829956055,
+        "y": 4.863329887390137,
+        "distance": 0.4976109564304352,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 546,
+        "obstacle": 1,
+        "x": 4.531904697418213,
+        "y": 4.878228664398193,
+        "distance": 0.4836749732494354,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 547,
+        "obstacle": 1,
+        "x": 4.542287349700928,
+        "y": 4.893135070800781,
+        "distance": 0.4700223207473755,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 548,
+        "obstacle": 1,
+        "x": 4.552672863006592,
+        "y": 4.9080491065979,
+        "distance": 0.45667991042137146,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 549,
+        "obstacle": 1,
+        "x": 4.563061714172363,
+        "y": 4.922971248626709,
+        "distance": 0.4436761140823364,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 550,
+        "obstacle": 1,
+        "x": 4.573453903198242,
+        "y": 4.937901020050049,
+        "distance": 0.43104276061058044,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 551,
+        "obstacle": 1,
+        "x": 4.5838494300842285,
+        "y": 4.95283842086792,
+        "distance": 0.41881442070007324,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 552,
+        "obstacle": 1,
+        "x": 4.594247817993164,
+        "y": 4.9677839279174805,
+        "distance": 0.4070291519165039,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 553,
+        "obstacle": 1,
+        "x": 4.604649543762207,
+        "y": 4.982737064361572,
+        "distance": 0.3957271873950958,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 554,
+        "obstacle": 1,
+        "x": 4.615054607391357,
+        "y": 4.9976983070373535,
+        "distance": 0.38495227694511414,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 555,
+        "obstacle": 1,
+        "x": 4.625462532043457,
+        "y": 5.012667655944824,
+        "distance": 0.37475162744522095,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 556,
+        "obstacle": 1,
+        "x": 4.635873794555664,
+        "y": 5.027644634246826,
+        "distance": 0.3651740849018097,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 557,
+        "obstacle": 1,
+        "x": 4.64628791809082,
+        "y": 5.042629718780518,
+        "distance": 0.3562716841697693,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 558,
+        "obstacle": 1,
+        "x": 4.656704902648926,
+        "y": 5.05762243270874,
+        "distance": 0.3480975031852722,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 559,
+        "obstacle": 1,
+        "x": 4.667125225067139,
+        "y": 5.072623252868652,
+        "distance": 0.3407047986984253,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 560,
+        "obstacle": 1,
+        "x": 4.677548408508301,
+        "y": 5.087631702423096,
+        "distance": 0.334147185087204,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 561,
+        "obstacle": 1,
+        "x": 4.687974452972412,
+        "y": 5.1026482582092285,
+        "distance": 0.3284761905670166,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 562,
+        "obstacle": 1,
+        "x": 4.698403835296631,
+        "y": 5.117672443389893,
+        "distance": 0.3237391710281372,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 563,
+        "obstacle": 1,
+        "x": 4.708836078643799,
+        "y": 5.132704257965088,
+        "distance": 0.3199794590473175,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 564,
+        "obstacle": 1,
+        "x": 4.719271183013916,
+        "y": 5.147744178771973,
+        "distance": 0.3172333538532257,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 565,
+        "obstacle": 1,
+        "x": 4.729709625244141,
+        "y": 5.162791728973389,
+        "distance": 0.31552818417549133,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 566,
+        "obstacle": 1,
+        "x": 4.7401509284973145,
+        "y": 5.177846908569336,
+        "distance": 0.3148826062679291,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 567,
+        "obstacle": 1,
+        "x": 4.7505950927734375,
+        "y": 5.1929097175598145,
+        "distance": 0.31530457735061646,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 568,
+        "obstacle": 1,
+        "x": 4.76104211807251,
+        "y": 5.207980155944824,
+        "distance": 0.3167911171913147,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 569,
+        "obstacle": 1,
+        "x": 4.7714924812316895,
+        "y": 5.223058700561523,
+        "distance": 0.31932878494262695,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 570,
+        "obstacle": 1,
+        "x": 4.781945705413818,
+        "y": 5.238144874572754,
+        "distance": 0.3228941857814789,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 571,
+        "obstacle": 1,
+        "x": 4.7924017906188965,
+        "y": 5.253238677978516,
+        "distance": 0.3274551033973694,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 572,
+        "obstacle": 1,
+        "x": 4.802861213684082,
+        "y": 5.268340110778809,
+        "distance": 0.33297163248062134,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 573,
+        "obstacle": 1,
+        "x": 4.813323497772217,
+        "y": 5.283449172973633,
+        "distance": 0.3393988013267517,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 574,
+        "obstacle": 1,
+        "x": 4.823789119720459,
+        "y": 5.298565864562988,
+        "distance": 0.3466869592666626,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 575,
+        "obstacle": 1,
+        "x": 4.83425760269165,
+        "y": 5.313689708709717,
+        "distance": 0.35478413105010986,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 576,
+        "obstacle": 1,
+        "x": 4.844729423522949,
+        "y": 5.328821182250977,
+        "distance": 0.36363762617111206,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 577,
+        "obstacle": 1,
+        "x": 4.855204105377197,
+        "y": 5.343960285186768,
+        "distance": 0.3731950521469116,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 578,
+        "obstacle": 1,
+        "x": 4.865682125091553,
+        "y": 5.35910701751709,
+        "distance": 0.3834046721458435,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 579,
+        "obstacle": 1,
+        "x": 4.876163005828857,
+        "y": 5.374260902404785,
+        "distance": 0.39421674609184265,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 580,
+        "obstacle": 1,
+        "x": 4.886646747589111,
+        "y": 5.389422416687012,
+        "distance": 0.4055844843387604,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 581,
+        "obstacle": 1,
+        "x": 4.897133827209473,
+        "y": 5.404591083526611,
+        "distance": 0.4174630641937256,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 582,
+        "obstacle": 1,
+        "x": 4.907623767852783,
+        "y": 5.419767379760742,
+        "distance": 0.42981162667274475,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 583,
+        "obstacle": 1,
+        "x": 4.918117046356201,
+        "y": 5.434950828552246,
+        "distance": 0.44259127974510193,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 584,
+        "obstacle": 1,
+        "x": 4.928613185882568,
+        "y": 5.450141906738281,
+        "distance": 0.45576727390289307,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 585,
+        "obstacle": 1,
+        "x": 4.939112663269043,
+        "y": 5.4653401374816895,
+        "distance": 0.469306617975235,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 586,
+        "obstacle": 1,
+        "x": 4.949615001678467,
+        "y": 5.480545520782471,
+        "distance": 0.4831797182559967,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 587,
+        "obstacle": 1,
+        "x": 4.96012020111084,
+        "y": 5.495758533477783,
+        "distance": 0.497359961271286,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 588,
+        "obstacle": 1,
+        "x": 4.97062873840332,
+        "y": 5.510978698730469,
+        "distance": 0.5118221044540405,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 589,
+        "obstacle": 1,
+        "x": 4.98114013671875,
+        "y": 5.526206016540527,
+        "distance": 0.526543915271759,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 4.991654396057129,
+        "y": 5.541440486907959,
+        "distance": 0.5415048003196716,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 5.002171993255615,
+        "y": 5.556682586669922,
+        "distance": 0.5566868185997009,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 5.012692451477051,
+        "y": 5.571931838989258,
+        "distance": 0.5720726847648621,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 5.0232157707214355,
+        "y": 5.587188243865967,
+        "distance": 0.587647020816803,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 5.0337419509887695,
+        "y": 5.602451801300049,
+        "distance": 0.603395938873291,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 5.044271469116211,
+        "y": 5.617722511291504,
+        "distance": 0.6193069219589233,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 5.054803848266602,
+        "y": 5.633000373840332,
+        "distance": 0.6353683471679688,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 5.065339088439941,
+        "y": 5.648285388946533,
+        "distance": 0.6515697240829468,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 5.0758771896362305,
+        "y": 5.663578033447266,
+        "distance": 0.6679020524024963,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 5.086418151855469,
+        "y": 5.678877830505371,
+        "distance": 0.6843560338020325,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 5.0969624519348145,
+        "y": 5.69418478012085,
+        "distance": 0.7009238004684448,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 754,
+        "obstacle": 4,
+        "x": 6.755278587341309,
+        "y": 8.1339693069458,
+        "distance": 0.4462573528289795,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 755,
+        "obstacle": 4,
+        "x": 6.766301155090332,
+        "y": 8.150345802307129,
+        "distance": 0.4395160675048828,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 756,
+        "obstacle": 4,
+        "x": 6.777328014373779,
+        "y": 8.166728973388672,
+        "distance": 0.433567076921463,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 757,
+        "obstacle": 4,
+        "x": 6.78835916519165,
+        "y": 8.183119773864746,
+        "distance": 0.4284437894821167,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 758,
+        "obstacle": 4,
+        "x": 6.799394607543945,
+        "y": 8.199517250061035,
+        "distance": 0.4241780638694763,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 759,
+        "obstacle": 4,
+        "x": 6.810434818267822,
+        "y": 8.215922355651855,
+        "distance": 0.4207967221736908,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 760,
+        "obstacle": 4,
+        "x": 6.821479320526123,
+        "y": 8.23233413696289,
+        "distance": 0.4183228015899658,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 761,
+        "obstacle": 4,
+        "x": 6.832528114318848,
+        "y": 8.248753547668457,
+        "distance": 0.4167729914188385,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 762,
+        "obstacle": 4,
+        "x": 6.843581199645996,
+        "y": 8.265179634094238,
+        "distance": 0.41615939140319824,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 763,
+        "obstacle": 4,
+        "x": 6.854639053344727,
+        "y": 8.28161334991455,
+        "distance": 0.4164871871471405,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 764,
+        "obstacle": 4,
+        "x": 6.865701198577881,
+        "y": 8.298053741455078,
+        "distance": 0.41775551438331604,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 765,
+        "obstacle": 4,
+        "x": 6.876768112182617,
+        "y": 8.314501762390137,
+        "distance": 0.41995692253112793,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 766,
+        "obstacle": 4,
+        "x": 6.8878397941589355,
+        "y": 8.330957412719727,
+        "distance": 0.42307811975479126,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 767,
+        "obstacle": 4,
+        "x": 6.898915767669678,
+        "y": 8.347419738769531,
+        "distance": 0.42710015177726746,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 768,
+        "obstacle": 4,
+        "x": 6.909996509552002,
+        "y": 8.363889694213867,
+        "distance": 0.4319990277290344,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 769,
+        "obstacle": 4,
+        "x": 6.921082019805908,
+        "y": 8.380366325378418,
+        "distance": 0.4377468228340149,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 770,
+        "obstacle": 4,
+        "x": 6.9321722984313965,
+        "y": 8.3968505859375,
+        "distance": 0.4443114995956421,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 86,
+    "final_distance_to_goal": 42.166547315542616,
+    "min_distance_to_goal": 2.24824775156846,
+    "first_step_inside_goal_zone": 865,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": 1635,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 54.54126639549969,
+    "straight_line_distance": 12.661604749704916,
+    "path_efficiency": 0.23214724531496486,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 44,
+    "context_id": "seed-44",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.719590425491333,
+    "start_y": 0.7306768298149109,
+    "goal_x": 9.655607223510742,
+    "goal_y": 8.268697738647461,
+    "total_reward": -4240.006173826754,
+    "constraint_violations": [
+      {
+        "step": 461,
+        "obstacle": 1,
+        "x": 4.304389476776123,
+        "y": 4.956341743469238,
+        "distance": 0.6969792246818542,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 462,
+        "obstacle": 1,
+        "x": 4.314970016479492,
+        "y": 4.971181392669678,
+        "distance": 0.6856359243392944,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 463,
+        "obstacle": 1,
+        "x": 4.325552940368652,
+        "y": 4.986028671264648,
+        "distance": 0.6745917797088623,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 464,
+        "obstacle": 1,
+        "x": 4.3361382484436035,
+        "y": 5.000884056091309,
+        "distance": 0.6638623476028442,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 465,
+        "obstacle": 1,
+        "x": 4.346725940704346,
+        "y": 5.0157470703125,
+        "distance": 0.6534637808799744,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 466,
+        "obstacle": 1,
+        "x": 4.357316017150879,
+        "y": 5.030617713928223,
+        "distance": 0.6434128880500793,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 467,
+        "obstacle": 1,
+        "x": 4.367908477783203,
+        "y": 5.045495986938477,
+        "distance": 0.6337267160415649,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 468,
+        "obstacle": 1,
+        "x": 4.378503322601318,
+        "y": 5.060381889343262,
+        "distance": 0.6244230270385742,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 469,
+        "obstacle": 1,
+        "x": 4.389100551605225,
+        "y": 5.075275421142578,
+        "distance": 0.6155197024345398,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 470,
+        "obstacle": 1,
+        "x": 4.399699687957764,
+        "y": 5.090176582336426,
+        "distance": 0.6070356369018555,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 471,
+        "obstacle": 1,
+        "x": 4.410301208496094,
+        "y": 5.105085372924805,
+        "distance": 0.5989888310432434,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 472,
+        "obstacle": 1,
+        "x": 4.420905113220215,
+        "y": 5.120001792907715,
+        "distance": 0.591397762298584,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 473,
+        "obstacle": 1,
+        "x": 4.431511402130127,
+        "y": 5.134925842285156,
+        "distance": 0.5842809677124023,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 474,
+        "obstacle": 1,
+        "x": 4.442119598388672,
+        "y": 5.149857521057129,
+        "distance": 0.577657163143158,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 475,
+        "obstacle": 1,
+        "x": 4.452730178833008,
+        "y": 5.164796829223633,
+        "distance": 0.5715437531471252,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 476,
+        "obstacle": 1,
+        "x": 4.463342666625977,
+        "y": 5.179743766784668,
+        "distance": 0.5659584403038025,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 477,
+        "obstacle": 1,
+        "x": 4.473957538604736,
+        "y": 5.194698333740234,
+        "distance": 0.5609171986579895,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 478,
+        "obstacle": 1,
+        "x": 4.484574317932129,
+        "y": 5.209660530090332,
+        "distance": 0.5564361214637756,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 479,
+        "obstacle": 1,
+        "x": 4.4951934814453125,
+        "y": 5.224630355834961,
+        "distance": 0.5525290966033936,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 480,
+        "obstacle": 1,
+        "x": 4.505814552307129,
+        "y": 5.239607810974121,
+        "distance": 0.5492095947265625,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 481,
+        "obstacle": 1,
+        "x": 4.516437530517578,
+        "y": 5.2545928955078125,
+        "distance": 0.5464890003204346,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 482,
+        "obstacle": 1,
+        "x": 4.527062892913818,
+        "y": 5.269585132598877,
+        "distance": 0.5443763732910156,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 483,
+        "obstacle": 1,
+        "x": 4.537690162658691,
+        "y": 5.284584999084473,
+        "distance": 0.5428802967071533,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 484,
+        "obstacle": 1,
+        "x": 4.548319339752197,
+        "y": 5.2995924949646,
+        "distance": 0.5420065522193909,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 485,
+        "obstacle": 1,
+        "x": 4.558950424194336,
+        "y": 5.3146071434021,
+        "distance": 0.5417585968971252,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 486,
+        "obstacle": 1,
+        "x": 4.569583892822266,
+        "y": 5.329629421234131,
+        "distance": 0.5421379804611206,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 487,
+        "obstacle": 1,
+        "x": 4.580219268798828,
+        "y": 5.344659328460693,
+        "distance": 0.5431444644927979,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 488,
+        "obstacle": 1,
+        "x": 4.590856552124023,
+        "y": 5.359696388244629,
+        "distance": 0.5447750687599182,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 489,
+        "obstacle": 1,
+        "x": 4.601495742797852,
+        "y": 5.374741077423096,
+        "distance": 0.5470251441001892,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 490,
+        "obstacle": 1,
+        "x": 4.6121368408203125,
+        "y": 5.3897929191589355,
+        "distance": 0.5498875379562378,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 491,
+        "obstacle": 1,
+        "x": 4.622779846191406,
+        "y": 5.404852390289307,
+        "distance": 0.5533538460731506,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 492,
+        "obstacle": 1,
+        "x": 4.633425235748291,
+        "y": 5.419919490814209,
+        "distance": 0.5574131608009338,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 493,
+        "obstacle": 1,
+        "x": 4.644072532653809,
+        "y": 5.434993743896484,
+        "distance": 0.5620533227920532,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 494,
+        "obstacle": 1,
+        "x": 4.654721736907959,
+        "y": 5.450075626373291,
+        "distance": 0.5672610998153687,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 495,
+        "obstacle": 1,
+        "x": 4.6653733253479,
+        "y": 5.465164661407471,
+        "distance": 0.5730211138725281,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 496,
+        "obstacle": 1,
+        "x": 4.676026821136475,
+        "y": 5.480261325836182,
+        "distance": 0.5793181657791138,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 497,
+        "obstacle": 1,
+        "x": 4.686682224273682,
+        "y": 5.495365142822266,
+        "distance": 0.5861353874206543,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 498,
+        "obstacle": 1,
+        "x": 4.69734001159668,
+        "y": 5.510476112365723,
+        "distance": 0.5934550762176514,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 499,
+        "obstacle": 1,
+        "x": 4.7079997062683105,
+        "y": 5.525594711303711,
+        "distance": 0.6012603044509888,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 500,
+        "obstacle": 1,
+        "x": 4.718661308288574,
+        "y": 5.540720462799072,
+        "distance": 0.6095326542854309,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 501,
+        "obstacle": 1,
+        "x": 4.729325294494629,
+        "y": 5.555853843688965,
+        "distance": 0.6182541847229004,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 502,
+        "obstacle": 1,
+        "x": 4.739991188049316,
+        "y": 5.5709943771362305,
+        "distance": 0.627406656742096,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 503,
+        "obstacle": 1,
+        "x": 4.750658988952637,
+        "y": 5.586142063140869,
+        "distance": 0.6369721293449402,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 504,
+        "obstacle": 1,
+        "x": 4.76132869720459,
+        "y": 5.601297378540039,
+        "distance": 0.6469331383705139,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 505,
+        "obstacle": 1,
+        "x": 4.772000789642334,
+        "y": 5.616459846496582,
+        "distance": 0.6572719216346741,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 506,
+        "obstacle": 1,
+        "x": 4.782674789428711,
+        "y": 5.631629943847656,
+        "distance": 0.6679720282554626,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 507,
+        "obstacle": 1,
+        "x": 4.793350696563721,
+        "y": 5.6468071937561035,
+        "distance": 0.6790165305137634,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 508,
+        "obstacle": 1,
+        "x": 4.804028511047363,
+        "y": 5.661992073059082,
+        "distance": 0.6903899908065796,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 509,
+        "obstacle": 1,
+        "x": 4.814708709716797,
+        "y": 5.677184104919434,
+        "distance": 0.7020763158798218,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 660,
+        "obstacle": 4,
+        "x": 6.456737041473389,
+        "y": 8.055269241333008,
+        "distance": 0.4468300938606262,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 661,
+        "obstacle": 4,
+        "x": 6.467876434326172,
+        "y": 8.071582794189453,
+        "distance": 0.42961984872817993,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 662,
+        "obstacle": 4,
+        "x": 6.479020118713379,
+        "y": 8.087903022766113,
+        "distance": 0.41263067722320557,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 663,
+        "obstacle": 4,
+        "x": 6.49016809463501,
+        "y": 8.104230880737305,
+        "distance": 0.3958912193775177,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 664,
+        "obstacle": 4,
+        "x": 6.501320838928223,
+        "y": 8.120566368103027,
+        "distance": 0.3794359266757965,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 665,
+        "obstacle": 4,
+        "x": 6.512478351593018,
+        "y": 8.136909484863281,
+        "distance": 0.36330485343933105,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 666,
+        "obstacle": 4,
+        "x": 6.523640155792236,
+        "y": 8.15325927734375,
+        "distance": 0.34754565358161926,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 667,
+        "obstacle": 4,
+        "x": 6.534806728363037,
+        "y": 8.16961669921875,
+        "distance": 0.3322117328643799,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 668,
+        "obstacle": 4,
+        "x": 6.54597806930542,
+        "y": 8.185981750488281,
+        "distance": 0.31736642122268677,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 669,
+        "obstacle": 4,
+        "x": 6.557154178619385,
+        "y": 8.202354431152344,
+        "distance": 0.30308330059051514,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 670,
+        "obstacle": 4,
+        "x": 6.568335056304932,
+        "y": 8.218734741210938,
+        "distance": 0.28944745659828186,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 671,
+        "obstacle": 4,
+        "x": 6.5795207023620605,
+        "y": 8.235121726989746,
+        "distance": 0.27655747532844543,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 672,
+        "obstacle": 4,
+        "x": 6.5907111167907715,
+        "y": 8.251516342163086,
+        "distance": 0.2645234167575836,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 673,
+        "obstacle": 4,
+        "x": 6.6019062995910645,
+        "y": 8.267918586730957,
+        "distance": 0.2534692883491516,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 674,
+        "obstacle": 4,
+        "x": 6.613106727600098,
+        "y": 8.28432846069336,
+        "distance": 0.2435309886932373,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 675,
+        "obstacle": 4,
+        "x": 6.624311923980713,
+        "y": 8.300745964050293,
+        "distance": 0.23485234379768372,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 676,
+        "obstacle": 4,
+        "x": 6.635522365570068,
+        "y": 8.317171096801758,
+        "distance": 0.22758013010025024,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 677,
+        "obstacle": 4,
+        "x": 6.646737575531006,
+        "y": 8.333602905273438,
+        "distance": 0.22185559570789337,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 678,
+        "obstacle": 4,
+        "x": 6.657958030700684,
+        "y": 8.350042343139648,
+        "distance": 0.2178027629852295,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 679,
+        "obstacle": 4,
+        "x": 6.669183254241943,
+        "y": 8.36648941040039,
+        "distance": 0.21551810204982758,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 680,
+        "obstacle": 4,
+        "x": 6.680413722991943,
+        "y": 8.382944107055664,
+        "distance": 0.21506091952323914,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 681,
+        "obstacle": 4,
+        "x": 6.691648960113525,
+        "y": 8.399406433105469,
+        "distance": 0.21644489467144012,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 682,
+        "obstacle": 4,
+        "x": 6.702889442443848,
+        "y": 8.415876388549805,
+        "distance": 0.21963812410831451,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 683,
+        "obstacle": 4,
+        "x": 6.71413516998291,
+        "y": 8.432353973388672,
+        "distance": 0.22456593811511993,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 684,
+        "obstacle": 4,
+        "x": 6.725385665893555,
+        "y": 8.448838233947754,
+        "distance": 0.23111949861049652,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 685,
+        "obstacle": 4,
+        "x": 6.7366414070129395,
+        "y": 8.465330123901367,
+        "distance": 0.23916763067245483,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 686,
+        "obstacle": 4,
+        "x": 6.7479023933410645,
+        "y": 8.481829643249512,
+        "distance": 0.24856741726398468,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 687,
+        "obstacle": 4,
+        "x": 6.7591681480407715,
+        "y": 8.498336791992188,
+        "distance": 0.2591734826564789,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 688,
+        "obstacle": 4,
+        "x": 6.770439147949219,
+        "y": 8.514851570129395,
+        "distance": 0.2708466351032257,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 689,
+        "obstacle": 4,
+        "x": 6.781715393066406,
+        "y": 8.531373023986816,
+        "distance": 0.2834569215774536,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 690,
+        "obstacle": 4,
+        "x": 6.792996883392334,
+        "y": 8.54790210723877,
+        "distance": 0.2968868315219879,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 691,
+        "obstacle": 4,
+        "x": 6.804283142089844,
+        "y": 8.564438819885254,
+        "distance": 0.3110314905643463,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 692,
+        "obstacle": 4,
+        "x": 6.815574645996094,
+        "y": 8.58098316192627,
+        "distance": 0.32579997181892395,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 693,
+        "obstacle": 4,
+        "x": 6.826871395111084,
+        "y": 8.597535133361816,
+        "distance": 0.3411129117012024,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 694,
+        "obstacle": 4,
+        "x": 6.8381733894348145,
+        "y": 8.614093780517578,
+        "distance": 0.3569014370441437,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 695,
+        "obstacle": 4,
+        "x": 6.849480628967285,
+        "y": 8.630660057067871,
+        "distance": 0.3731068968772888,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 696,
+        "obstacle": 4,
+        "x": 6.860793113708496,
+        "y": 8.647233963012695,
+        "distance": 0.3896787166595459,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 697,
+        "obstacle": 4,
+        "x": 6.872110843658447,
+        "y": 8.66381549835205,
+        "distance": 0.40657347440719604,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 698,
+        "obstacle": 4,
+        "x": 6.883433818817139,
+        "y": 8.680403709411621,
+        "distance": 0.42375344038009644,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 699,
+        "obstacle": 4,
+        "x": 6.89476203918457,
+        "y": 8.696999549865723,
+        "distance": 0.44118690490722656,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 89,
+    "final_distance_to_goal": 45.16989052435453,
+    "min_distance_to_goal": 2.5212273798148357,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 56.4510947035697,
+    "straight_line_distance": 11.690772234394174,
+    "path_efficiency": 0.20709558062219305,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 45,
+    "context_id": "seed-45",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.1869475245475769,
+    "start_y": 0.961328387260437,
+    "goal_x": 9.366897583007812,
+    "goal_y": 9.797592163085938,
+    "total_reward": -4028.8504498824477,
+    "constraint_violations": [
+      {
+        "step": 490,
+        "obstacle": 1,
+        "x": 4.331206321716309,
+        "y": 5.224956035614014,
+        "distance": 0.705613374710083,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 491,
+        "obstacle": 1,
+        "x": 4.341842174530029,
+        "y": 5.239810466766357,
+        "distance": 0.7004861235618591,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 492,
+        "obstacle": 1,
+        "x": 4.352479457855225,
+        "y": 5.254672527313232,
+        "distance": 0.6958023905754089,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 493,
+        "obstacle": 1,
+        "x": 4.3631181716918945,
+        "y": 5.2695417404174805,
+        "distance": 0.6915715336799622,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 494,
+        "obstacle": 1,
+        "x": 4.373758316040039,
+        "y": 5.28441858291626,
+        "distance": 0.6878027319908142,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 495,
+        "obstacle": 1,
+        "x": 4.384399890899658,
+        "y": 5.29930305480957,
+        "distance": 0.6845040917396545,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 496,
+        "obstacle": 1,
+        "x": 4.395042896270752,
+        "y": 5.314195156097412,
+        "distance": 0.6816830039024353,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 497,
+        "obstacle": 1,
+        "x": 4.40568733215332,
+        "y": 5.329094409942627,
+        "distance": 0.6793457865715027,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 498,
+        "obstacle": 1,
+        "x": 4.416333198547363,
+        "y": 5.344001293182373,
+        "distance": 0.6774982213973999,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 499,
+        "obstacle": 1,
+        "x": 4.426980495452881,
+        "y": 5.358915328979492,
+        "distance": 0.6761445999145508,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 500,
+        "obstacle": 1,
+        "x": 4.437629222869873,
+        "y": 5.373836994171143,
+        "distance": 0.6752887964248657,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 501,
+        "obstacle": 1,
+        "x": 4.44827938079834,
+        "y": 5.388765811920166,
+        "distance": 0.6749329566955566,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 502,
+        "obstacle": 1,
+        "x": 4.458930969238281,
+        "y": 5.403702259063721,
+        "distance": 0.6750786900520325,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 503,
+        "obstacle": 1,
+        "x": 4.4695844650268555,
+        "y": 5.418645858764648,
+        "distance": 0.675725519657135,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 504,
+        "obstacle": 1,
+        "x": 4.480239391326904,
+        "y": 5.433597087860107,
+        "distance": 0.6768733263015747,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 505,
+        "obstacle": 1,
+        "x": 4.490895748138428,
+        "y": 5.4485554695129395,
+        "distance": 0.6785197854042053,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 506,
+        "obstacle": 1,
+        "x": 4.501553535461426,
+        "y": 5.463521480560303,
+        "distance": 0.680662214756012,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 507,
+        "obstacle": 1,
+        "x": 4.512213230133057,
+        "y": 5.478494644165039,
+        "distance": 0.683295726776123,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 508,
+        "obstacle": 1,
+        "x": 4.522874355316162,
+        "y": 5.493474960327148,
+        "distance": 0.6864156126976013,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 509,
+        "obstacle": 1,
+        "x": 4.533536911010742,
+        "y": 5.508462905883789,
+        "distance": 0.6900161504745483,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 510,
+        "obstacle": 1,
+        "x": 4.544201374053955,
+        "y": 5.523458480834961,
+        "distance": 0.6940901875495911,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 511,
+        "obstacle": 1,
+        "x": 4.554867267608643,
+        "y": 5.538461208343506,
+        "distance": 0.6986297965049744,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 512,
+        "obstacle": 1,
+        "x": 4.565535068511963,
+        "y": 5.553471565246582,
+        "distance": 0.7036266922950745,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 675,
+        "obstacle": 4,
+        "x": 6.33859395980835,
+        "y": 8.1030912399292,
+        "distance": 0.42847225069999695,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 676,
+        "obstacle": 4,
+        "x": 6.349786281585693,
+        "y": 8.119369506835938,
+        "distance": 0.40919890999794006,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 677,
+        "obstacle": 4,
+        "x": 6.360983371734619,
+        "y": 8.135655403137207,
+        "distance": 0.38996487855911255,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 678,
+        "obstacle": 4,
+        "x": 6.372185230255127,
+        "y": 8.151948928833008,
+        "distance": 0.37077778577804565,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 679,
+        "obstacle": 4,
+        "x": 6.383392333984375,
+        "y": 8.16825008392334,
+        "distance": 0.35164663195610046,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 680,
+        "obstacle": 4,
+        "x": 6.394604206085205,
+        "y": 8.184558868408203,
+        "distance": 0.33258289098739624,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 681,
+        "obstacle": 4,
+        "x": 6.405820846557617,
+        "y": 8.200876235961914,
+        "distance": 0.3135996460914612,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 682,
+        "obstacle": 4,
+        "x": 6.417042255401611,
+        "y": 8.217201232910156,
+        "distance": 0.29471534490585327,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 683,
+        "obstacle": 4,
+        "x": 6.428268909454346,
+        "y": 8.23353385925293,
+        "distance": 0.2759520709514618,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 684,
+        "obstacle": 4,
+        "x": 6.439500331878662,
+        "y": 8.249874114990234,
+        "distance": 0.25733861327171326,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 685,
+        "obstacle": 4,
+        "x": 6.4507365226745605,
+        "y": 8.26622200012207,
+        "distance": 0.2389122098684311,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 686,
+        "obstacle": 4,
+        "x": 6.461977958679199,
+        "y": 8.282577514648438,
+        "distance": 0.220722034573555,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 687,
+        "obstacle": 4,
+        "x": 6.47322416305542,
+        "y": 8.298940658569336,
+        "distance": 0.20283442735671997,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 688,
+        "obstacle": 4,
+        "x": 6.484475612640381,
+        "y": 8.315311431884766,
+        "distance": 0.18533989787101746,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 689,
+        "obstacle": 4,
+        "x": 6.495731830596924,
+        "y": 8.331689834594727,
+        "distance": 0.1683642715215683,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 690,
+        "obstacle": 4,
+        "x": 6.506993293762207,
+        "y": 8.348075866699219,
+        "distance": 0.15208500623703003,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 691,
+        "obstacle": 4,
+        "x": 6.5182600021362305,
+        "y": 8.364469528198242,
+        "distance": 0.13675501942634583,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 692,
+        "obstacle": 4,
+        "x": 6.529531478881836,
+        "y": 8.380871772766113,
+        "distance": 0.12273403257131577,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 693,
+        "obstacle": 4,
+        "x": 6.540808200836182,
+        "y": 8.397281646728516,
+        "distance": 0.11052768677473068,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 694,
+        "obstacle": 4,
+        "x": 6.552090167999268,
+        "y": 8.41369915008545,
+        "distance": 0.10080289095640182,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 695,
+        "obstacle": 4,
+        "x": 6.563377380371094,
+        "y": 8.430124282836914,
+        "distance": 0.0943361446261406,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 696,
+        "obstacle": 4,
+        "x": 6.574669361114502,
+        "y": 8.44655704498291,
+        "distance": 0.09182408452033997,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 697,
+        "obstacle": 4,
+        "x": 6.58596658706665,
+        "y": 8.462997436523438,
+        "distance": 0.09359189867973328,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 698,
+        "obstacle": 4,
+        "x": 6.597269058227539,
+        "y": 8.479445457458496,
+        "distance": 0.09941709786653519,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 699,
+        "obstacle": 4,
+        "x": 6.608576774597168,
+        "y": 8.495901107788086,
+        "distance": 0.10865411907434464,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 700,
+        "obstacle": 4,
+        "x": 6.619889736175537,
+        "y": 8.512364387512207,
+        "distance": 0.12052562832832336,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 701,
+        "obstacle": 4,
+        "x": 6.6312079429626465,
+        "y": 8.52883529663086,
+        "distance": 0.1343391090631485,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 702,
+        "obstacle": 4,
+        "x": 6.642531394958496,
+        "y": 8.545313835144043,
+        "distance": 0.14956116676330566,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 703,
+        "obstacle": 4,
+        "x": 6.653860092163086,
+        "y": 8.561799049377441,
+        "distance": 0.16580726206302643,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 704,
+        "obstacle": 4,
+        "x": 6.665194511413574,
+        "y": 8.578291893005371,
+        "distance": 0.18280823528766632,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 705,
+        "obstacle": 4,
+        "x": 6.676534175872803,
+        "y": 8.594792366027832,
+        "distance": 0.20037442445755005,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 706,
+        "obstacle": 4,
+        "x": 6.6878790855407715,
+        "y": 8.611300468444824,
+        "distance": 0.21837203204631805,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 707,
+        "obstacle": 4,
+        "x": 6.6992292404174805,
+        "y": 8.627816200256348,
+        "distance": 0.23670503497123718,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 708,
+        "obstacle": 4,
+        "x": 6.71058464050293,
+        "y": 8.644339561462402,
+        "distance": 0.25530335307121277,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 709,
+        "obstacle": 4,
+        "x": 6.721945762634277,
+        "y": 8.660870552062988,
+        "distance": 0.2741154134273529,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 710,
+        "obstacle": 4,
+        "x": 6.733312129974365,
+        "y": 8.677408218383789,
+        "distance": 0.293101042509079,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 711,
+        "obstacle": 4,
+        "x": 6.744683742523193,
+        "y": 8.693953514099121,
+        "distance": 0.3122308552265167,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 712,
+        "obstacle": 4,
+        "x": 6.756060600280762,
+        "y": 8.710506439208984,
+        "distance": 0.3314815163612366,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 713,
+        "obstacle": 4,
+        "x": 6.76744270324707,
+        "y": 8.727066993713379,
+        "distance": 0.3508347272872925,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 714,
+        "obstacle": 4,
+        "x": 6.778830528259277,
+        "y": 8.743635177612305,
+        "distance": 0.3702763319015503,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 715,
+        "obstacle": 4,
+        "x": 6.790223598480225,
+        "y": 8.760210990905762,
+        "distance": 0.38979417085647583,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 716,
+        "obstacle": 4,
+        "x": 6.801621913909912,
+        "y": 8.776793479919434,
+        "distance": 0.4093780815601349,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 717,
+        "obstacle": 4,
+        "x": 6.81302547454834,
+        "y": 8.793383598327637,
+        "distance": 0.42902082204818726,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 66,
+    "final_distance_to_goal": 43.567205354446244,
+    "min_distance_to_goal": 1.5365676386480727,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 56.21877922724009,
+    "straight_line_distance": 12.741704775727227,
+    "path_efficiency": 0.22664499213375655,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 46,
+    "context_id": "seed-46",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.6610830426216125,
+    "start_y": 0.059986412525177,
+    "goal_x": 9.034855842590332,
+    "goal_y": 8.319257736206055,
+    "total_reward": -4015.799491327256,
+    "constraint_violations": [
+      {
+        "step": 530,
+        "obstacle": 1,
+        "x": 4.421865463256836,
+        "y": 4.600619316101074,
+        "distance": 0.7026695609092712,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 531,
+        "obstacle": 1,
+        "x": 4.432163238525391,
+        "y": 4.615426063537598,
+        "distance": 0.6858102679252625,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 532,
+        "obstacle": 1,
+        "x": 4.442465305328369,
+        "y": 4.6302409172058105,
+        "distance": 0.6690042614936829,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 533,
+        "obstacle": 1,
+        "x": 4.452771186828613,
+        "y": 4.645063877105713,
+        "distance": 0.6522568464279175,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 534,
+        "obstacle": 1,
+        "x": 4.463081359863281,
+        "y": 4.659894943237305,
+        "distance": 0.6355730295181274,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 535,
+        "obstacle": 1,
+        "x": 4.473395347595215,
+        "y": 4.674734115600586,
+        "distance": 0.6189590692520142,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 536,
+        "obstacle": 1,
+        "x": 4.483713626861572,
+        "y": 4.689581394195557,
+        "distance": 0.602421224117279,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 537,
+        "obstacle": 1,
+        "x": 4.494035720825195,
+        "y": 4.704436302185059,
+        "distance": 0.5859673619270325,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 538,
+        "obstacle": 1,
+        "x": 4.504361629486084,
+        "y": 4.71929931640625,
+        "distance": 0.5696053504943848,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 539,
+        "obstacle": 1,
+        "x": 4.5146918296813965,
+        "y": 4.734170436859131,
+        "distance": 0.5533437728881836,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 540,
+        "obstacle": 1,
+        "x": 4.525025844573975,
+        "y": 4.749049663543701,
+        "distance": 0.5371931791305542,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 541,
+        "obstacle": 1,
+        "x": 4.535363674163818,
+        "y": 4.763936519622803,
+        "distance": 0.5211649537086487,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 542,
+        "obstacle": 1,
+        "x": 4.545705318450928,
+        "y": 4.778831481933594,
+        "distance": 0.5052713751792908,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 543,
+        "obstacle": 1,
+        "x": 4.556050777435303,
+        "y": 4.793734550476074,
+        "distance": 0.4895266592502594,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 544,
+        "obstacle": 1,
+        "x": 4.566400051116943,
+        "y": 4.808645248413086,
+        "distance": 0.47394677996635437,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 545,
+        "obstacle": 1,
+        "x": 4.57675313949585,
+        "y": 4.823564052581787,
+        "distance": 0.4585493803024292,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 546,
+        "obstacle": 1,
+        "x": 4.5871100425720215,
+        "y": 4.838490962982178,
+        "distance": 0.4433545768260956,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 547,
+        "obstacle": 1,
+        "x": 4.597470760345459,
+        "y": 4.8534255027771,
+        "distance": 0.4283851683139801,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 548,
+        "obstacle": 1,
+        "x": 4.607835292816162,
+        "y": 4.868368148803711,
+        "distance": 0.41366666555404663,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 549,
+        "obstacle": 1,
+        "x": 4.618203639984131,
+        "y": 4.883318901062012,
+        "distance": 0.39922791719436646,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 550,
+        "obstacle": 1,
+        "x": 4.628575801849365,
+        "y": 4.898277759552002,
+        "distance": 0.3851017355918884,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 551,
+        "obstacle": 1,
+        "x": 4.638951301574707,
+        "y": 4.913244247436523,
+        "distance": 0.37132564187049866,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 552,
+        "obstacle": 1,
+        "x": 4.6493306159973145,
+        "y": 4.928218841552734,
+        "distance": 0.3579407036304474,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 553,
+        "obstacle": 1,
+        "x": 4.6597137451171875,
+        "y": 4.943201541900635,
+        "distance": 0.34499391913414,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 554,
+        "obstacle": 1,
+        "x": 4.670100212097168,
+        "y": 4.958192348480225,
+        "distance": 0.33253833651542664,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 555,
+        "obstacle": 1,
+        "x": 4.680490493774414,
+        "y": 4.973191261291504,
+        "distance": 0.3206322491168976,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 556,
+        "obstacle": 1,
+        "x": 4.690884113311768,
+        "y": 4.988198280334473,
+        "distance": 0.30934110283851624,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 557,
+        "obstacle": 1,
+        "x": 4.7012810707092285,
+        "y": 5.003213405609131,
+        "distance": 0.29873621463775635,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 558,
+        "obstacle": 1,
+        "x": 4.711681365966797,
+        "y": 5.0182366371154785,
+        "distance": 0.28889480233192444,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 559,
+        "obstacle": 1,
+        "x": 4.722085475921631,
+        "y": 5.033267974853516,
+        "distance": 0.27989864349365234,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 560,
+        "obstacle": 1,
+        "x": 4.732492923736572,
+        "y": 5.048307418823242,
+        "distance": 0.2718338370323181,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 561,
+        "obstacle": 1,
+        "x": 4.742903709411621,
+        "y": 5.063354969024658,
+        "distance": 0.26478737592697144,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 562,
+        "obstacle": 1,
+        "x": 4.753317832946777,
+        "y": 5.078410625457764,
+        "distance": 0.25884419679641724,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 563,
+        "obstacle": 1,
+        "x": 4.763735294342041,
+        "y": 5.093474388122559,
+        "distance": 0.2540836036205292,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 564,
+        "obstacle": 1,
+        "x": 4.774155616760254,
+        "y": 5.108545780181885,
+        "distance": 0.25057506561279297,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 565,
+        "obstacle": 1,
+        "x": 4.784579277038574,
+        "y": 5.1236252784729,
+        "distance": 0.24837329983711243,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 566,
+        "obstacle": 1,
+        "x": 4.795006275177002,
+        "y": 5.1387128829956055,
+        "distance": 0.2475150227546692,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 567,
+        "obstacle": 1,
+        "x": 4.805436611175537,
+        "y": 5.15380859375,
+        "distance": 0.2480161190032959,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 568,
+        "obstacle": 1,
+        "x": 4.81587028503418,
+        "y": 5.168911933898926,
+        "distance": 0.2498699575662613,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 569,
+        "obstacle": 1,
+        "x": 4.8263068199157715,
+        "y": 5.184023380279541,
+        "distance": 0.25304925441741943,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 570,
+        "obstacle": 1,
+        "x": 4.836746692657471,
+        "y": 5.1991424560546875,
+        "distance": 0.25750604271888733,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 571,
+        "obstacle": 1,
+        "x": 4.847189903259277,
+        "y": 5.214269638061523,
+        "distance": 0.2631775140762329,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 572,
+        "obstacle": 1,
+        "x": 4.857636451721191,
+        "y": 5.229404449462891,
+        "distance": 0.269988477230072,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 573,
+        "obstacle": 1,
+        "x": 4.868086338043213,
+        "y": 5.244547367095947,
+        "distance": 0.2778572142124176,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 574,
+        "obstacle": 1,
+        "x": 4.878539562225342,
+        "y": 5.259697914123535,
+        "distance": 0.2866978049278259,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 575,
+        "obstacle": 1,
+        "x": 4.888996124267578,
+        "y": 5.274856090545654,
+        "distance": 0.296424925327301,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 576,
+        "obstacle": 1,
+        "x": 4.899456024169922,
+        "y": 5.290021896362305,
+        "distance": 0.3069556951522827,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 577,
+        "obstacle": 1,
+        "x": 4.909919261932373,
+        "y": 5.305195331573486,
+        "distance": 0.31821176409721375,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 578,
+        "obstacle": 1,
+        "x": 4.920385837554932,
+        "y": 5.320376396179199,
+        "distance": 0.33012035489082336,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 579,
+        "obstacle": 1,
+        "x": 4.930855751037598,
+        "y": 5.335565090179443,
+        "distance": 0.3426147401332855,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 580,
+        "obstacle": 1,
+        "x": 4.941329002380371,
+        "y": 5.350761413574219,
+        "distance": 0.3556344509124756,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 581,
+        "obstacle": 1,
+        "x": 4.951805591583252,
+        "y": 5.365964889526367,
+        "distance": 0.3691246509552002,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 582,
+        "obstacle": 1,
+        "x": 4.96228551864624,
+        "y": 5.381175994873047,
+        "distance": 0.3830372393131256,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 583,
+        "obstacle": 1,
+        "x": 4.972769260406494,
+        "y": 5.3963942527771,
+        "distance": 0.3973284661769867,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 584,
+        "obstacle": 1,
+        "x": 4.9832563400268555,
+        "y": 5.411620140075684,
+        "distance": 0.41196054220199585,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 585,
+        "obstacle": 1,
+        "x": 4.993746757507324,
+        "y": 5.426853179931641,
+        "distance": 0.4268989861011505,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 586,
+        "obstacle": 1,
+        "x": 5.0042405128479,
+        "y": 5.442093372344971,
+        "distance": 0.4421137273311615,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 587,
+        "obstacle": 1,
+        "x": 5.014737606048584,
+        "y": 5.457340717315674,
+        "distance": 0.4575781226158142,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 588,
+        "obstacle": 1,
+        "x": 5.025238037109375,
+        "y": 5.47259521484375,
+        "distance": 0.47326862812042236,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 589,
+        "obstacle": 1,
+        "x": 5.035741806030273,
+        "y": 5.487857341766357,
+        "distance": 0.4891648590564728,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 5.046248912811279,
+        "y": 5.503126621246338,
+        "distance": 0.5052478313446045,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 5.056759834289551,
+        "y": 5.518403053283691,
+        "distance": 0.5215011239051819,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 5.06727409362793,
+        "y": 5.533686637878418,
+        "distance": 0.5379100441932678,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 5.077791690826416,
+        "y": 5.548977375030518,
+        "distance": 0.554461658000946,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 5.08831262588501,
+        "y": 5.56427526473999,
+        "distance": 0.5711442232131958,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 5.098836898803711,
+        "y": 5.579580307006836,
+        "distance": 0.5879473090171814,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 5.1093645095825195,
+        "y": 5.594892501831055,
+        "distance": 0.6048617362976074,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 5.1198954582214355,
+        "y": 5.6102118492126465,
+        "distance": 0.6218789219856262,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 5.130429744720459,
+        "y": 5.625538349151611,
+        "distance": 0.6389915347099304,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 5.140966892242432,
+        "y": 5.640871524810791,
+        "distance": 0.6561920046806335,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 5.151507377624512,
+        "y": 5.656211853027344,
+        "distance": 0.673474907875061,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 601,
+        "obstacle": 1,
+        "x": 5.162051200866699,
+        "y": 5.6715593338012695,
+        "distance": 0.690834641456604,
+        "core_radius": 0.7071067690849304
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 72,
+    "final_distance_to_goal": 42.899998749038744,
+    "min_distance_to_goal": 1.7252727349321766,
+    "first_step_inside_goal_zone": 860,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": 1640,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 54.4842752612613,
+    "straight_line_distance": 11.761616968073447,
+    "path_efficiency": 0.21587177055534845,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 47,
+    "context_id": "seed-47",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.05304759740829468,
+    "start_y": 0.0499194860458374,
+    "goal_x": 8.935341835021973,
+    "goal_y": 9.751374244689941,
+    "total_reward": -3739.7717748731375,
+    "constraint_violations": [
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 4.419595241546631,
+        "y": 4.608002662658691,
+        "distance": 0.7003796100616455,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 4.429817199707031,
+        "y": 4.622753620147705,
+        "distance": 0.6836835741996765,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 4.440042972564697,
+        "y": 4.637512683868408,
+        "distance": 0.6670449376106262,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 4.450272560119629,
+        "y": 4.652279853820801,
+        "distance": 0.6504687070846558,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 4.460505962371826,
+        "y": 4.667055130004883,
+        "distance": 0.6339606046676636,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 4.470743179321289,
+        "y": 4.681838512420654,
+        "distance": 0.6175268888473511,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 4.480984687805176,
+        "y": 4.696630001068115,
+        "distance": 0.6011740565299988,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 4.491230010986328,
+        "y": 4.711429595947266,
+        "distance": 0.5849100351333618,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 4.501478672027588,
+        "y": 4.726237773895264,
+        "distance": 0.5687435865402222,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 4.511731147766113,
+        "y": 4.741054058074951,
+        "distance": 0.5526838898658752,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 4.521987438201904,
+        "y": 4.755878448486328,
+        "distance": 0.5367414355278015,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 601,
+        "obstacle": 1,
+        "x": 4.532247543334961,
+        "y": 4.7707109451293945,
+        "distance": 0.5209278464317322,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 602,
+        "obstacle": 1,
+        "x": 4.542511463165283,
+        "y": 4.78555154800415,
+        "distance": 0.5052562355995178,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 603,
+        "obstacle": 1,
+        "x": 4.552778720855713,
+        "y": 4.800400257110596,
+        "distance": 0.4897416830062866,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 604,
+        "obstacle": 1,
+        "x": 4.563049793243408,
+        "y": 4.8152570724487305,
+        "distance": 0.4744000732898712,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 605,
+        "obstacle": 1,
+        "x": 4.573324203491211,
+        "y": 4.830122470855713,
+        "distance": 0.4592500627040863,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 606,
+        "obstacle": 1,
+        "x": 4.583602428436279,
+        "y": 4.844995975494385,
+        "distance": 0.44431203603744507,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 607,
+        "obstacle": 1,
+        "x": 4.593883991241455,
+        "y": 4.859877586364746,
+        "distance": 0.4296097159385681,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 608,
+        "obstacle": 1,
+        "x": 4.604168891906738,
+        "y": 4.874767303466797,
+        "distance": 0.41516923904418945,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 609,
+        "obstacle": 1,
+        "x": 4.614457607269287,
+        "y": 4.889665126800537,
+        "distance": 0.4010196030139923,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 610,
+        "obstacle": 1,
+        "x": 4.624749660491943,
+        "y": 4.904571533203125,
+        "distance": 0.38719427585601807,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 611,
+        "obstacle": 1,
+        "x": 4.635045051574707,
+        "y": 4.919486045837402,
+        "distance": 0.3737306594848633,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 612,
+        "obstacle": 1,
+        "x": 4.645343780517578,
+        "y": 4.934408664703369,
+        "distance": 0.3606705665588379,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 613,
+        "obstacle": 1,
+        "x": 4.655645847320557,
+        "y": 4.949339389801025,
+        "distance": 0.3480607271194458,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 614,
+        "obstacle": 1,
+        "x": 4.665951251983643,
+        "y": 4.964278221130371,
+        "distance": 0.3359532952308655,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 615,
+        "obstacle": 1,
+        "x": 4.676259994506836,
+        "y": 4.979225158691406,
+        "distance": 0.3244059085845947,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 616,
+        "obstacle": 1,
+        "x": 4.6865715980529785,
+        "y": 4.994180202484131,
+        "distance": 0.3134824335575104,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 617,
+        "obstacle": 1,
+        "x": 4.6968865394592285,
+        "y": 5.009143352508545,
+        "distance": 0.30325135588645935,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 618,
+        "obstacle": 1,
+        "x": 4.707204818725586,
+        "y": 5.024114608764648,
+        "distance": 0.29378655552864075,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 619,
+        "obstacle": 1,
+        "x": 4.717526435852051,
+        "y": 5.039093971252441,
+        "distance": 0.2851659953594208,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 620,
+        "obstacle": 1,
+        "x": 4.727850914001465,
+        "y": 5.054081439971924,
+        "distance": 0.27747058868408203,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 621,
+        "obstacle": 1,
+        "x": 4.738178730010986,
+        "y": 5.069077014923096,
+        "distance": 0.27078038454055786,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 622,
+        "obstacle": 1,
+        "x": 4.748509883880615,
+        "y": 5.084080696105957,
+        "distance": 0.2651732265949249,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 623,
+        "obstacle": 1,
+        "x": 4.758844375610352,
+        "y": 5.09909200668335,
+        "distance": 0.2607206702232361,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 624,
+        "obstacle": 1,
+        "x": 4.769182205200195,
+        "y": 5.114111423492432,
+        "distance": 0.2574845254421234,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 625,
+        "obstacle": 1,
+        "x": 4.7795233726501465,
+        "y": 5.129138469696045,
+        "distance": 0.2555125951766968,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 626,
+        "obstacle": 1,
+        "x": 4.789867401123047,
+        "y": 5.1441731452941895,
+        "distance": 0.25483644008636475,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 627,
+        "obstacle": 1,
+        "x": 4.800214767456055,
+        "y": 5.159215927124023,
+        "distance": 0.2554679214954376,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 628,
+        "obstacle": 1,
+        "x": 4.810565948486328,
+        "y": 5.174266338348389,
+        "distance": 0.2573985755443573,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 629,
+        "obstacle": 1,
+        "x": 4.820920467376709,
+        "y": 5.189324378967285,
+        "distance": 0.26060160994529724,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 630,
+        "obstacle": 1,
+        "x": 4.831278324127197,
+        "y": 5.204389572143555,
+        "distance": 0.26503226161003113,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 631,
+        "obstacle": 1,
+        "x": 4.841639518737793,
+        "y": 5.2194623947143555,
+        "distance": 0.27063220739364624,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 632,
+        "obstacle": 1,
+        "x": 4.852004051208496,
+        "y": 5.2345428466796875,
+        "distance": 0.2773321866989136,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 633,
+        "obstacle": 1,
+        "x": 4.862371921539307,
+        "y": 5.249630451202393,
+        "distance": 0.28505587577819824,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 634,
+        "obstacle": 1,
+        "x": 4.872743129730225,
+        "y": 5.264725685119629,
+        "distance": 0.2937243580818176,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 635,
+        "obstacle": 1,
+        "x": 4.883118152618408,
+        "y": 5.279828071594238,
+        "distance": 0.3032574951648712,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 636,
+        "obstacle": 1,
+        "x": 4.893496513366699,
+        "y": 5.294938087463379,
+        "distance": 0.3135784864425659,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 637,
+        "obstacle": 1,
+        "x": 4.903878211975098,
+        "y": 5.310055255889893,
+        "distance": 0.324613094329834,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 638,
+        "obstacle": 1,
+        "x": 4.9142632484436035,
+        "y": 5.325179576873779,
+        "distance": 0.3362923562526703,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 639,
+        "obstacle": 1,
+        "x": 4.924651622772217,
+        "y": 5.340311050415039,
+        "distance": 0.3485527038574219,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 640,
+        "obstacle": 1,
+        "x": 4.935043811798096,
+        "y": 5.355449676513672,
+        "distance": 0.3613361120223999,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 641,
+        "obstacle": 1,
+        "x": 4.945439338684082,
+        "y": 5.370595455169678,
+        "distance": 0.3745902478694916,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 642,
+        "obstacle": 1,
+        "x": 4.955838203430176,
+        "y": 5.385748386383057,
+        "distance": 0.38826805353164673,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 643,
+        "obstacle": 1,
+        "x": 4.966240406036377,
+        "y": 5.400908470153809,
+        "distance": 0.40232738852500916,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 644,
+        "obstacle": 1,
+        "x": 4.9766459465026855,
+        "y": 5.416075706481934,
+        "distance": 0.4167306125164032,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 645,
+        "obstacle": 1,
+        "x": 4.987054824829102,
+        "y": 5.431250095367432,
+        "distance": 0.43144434690475464,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 646,
+        "obstacle": 1,
+        "x": 4.997467517852783,
+        "y": 5.446431636810303,
+        "distance": 0.44643881916999817,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 647,
+        "obstacle": 1,
+        "x": 5.007883548736572,
+        "y": 5.461620330810547,
+        "distance": 0.4616876542568207,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 648,
+        "obstacle": 1,
+        "x": 5.018302917480469,
+        "y": 5.476816177368164,
+        "distance": 0.4771673381328583,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 649,
+        "obstacle": 1,
+        "x": 5.028725624084473,
+        "y": 5.492019176483154,
+        "distance": 0.4928570091724396,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 650,
+        "obstacle": 1,
+        "x": 5.039151191711426,
+        "y": 5.507229328155518,
+        "distance": 0.5087380409240723,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 651,
+        "obstacle": 1,
+        "x": 5.049580097198486,
+        "y": 5.522446632385254,
+        "distance": 0.5247939229011536,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 652,
+        "obstacle": 1,
+        "x": 5.060012340545654,
+        "y": 5.537671089172363,
+        "distance": 0.5410098433494568,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 653,
+        "obstacle": 1,
+        "x": 5.07044792175293,
+        "y": 5.552902698516846,
+        "distance": 0.5573726892471313,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 654,
+        "obstacle": 1,
+        "x": 5.0808868408203125,
+        "y": 5.568141460418701,
+        "distance": 0.5738705396652222,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 655,
+        "obstacle": 1,
+        "x": 5.091329097747803,
+        "y": 5.58338737487793,
+        "distance": 0.5904929041862488,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 656,
+        "obstacle": 1,
+        "x": 5.101774215698242,
+        "y": 5.598640441894531,
+        "distance": 0.6072301268577576,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 657,
+        "obstacle": 1,
+        "x": 5.112222671508789,
+        "y": 5.613900661468506,
+        "distance": 0.6240736842155457,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 658,
+        "obstacle": 1,
+        "x": 5.122674465179443,
+        "y": 5.6291680335998535,
+        "distance": 0.6410159468650818,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 659,
+        "obstacle": 1,
+        "x": 5.133129119873047,
+        "y": 5.644442558288574,
+        "distance": 0.6580498218536377,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 660,
+        "obstacle": 1,
+        "x": 5.143587112426758,
+        "y": 5.659724235534668,
+        "distance": 0.6751691102981567,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 661,
+        "obstacle": 1,
+        "x": 5.154047966003418,
+        "y": 5.675013065338135,
+        "distance": 0.6923679709434509,
+        "core_radius": 0.7071067690849304
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 72,
+    "final_distance_to_goal": 39.917854255015065,
+    "min_distance_to_goal": 0.8621940586068071,
+    "first_step_inside_goal_zone": 923,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": 1577,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 49,
+    "path_length": 53.156766096258515,
+    "straight_line_distance": 13.153454882940963,
+    "path_efficiency": 0.24744648421843668,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 48,
+    "context_id": "seed-48",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.477508544921875,
+    "start_y": 0.17984312772750854,
+    "goal_x": 8.485513687133789,
+    "goal_y": 8.433280944824219,
+    "total_reward": -4066.6836782693863,
+    "constraint_violations": [
+      {
+        "step": 532,
+        "obstacle": 1,
+        "x": 4.391756057739258,
+        "y": 4.663094997406006,
+        "distance": 0.6953169703483582,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 533,
+        "obstacle": 1,
+        "x": 4.402085304260254,
+        "y": 4.677894115447998,
+        "distance": 0.6791569590568542,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 534,
+        "obstacle": 1,
+        "x": 4.412418365478516,
+        "y": 4.6927008628845215,
+        "distance": 0.6630874276161194,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 535,
+        "obstacle": 1,
+        "x": 4.422755241394043,
+        "y": 4.707515239715576,
+        "distance": 0.6471157670021057,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 536,
+        "obstacle": 1,
+        "x": 4.433095932006836,
+        "y": 4.72233772277832,
+        "distance": 0.6312500238418579,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 537,
+        "obstacle": 1,
+        "x": 4.443439960479736,
+        "y": 4.737167835235596,
+        "distance": 0.6154996752738953,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 538,
+        "obstacle": 1,
+        "x": 4.453787803649902,
+        "y": 4.7520060539245605,
+        "distance": 0.599873960018158,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 539,
+        "obstacle": 1,
+        "x": 4.464138984680176,
+        "y": 4.766851902008057,
+        "distance": 0.5843843221664429,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 540,
+        "obstacle": 1,
+        "x": 4.474493980407715,
+        "y": 4.781705379486084,
+        "distance": 0.5690422654151917,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 541,
+        "obstacle": 1,
+        "x": 4.484852313995361,
+        "y": 4.796566963195801,
+        "distance": 0.5538610816001892,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 542,
+        "obstacle": 1,
+        "x": 4.495213985443115,
+        "y": 4.811436176300049,
+        "distance": 0.5388554930686951,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 543,
+        "obstacle": 1,
+        "x": 4.505579471588135,
+        "y": 4.826313018798828,
+        "distance": 0.5240408778190613,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 544,
+        "obstacle": 1,
+        "x": 4.515948295593262,
+        "y": 4.841197967529297,
+        "distance": 0.5094351172447205,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 545,
+        "obstacle": 1,
+        "x": 4.526320457458496,
+        "y": 4.856090545654297,
+        "distance": 0.4950578212738037,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 546,
+        "obstacle": 1,
+        "x": 4.536695957183838,
+        "y": 4.870990753173828,
+        "distance": 0.480930358171463,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 547,
+        "obstacle": 1,
+        "x": 4.547074794769287,
+        "y": 4.885899066925049,
+        "distance": 0.46707630157470703,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 548,
+        "obstacle": 1,
+        "x": 4.557456970214844,
+        "y": 4.900815010070801,
+        "distance": 0.4535217583179474,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 549,
+        "obstacle": 1,
+        "x": 4.567842483520508,
+        "y": 4.915739059448242,
+        "distance": 0.44029536843299866,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 550,
+        "obstacle": 1,
+        "x": 4.578231334686279,
+        "y": 4.930670738220215,
+        "distance": 0.4274287819862366,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 551,
+        "obstacle": 1,
+        "x": 4.588623523712158,
+        "y": 4.945610046386719,
+        "distance": 0.4149564802646637,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 552,
+        "obstacle": 1,
+        "x": 4.5990190505981445,
+        "y": 4.960557460784912,
+        "distance": 0.40291616320610046,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 553,
+        "obstacle": 1,
+        "x": 4.60941743850708,
+        "y": 4.975512981414795,
+        "distance": 0.3913493752479553,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 554,
+        "obstacle": 1,
+        "x": 4.619819164276123,
+        "y": 4.990476131439209,
+        "distance": 0.3803001046180725,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 555,
+        "obstacle": 1,
+        "x": 4.630224227905273,
+        "y": 5.0054473876953125,
+        "distance": 0.3698158860206604,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 556,
+        "obstacle": 1,
+        "x": 4.640632152557373,
+        "y": 5.020426273345947,
+        "distance": 0.35994789004325867,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 557,
+        "obstacle": 1,
+        "x": 4.65104341506958,
+        "y": 5.0354132652282715,
+        "distance": 0.3507488965988159,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 558,
+        "obstacle": 1,
+        "x": 4.661457538604736,
+        "y": 5.050408363342285,
+        "distance": 0.3422747552394867,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 559,
+        "obstacle": 1,
+        "x": 4.671875,
+        "y": 5.06541109085083,
+        "distance": 0.33458125591278076,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 560,
+        "obstacle": 1,
+        "x": 4.682295322418213,
+        "y": 5.0804219245910645,
+        "distance": 0.3277254104614258,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 561,
+        "obstacle": 1,
+        "x": 4.692718982696533,
+        "y": 5.09544038772583,
+        "distance": 0.3217615485191345,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 562,
+        "obstacle": 1,
+        "x": 4.703145503997803,
+        "y": 5.110466957092285,
+        "distance": 0.31674206256866455,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 563,
+        "obstacle": 1,
+        "x": 4.7135748863220215,
+        "y": 5.1255011558532715,
+        "distance": 0.31271374225616455,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 564,
+        "obstacle": 1,
+        "x": 4.724007606506348,
+        "y": 5.140543460845947,
+        "distance": 0.30971643328666687,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 565,
+        "obstacle": 1,
+        "x": 4.734443187713623,
+        "y": 5.155593395233154,
+        "distance": 0.30778196454048157,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 566,
+        "obstacle": 1,
+        "x": 4.744881629943848,
+        "y": 5.170650959014893,
+        "distance": 0.3069317936897278,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 567,
+        "obstacle": 1,
+        "x": 4.75532341003418,
+        "y": 5.18571662902832,
+        "distance": 0.3071763217449188,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 568,
+        "obstacle": 1,
+        "x": 4.765768051147461,
+        "y": 5.200789928436279,
+        "distance": 0.3085145056247711,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 569,
+        "obstacle": 1,
+        "x": 4.776215553283691,
+        "y": 5.2158708572387695,
+        "distance": 0.31093358993530273,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 570,
+        "obstacle": 1,
+        "x": 4.786666393280029,
+        "y": 5.230959415435791,
+        "distance": 0.3144097328186035,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 571,
+        "obstacle": 1,
+        "x": 4.797120094299316,
+        "y": 5.246055603027344,
+        "distance": 0.31891003251075745,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 572,
+        "obstacle": 1,
+        "x": 4.807577133178711,
+        "y": 5.261159420013428,
+        "distance": 0.32439297437667847,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 573,
+        "obstacle": 1,
+        "x": 4.818037033081055,
+        "y": 5.276270866394043,
+        "distance": 0.3308112919330597,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 574,
+        "obstacle": 1,
+        "x": 4.828500270843506,
+        "y": 5.2913899421691895,
+        "distance": 0.3381127715110779,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 575,
+        "obstacle": 1,
+        "x": 4.838966369628906,
+        "y": 5.306516647338867,
+        "distance": 0.34624308347702026,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 576,
+        "obstacle": 1,
+        "x": 4.849435806274414,
+        "y": 5.321650981903076,
+        "distance": 0.3551463484764099,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 577,
+        "obstacle": 1,
+        "x": 4.859908580780029,
+        "y": 5.336792945861816,
+        "distance": 0.3647671639919281,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 578,
+        "obstacle": 1,
+        "x": 4.870384216308594,
+        "y": 5.35194206237793,
+        "distance": 0.3750512897968292,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 579,
+        "obstacle": 1,
+        "x": 4.880863189697266,
+        "y": 5.367098808288574,
+        "distance": 0.385947048664093,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 580,
+        "obstacle": 1,
+        "x": 4.891345024108887,
+        "y": 5.38226318359375,
+        "distance": 0.39740538597106934,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 581,
+        "obstacle": 1,
+        "x": 4.901830196380615,
+        "y": 5.397434711456299,
+        "distance": 0.40937960147857666,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 582,
+        "obstacle": 1,
+        "x": 4.912318229675293,
+        "y": 5.412613868713379,
+        "distance": 0.4218273460865021,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 583,
+        "obstacle": 1,
+        "x": 4.922809600830078,
+        "y": 5.427800178527832,
+        "distance": 0.4347083568572998,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 584,
+        "obstacle": 1,
+        "x": 4.9333038330078125,
+        "y": 5.442993640899658,
+        "distance": 0.44798633456230164,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 585,
+        "obstacle": 1,
+        "x": 4.943801403045654,
+        "y": 5.458194732666016,
+        "distance": 0.4616283178329468,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 586,
+        "obstacle": 1,
+        "x": 4.954301834106445,
+        "y": 5.473402976989746,
+        "distance": 0.47560352087020874,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 587,
+        "obstacle": 1,
+        "x": 4.964805603027344,
+        "y": 5.48861837387085,
+        "distance": 0.48988422751426697,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 588,
+        "obstacle": 1,
+        "x": 4.975312232971191,
+        "y": 5.503841400146484,
+        "distance": 0.5044458508491516,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 589,
+        "obstacle": 1,
+        "x": 4.985821723937988,
+        "y": 5.519071578979492,
+        "distance": 0.5192651748657227,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 4.996334552764893,
+        "y": 5.534308910369873,
+        "distance": 0.5343214869499207,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 5.006850242614746,
+        "y": 5.549553394317627,
+        "distance": 0.5495960712432861,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 5.017369270324707,
+        "y": 5.564805507659912,
+        "distance": 0.5650725364685059,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 5.027891159057617,
+        "y": 5.58006477355957,
+        "distance": 0.58073490858078,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 5.038415908813477,
+        "y": 5.595331192016602,
+        "distance": 0.5965693593025208,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 5.048943996429443,
+        "y": 5.610604763031006,
+        "distance": 0.6125631928443909,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 5.059474945068359,
+        "y": 5.625885486602783,
+        "distance": 0.6287049651145935,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 5.070008754730225,
+        "y": 5.641173362731934,
+        "distance": 0.6449841260910034,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 5.080545902252197,
+        "y": 5.656468391418457,
+        "distance": 0.6613912582397461,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 5.091085910797119,
+        "y": 5.6717705726623535,
+        "distance": 0.6779176592826843,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 5.10162878036499,
+        "y": 5.687079906463623,
+        "distance": 0.694555401802063,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 756,
+        "obstacle": 4,
+        "x": 6.781797409057617,
+        "y": 8.15991497039795,
+        "distance": 0.44166460633277893,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 757,
+        "obstacle": 4,
+        "x": 6.7928266525268555,
+        "y": 8.176305770874023,
+        "distance": 0.4364921748638153,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 758,
+        "obstacle": 4,
+        "x": 6.803860187530518,
+        "y": 8.192704200744629,
+        "distance": 0.4321593642234802,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 759,
+        "obstacle": 4,
+        "x": 6.8148980140686035,
+        "y": 8.20910930633545,
+        "distance": 0.428693562746048,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 760,
+        "obstacle": 4,
+        "x": 6.825940132141113,
+        "y": 8.2255220413208,
+        "distance": 0.42611631751060486,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 761,
+        "obstacle": 4,
+        "x": 6.836986541748047,
+        "y": 8.241941452026367,
+        "distance": 0.4244456887245178,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 762,
+        "obstacle": 4,
+        "x": 6.848037242889404,
+        "y": 8.258367538452148,
+        "distance": 0.4236934781074524,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 763,
+        "obstacle": 4,
+        "x": 6.859092712402344,
+        "y": 8.274801254272461,
+        "distance": 0.4238656163215637,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 764,
+        "obstacle": 4,
+        "x": 6.870152473449707,
+        "y": 8.291242599487305,
+        "distance": 0.42496177554130554,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 765,
+        "obstacle": 4,
+        "x": 6.881217002868652,
+        "y": 8.307690620422363,
+        "distance": 0.42697691917419434,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 766,
+        "obstacle": 4,
+        "x": 6.8922858238220215,
+        "y": 8.324146270751953,
+        "distance": 0.4298984706401825,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 767,
+        "obstacle": 4,
+        "x": 6.903359413146973,
+        "y": 8.340608596801758,
+        "distance": 0.4337100684642792,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 768,
+        "obstacle": 4,
+        "x": 6.914437770843506,
+        "y": 8.357078552246094,
+        "distance": 0.4383893311023712,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 769,
+        "obstacle": 4,
+        "x": 6.925520896911621,
+        "y": 8.373555183410645,
+        "distance": 0.44391027092933655,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 83,
+    "final_distance_to_goal": 43.10250648712633,
+    "min_distance_to_goal": 1.2608718413374396,
+    "first_step_inside_goal_zone": 864,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": 1636,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 54.52984833250801,
+    "straight_line_distance": 11.499886180235636,
+    "path_efficiency": 0.2108915856525493,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 49,
+    "context_id": "seed-49",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.046900391578674316,
+    "start_y": 0.27671319246292114,
+    "goal_x": 8.49565601348877,
+    "goal_y": 9.853453636169434,
+    "total_reward": -3863.3729288503528,
+    "constraint_violations": [
+      {
+        "step": 560,
+        "obstacle": 1,
+        "x": 4.359666347503662,
+        "y": 4.701095104217529,
+        "distance": 0.706662118434906,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 561,
+        "obstacle": 1,
+        "x": 4.369980812072754,
+        "y": 4.715853691101074,
+        "distance": 0.6911318898200989,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 562,
+        "obstacle": 1,
+        "x": 4.380298614501953,
+        "y": 4.73061990737915,
+        "distance": 0.6757184863090515,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 563,
+        "obstacle": 1,
+        "x": 4.39061975479126,
+        "y": 4.745393753051758,
+        "distance": 0.6604306697845459,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 564,
+        "obstacle": 1,
+        "x": 4.400943756103516,
+        "y": 4.760175704956055,
+        "distance": 0.64527827501297,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 565,
+        "obstacle": 1,
+        "x": 4.411271095275879,
+        "y": 4.774965286254883,
+        "distance": 0.6302716135978699,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 566,
+        "obstacle": 1,
+        "x": 4.42160177230835,
+        "y": 4.789762496948242,
+        "distance": 0.6154220700263977,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 567,
+        "obstacle": 1,
+        "x": 4.4319353103637695,
+        "y": 4.804567813873291,
+        "distance": 0.6007422208786011,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 568,
+        "obstacle": 1,
+        "x": 4.442272186279297,
+        "y": 4.819380760192871,
+        "distance": 0.5862453579902649,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 569,
+        "obstacle": 1,
+        "x": 4.452611923217773,
+        "y": 4.834201812744141,
+        "distance": 0.5719464421272278,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 570,
+        "obstacle": 1,
+        "x": 4.462954521179199,
+        "y": 4.849030494689941,
+        "distance": 0.5578616857528687,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 571,
+        "obstacle": 1,
+        "x": 4.473300457000732,
+        "y": 4.863866806030273,
+        "distance": 0.5440079569816589,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 572,
+        "obstacle": 1,
+        "x": 4.483649253845215,
+        "y": 4.878711223602295,
+        "distance": 0.5304046273231506,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 573,
+        "obstacle": 1,
+        "x": 4.4940009117126465,
+        "y": 4.893563270568848,
+        "distance": 0.5170723795890808,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 574,
+        "obstacle": 1,
+        "x": 4.5043559074401855,
+        "y": 4.908422946929932,
+        "distance": 0.5040331482887268,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 575,
+        "obstacle": 1,
+        "x": 4.514713764190674,
+        "y": 4.923290729522705,
+        "distance": 0.49131155014038086,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 576,
+        "obstacle": 1,
+        "x": 4.525074481964111,
+        "y": 4.93816614151001,
+        "distance": 0.4789339005947113,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 577,
+        "obstacle": 1,
+        "x": 4.535438060760498,
+        "y": 4.953049659729004,
+        "distance": 0.4669283926486969,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 578,
+        "obstacle": 1,
+        "x": 4.545804500579834,
+        "y": 4.967940807342529,
+        "distance": 0.45532554388046265,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 579,
+        "obstacle": 1,
+        "x": 4.556173801422119,
+        "y": 4.982840061187744,
+        "distance": 0.44415780901908875,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 580,
+        "obstacle": 1,
+        "x": 4.5665459632873535,
+        "y": 4.99774694442749,
+        "distance": 0.43345990777015686,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 581,
+        "obstacle": 1,
+        "x": 4.576920986175537,
+        "y": 5.012661457061768,
+        "distance": 0.4232684075832367,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 582,
+        "obstacle": 1,
+        "x": 4.58729887008667,
+        "y": 5.027584075927734,
+        "distance": 0.4136219322681427,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 583,
+        "obstacle": 1,
+        "x": 4.597679615020752,
+        "y": 5.042514324188232,
+        "distance": 0.4045604467391968,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 584,
+        "obstacle": 1,
+        "x": 4.608063220977783,
+        "y": 5.057452201843262,
+        "distance": 0.3961252272129059,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 585,
+        "obstacle": 1,
+        "x": 4.618449687957764,
+        "y": 5.072397708892822,
+        "distance": 0.38835814595222473,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 586,
+        "obstacle": 1,
+        "x": 4.628839015960693,
+        "y": 5.087350845336914,
+        "distance": 0.38130125403404236,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 587,
+        "obstacle": 1,
+        "x": 4.639231204986572,
+        "y": 5.102312088012695,
+        "distance": 0.3749958574771881,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 588,
+        "obstacle": 1,
+        "x": 4.6496262550354,
+        "y": 5.117280960083008,
+        "distance": 0.36948150396347046,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 589,
+        "obstacle": 1,
+        "x": 4.660024166107178,
+        "y": 5.132257461547852,
+        "distance": 0.3647952973842621,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 4.670424461364746,
+        "y": 5.147241592407227,
+        "distance": 0.3609710931777954,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 4.680827617645264,
+        "y": 5.162233352661133,
+        "distance": 0.35803723335266113,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 4.6912336349487305,
+        "y": 5.17723274230957,
+        "distance": 0.35601702332496643,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 4.7016425132751465,
+        "y": 5.192239761352539,
+        "distance": 0.3549271821975708,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 4.712054252624512,
+        "y": 5.207254409790039,
+        "distance": 0.35477760434150696,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 4.722468852996826,
+        "y": 5.22227668762207,
+        "distance": 0.35557061433792114,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 4.73288631439209,
+        "y": 5.237306594848633,
+        "distance": 0.35730117559432983,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 4.743306636810303,
+        "y": 5.252344131469727,
+        "distance": 0.3599570095539093,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 4.753729820251465,
+        "y": 5.267389297485352,
+        "distance": 0.36351895332336426,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 4.764155864715576,
+        "y": 5.28244161605835,
+        "distance": 0.367961585521698,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 4.774584770202637,
+        "y": 5.297501564025879,
+        "distance": 0.3732548952102661,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 601,
+        "obstacle": 1,
+        "x": 4.7850165367126465,
+        "y": 5.3125691413879395,
+        "distance": 0.37936440110206604,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 602,
+        "obstacle": 1,
+        "x": 4.7954511642456055,
+        "y": 5.327643871307373,
+        "distance": 0.38625216484069824,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 603,
+        "obstacle": 1,
+        "x": 4.805888652801514,
+        "y": 5.342726230621338,
+        "distance": 0.3938787877559662,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 604,
+        "obstacle": 1,
+        "x": 4.816329479217529,
+        "y": 5.357815742492676,
+        "distance": 0.40220263600349426,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 605,
+        "obstacle": 1,
+        "x": 4.826773166656494,
+        "y": 5.372912883758545,
+        "distance": 0.41118311882019043,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 606,
+        "obstacle": 1,
+        "x": 4.837219715118408,
+        "y": 5.388017177581787,
+        "distance": 0.420778751373291,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 607,
+        "obstacle": 1,
+        "x": 4.8476691246032715,
+        "y": 5.4031291007995605,
+        "distance": 0.430949866771698,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 608,
+        "obstacle": 1,
+        "x": 4.858121395111084,
+        "y": 5.418248176574707,
+        "distance": 0.4416572153568268,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 609,
+        "obstacle": 1,
+        "x": 4.868576526641846,
+        "y": 5.433374404907227,
+        "distance": 0.4528636634349823,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 610,
+        "obstacle": 1,
+        "x": 4.879034519195557,
+        "y": 5.448508262634277,
+        "distance": 0.4645344913005829,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 611,
+        "obstacle": 1,
+        "x": 4.889495372772217,
+        "y": 5.463649272918701,
+        "distance": 0.47663605213165283,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 612,
+        "obstacle": 1,
+        "x": 4.899959087371826,
+        "y": 5.478797435760498,
+        "distance": 0.4891371726989746,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 613,
+        "obstacle": 1,
+        "x": 4.910425662994385,
+        "y": 5.493952751159668,
+        "distance": 0.502008855342865,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 614,
+        "obstacle": 1,
+        "x": 4.920895099639893,
+        "y": 5.509115695953369,
+        "distance": 0.5152245759963989,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 615,
+        "obstacle": 1,
+        "x": 4.93136739730835,
+        "y": 5.524285793304443,
+        "distance": 0.5287589430809021,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 616,
+        "obstacle": 1,
+        "x": 4.941842555999756,
+        "y": 5.539463043212891,
+        "distance": 0.5425888299942017,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 617,
+        "obstacle": 1,
+        "x": 4.952320575714111,
+        "y": 5.554647445678711,
+        "distance": 0.5566930174827576,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 618,
+        "obstacle": 1,
+        "x": 4.962801456451416,
+        "y": 5.569839000701904,
+        "distance": 0.571051836013794,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 619,
+        "obstacle": 1,
+        "x": 4.97328519821167,
+        "y": 5.585038185119629,
+        "distance": 0.5856478214263916,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 620,
+        "obstacle": 1,
+        "x": 4.983771800994873,
+        "y": 5.600244522094727,
+        "distance": 0.6004638671875,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 621,
+        "obstacle": 1,
+        "x": 4.994260787963867,
+        "y": 5.615458011627197,
+        "distance": 0.6154847741127014,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 622,
+        "obstacle": 1,
+        "x": 5.0047526359558105,
+        "y": 5.630678653717041,
+        "distance": 0.6306965351104736,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 623,
+        "obstacle": 1,
+        "x": 5.015247344970703,
+        "y": 5.645906448364258,
+        "distance": 0.6460863947868347,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 624,
+        "obstacle": 1,
+        "x": 5.025744915008545,
+        "y": 5.661141395568848,
+        "distance": 0.6616424918174744,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 625,
+        "obstacle": 1,
+        "x": 5.036245346069336,
+        "y": 5.6763834953308105,
+        "distance": 0.6773539185523987,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 626,
+        "obstacle": 1,
+        "x": 5.046748638153076,
+        "y": 5.6916327476501465,
+        "distance": 0.6932108402252197,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 778,
+        "obstacle": 4,
+        "x": 6.676558494567871,
+        "y": 8.09070873260498,
+        "distance": 0.44574907422065735,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 779,
+        "obstacle": 4,
+        "x": 6.68753719329834,
+        "y": 8.10702896118164,
+        "distance": 0.4354267120361328,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 780,
+        "obstacle": 4,
+        "x": 6.698520183563232,
+        "y": 8.123355865478516,
+        "distance": 0.4257594048976898,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 781,
+        "obstacle": 4,
+        "x": 6.709507465362549,
+        "y": 8.139690399169922,
+        "distance": 0.41679298877716064,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 782,
+        "obstacle": 4,
+        "x": 6.720499515533447,
+        "y": 8.15603256225586,
+        "distance": 0.4085751175880432,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 783,
+        "obstacle": 4,
+        "x": 6.731496334075928,
+        "y": 8.172381401062012,
+        "distance": 0.40115395188331604,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 784,
+        "obstacle": 4,
+        "x": 6.742497444152832,
+        "y": 8.188737869262695,
+        "distance": 0.3945746123790741,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 785,
+        "obstacle": 4,
+        "x": 6.753503322601318,
+        "y": 8.20510196685791,
+        "distance": 0.3888814449310303,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 786,
+        "obstacle": 4,
+        "x": 6.764513969421387,
+        "y": 8.22147274017334,
+        "distance": 0.38411596417427063,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 787,
+        "obstacle": 4,
+        "x": 6.775529384613037,
+        "y": 8.2378511428833,
+        "distance": 0.3803136348724365,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 788,
+        "obstacle": 4,
+        "x": 6.7865495681762695,
+        "y": 8.254237174987793,
+        "distance": 0.37750500440597534,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 789,
+        "obstacle": 4,
+        "x": 6.797574520111084,
+        "y": 8.2706298828125,
+        "distance": 0.37571433186531067,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 790,
+        "obstacle": 4,
+        "x": 6.8086042404174805,
+        "y": 8.287030220031738,
+        "distance": 0.3749569356441498,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 791,
+        "obstacle": 4,
+        "x": 6.819638729095459,
+        "y": 8.303438186645508,
+        "distance": 0.3752405345439911,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 792,
+        "obstacle": 4,
+        "x": 6.830678462982178,
+        "y": 8.319852828979492,
+        "distance": 0.3765650689601898,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 793,
+        "obstacle": 4,
+        "x": 6.8417229652404785,
+        "y": 8.336275100708008,
+        "distance": 0.3789200782775879,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 794,
+        "obstacle": 4,
+        "x": 6.8527727127075195,
+        "y": 8.352705001831055,
+        "distance": 0.3822883665561676,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 795,
+        "obstacle": 4,
+        "x": 6.863827228546143,
+        "y": 8.369142532348633,
+        "distance": 0.3866444528102875,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 796,
+        "obstacle": 4,
+        "x": 6.874886989593506,
+        "y": 8.385586738586426,
+        "distance": 0.39195746183395386,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 797,
+        "obstacle": 4,
+        "x": 6.885951519012451,
+        "y": 8.40203857421875,
+        "distance": 0.3981896638870239,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 798,
+        "obstacle": 4,
+        "x": 6.897021293640137,
+        "y": 8.418498039245605,
+        "distance": 0.40530046820640564,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 799,
+        "obstacle": 4,
+        "x": 6.9080963134765625,
+        "y": 8.434965133666992,
+        "distance": 0.4132458567619324,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 800,
+        "obstacle": 4,
+        "x": 6.91917610168457,
+        "y": 8.451438903808594,
+        "distance": 0.4219796061515808,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 801,
+        "obstacle": 4,
+        "x": 6.930261135101318,
+        "y": 8.467920303344727,
+        "distance": 0.4314554035663605,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 802,
+        "obstacle": 4,
+        "x": 6.941351413726807,
+        "y": 8.48440933227539,
+        "distance": 0.4416266977787018,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 92,
+    "final_distance_to_goal": 41.07739205352024,
+    "min_distance_to_goal": 0.5242970117280391,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 82,
+    "path_length": 53.98157155862499,
+    "straight_line_distance": 12.770882079358554,
+    "path_efficiency": 0.23657855283981752,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 50,
+    "context_id": "seed-50",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.6180219650268555,
+    "start_y": 0.06869316101074219,
+    "goal_x": 8.778550148010254,
+    "goal_y": 8.08082389831543,
+    "total_reward": -4047.911830767989,
+    "constraint_violations": [
+      {
+        "step": 533,
+        "obstacle": 1,
+        "x": 4.418753623962402,
+        "y": 4.607673168182373,
+        "distance": 0.7012615203857422,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 534,
+        "obstacle": 1,
+        "x": 4.429051399230957,
+        "y": 4.622476577758789,
+        "distance": 0.6844751238822937,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 535,
+        "obstacle": 1,
+        "x": 4.439352989196777,
+        "y": 4.6372880935668945,
+        "distance": 0.6677461862564087,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 536,
+        "obstacle": 1,
+        "x": 4.4496588706970215,
+        "y": 4.6521077156066895,
+        "distance": 0.6510794162750244,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 537,
+        "obstacle": 1,
+        "x": 4.459968566894531,
+        "y": 4.666935443878174,
+        "distance": 0.6344808340072632,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 538,
+        "obstacle": 1,
+        "x": 4.470282077789307,
+        "y": 4.681771278381348,
+        "distance": 0.617956817150116,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 539,
+        "obstacle": 1,
+        "x": 4.480599880218506,
+        "y": 4.696614742279053,
+        "distance": 0.6015140414237976,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 540,
+        "obstacle": 1,
+        "x": 4.490921497344971,
+        "y": 4.711466312408447,
+        "distance": 0.5851603150367737,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 541,
+        "obstacle": 1,
+        "x": 4.501246929168701,
+        "y": 4.726325988769531,
+        "distance": 0.5689042806625366,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 542,
+        "obstacle": 1,
+        "x": 4.511576175689697,
+        "y": 4.741193771362305,
+        "distance": 0.5527553558349609,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 543,
+        "obstacle": 1,
+        "x": 4.521909236907959,
+        "y": 4.756069183349609,
+        "distance": 0.536724328994751,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 544,
+        "obstacle": 1,
+        "x": 4.532246112823486,
+        "y": 4.7709527015686035,
+        "distance": 0.5208227634429932,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 545,
+        "obstacle": 1,
+        "x": 4.542586803436279,
+        "y": 4.785844326019287,
+        "distance": 0.5050638318061829,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 546,
+        "obstacle": 1,
+        "x": 4.552931308746338,
+        "y": 4.800743579864502,
+        "distance": 0.4894624948501587,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 547,
+        "obstacle": 1,
+        "x": 4.563279628753662,
+        "y": 4.815650939941406,
+        "distance": 0.4740350842475891,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 548,
+        "obstacle": 1,
+        "x": 4.573631763458252,
+        "y": 4.83056640625,
+        "distance": 0.45880019664764404,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 549,
+        "obstacle": 1,
+        "x": 4.583987712860107,
+        "y": 4.845489501953125,
+        "distance": 0.4437789022922516,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 550,
+        "obstacle": 1,
+        "x": 4.5943474769592285,
+        "y": 4.8604207038879395,
+        "distance": 0.4289945662021637,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 551,
+        "obstacle": 1,
+        "x": 4.604711055755615,
+        "y": 4.875360012054443,
+        "distance": 0.4144737422466278,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 552,
+        "obstacle": 1,
+        "x": 4.615077972412109,
+        "y": 4.8903069496154785,
+        "distance": 0.40024685859680176,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 553,
+        "obstacle": 1,
+        "x": 4.625448703765869,
+        "y": 4.905261993408203,
+        "distance": 0.3863469660282135,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 554,
+        "obstacle": 1,
+        "x": 4.6358232498168945,
+        "y": 4.920225143432617,
+        "distance": 0.3728119134902954,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 555,
+        "obstacle": 1,
+        "x": 4.646201133728027,
+        "y": 4.935196399688721,
+        "distance": 0.3596847951412201,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 556,
+        "obstacle": 1,
+        "x": 4.656582832336426,
+        "y": 4.950175762176514,
+        "distance": 0.3470126986503601,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 557,
+        "obstacle": 1,
+        "x": 4.666967868804932,
+        "y": 4.965163230895996,
+        "distance": 0.3348492383956909,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 558,
+        "obstacle": 1,
+        "x": 4.677356243133545,
+        "y": 4.980158805847168,
+        "distance": 0.32325324416160583,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 559,
+        "obstacle": 1,
+        "x": 4.687748432159424,
+        "y": 4.995162487030029,
+        "distance": 0.3122890293598175,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 560,
+        "obstacle": 1,
+        "x": 4.69814395904541,
+        "y": 5.010173797607422,
+        "distance": 0.3020274341106415,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 561,
+        "obstacle": 1,
+        "x": 4.708542823791504,
+        "y": 5.025193214416504,
+        "distance": 0.29254400730133057,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 562,
+        "obstacle": 1,
+        "x": 4.718945026397705,
+        "y": 5.040220737457275,
+        "distance": 0.2839183211326599,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 563,
+        "obstacle": 1,
+        "x": 4.729350566864014,
+        "y": 5.055256366729736,
+        "distance": 0.2762324810028076,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 564,
+        "obstacle": 1,
+        "x": 4.73975944519043,
+        "y": 5.070300102233887,
+        "distance": 0.26956862211227417,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 565,
+        "obstacle": 1,
+        "x": 4.750171661376953,
+        "y": 5.085351943969727,
+        "distance": 0.26400595903396606,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 566,
+        "obstacle": 1,
+        "x": 4.760586738586426,
+        "y": 5.100411891937256,
+        "distance": 0.25961753726005554,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 567,
+        "obstacle": 1,
+        "x": 4.771005153656006,
+        "y": 5.115479946136475,
+        "distance": 0.2564649283885956,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 568,
+        "obstacle": 1,
+        "x": 4.781426906585693,
+        "y": 5.130555629730225,
+        "distance": 0.25459569692611694,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 569,
+        "obstacle": 1,
+        "x": 4.791851997375488,
+        "y": 5.145639419555664,
+        "distance": 0.2540402114391327,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 570,
+        "obstacle": 1,
+        "x": 4.802279949188232,
+        "y": 5.160731315612793,
+        "distance": 0.25480929017066956,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 571,
+        "obstacle": 1,
+        "x": 4.812711238861084,
+        "y": 5.175830841064453,
+        "distance": 0.2568921148777008,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 572,
+        "obstacle": 1,
+        "x": 4.823145866394043,
+        "y": 5.190938472747803,
+        "distance": 0.2602592706680298,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 573,
+        "obstacle": 1,
+        "x": 4.833583831787109,
+        "y": 5.206053733825684,
+        "distance": 0.26486313343048096,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 574,
+        "obstacle": 1,
+        "x": 4.844025135040283,
+        "y": 5.221177101135254,
+        "distance": 0.2706426978111267,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 575,
+        "obstacle": 1,
+        "x": 4.854469299316406,
+        "y": 5.2363080978393555,
+        "distance": 0.27752605080604553,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 576,
+        "obstacle": 1,
+        "x": 4.864916801452637,
+        "y": 5.251446723937988,
+        "distance": 0.28543463349342346,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 577,
+        "obstacle": 1,
+        "x": 4.875367641448975,
+        "y": 5.2665934562683105,
+        "distance": 0.294287770986557,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 578,
+        "obstacle": 1,
+        "x": 4.88582181930542,
+        "y": 5.281747817993164,
+        "distance": 0.30400410294532776,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 579,
+        "obstacle": 1,
+        "x": 4.896279335021973,
+        "y": 5.296909809112549,
+        "distance": 0.314505010843277,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 580,
+        "obstacle": 1,
+        "x": 4.906740188598633,
+        "y": 5.312079429626465,
+        "distance": 0.3257160782814026,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 581,
+        "obstacle": 1,
+        "x": 4.9172043800354,
+        "y": 5.327256679534912,
+        "distance": 0.33756783604621887,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 582,
+        "obstacle": 1,
+        "x": 4.927671909332275,
+        "y": 5.342441082000732,
+        "distance": 0.34999606013298035,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 583,
+        "obstacle": 1,
+        "x": 4.938143253326416,
+        "y": 5.357633113861084,
+        "distance": 0.3629431128501892,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 584,
+        "obstacle": 1,
+        "x": 4.948617935180664,
+        "y": 5.372832775115967,
+        "distance": 0.37635672092437744,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 585,
+        "obstacle": 1,
+        "x": 4.9590959548950195,
+        "y": 5.388039588928223,
+        "distance": 0.390189528465271,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 586,
+        "obstacle": 1,
+        "x": 4.969577312469482,
+        "y": 5.403253555297852,
+        "distance": 0.4043995141983032,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 587,
+        "obstacle": 1,
+        "x": 4.980062007904053,
+        "y": 5.418475151062012,
+        "distance": 0.41894984245300293,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 588,
+        "obstacle": 1,
+        "x": 4.9905500411987305,
+        "y": 5.433703899383545,
+        "distance": 0.433806836605072,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 589,
+        "obstacle": 1,
+        "x": 5.001041412353516,
+        "y": 5.448939800262451,
+        "distance": 0.4489409923553467,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 590,
+        "obstacle": 1,
+        "x": 5.011536121368408,
+        "y": 5.4641828536987305,
+        "distance": 0.4643261730670929,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 591,
+        "obstacle": 1,
+        "x": 5.022034168243408,
+        "y": 5.479433059692383,
+        "distance": 0.47993913292884827,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 592,
+        "obstacle": 1,
+        "x": 5.032535552978516,
+        "y": 5.494690418243408,
+        "distance": 0.49575918912887573,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 593,
+        "obstacle": 1,
+        "x": 5.0430402755737305,
+        "y": 5.509955406188965,
+        "distance": 0.5117684602737427,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 594,
+        "obstacle": 1,
+        "x": 5.053548336029053,
+        "y": 5.5252275466918945,
+        "distance": 0.5279501676559448,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 595,
+        "obstacle": 1,
+        "x": 5.064059734344482,
+        "y": 5.540506839752197,
+        "distance": 0.5442897081375122,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 596,
+        "obstacle": 1,
+        "x": 5.0745744705200195,
+        "y": 5.555793285369873,
+        "distance": 0.560774028301239,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 597,
+        "obstacle": 1,
+        "x": 5.085092544555664,
+        "y": 5.571086883544922,
+        "distance": 0.577391505241394,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 598,
+        "obstacle": 1,
+        "x": 5.095613956451416,
+        "y": 5.586387634277344,
+        "distance": 0.5941317081451416,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 599,
+        "obstacle": 1,
+        "x": 5.106138706207275,
+        "y": 5.601695537567139,
+        "distance": 0.6109852194786072,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 600,
+        "obstacle": 1,
+        "x": 5.116666793823242,
+        "y": 5.617010593414307,
+        "distance": 0.6279436349868774,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 601,
+        "obstacle": 1,
+        "x": 5.127198219299316,
+        "y": 5.6323323249816895,
+        "distance": 0.6449988484382629,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 602,
+        "obstacle": 1,
+        "x": 5.137732982635498,
+        "y": 5.647661209106445,
+        "distance": 0.6621445417404175,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 603,
+        "obstacle": 1,
+        "x": 5.148270606994629,
+        "y": 5.662997245788574,
+        "distance": 0.6793743371963501,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 604,
+        "obstacle": 1,
+        "x": 5.158811569213867,
+        "y": 5.678340435028076,
+        "distance": 0.6966827511787415,
+        "core_radius": 0.7071067690849304
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 72,
+    "final_distance_to_goal": 43.15380610167666,
+    "min_distance_to_goal": 1.6521300487617316,
+    "first_step_inside_goal_zone": 864,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": 1636,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 54.42427529953898,
+    "straight_line_distance": 11.43627820477138,
+    "path_efficiency": 0.21013193362389623,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  },
+  {
+    "seed": 51,
+    "context_id": "seed-51",
+    "agent_profile": "Long Clock Agent",
+    "timer": 2500,
+    "max_steps": 2500,
+    "start_x": 0.9872435331344604,
+    "start_y": 0.7403598427772522,
+    "goal_x": 8.8926362991333,
+    "goal_y": 8.71114730834961,
+    "total_reward": -4296.491090837866,
+    "constraint_violations": [
+      {
+        "step": 440,
+        "obstacle": 1,
+        "x": 4.306129455566406,
+        "y": 4.879580497741699,
+        "distance": 0.7042422890663147,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 441,
+        "obstacle": 1,
+        "x": 4.316699504852295,
+        "y": 4.894433498382568,
+        "distance": 0.6914071440696716,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 442,
+        "obstacle": 1,
+        "x": 4.327272891998291,
+        "y": 4.909294128417969,
+        "distance": 0.6788146495819092,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 443,
+        "obstacle": 1,
+        "x": 4.337849140167236,
+        "y": 4.9241623878479,
+        "distance": 0.6664796471595764,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 444,
+        "obstacle": 1,
+        "x": 4.348428726196289,
+        "y": 4.939038276672363,
+        "distance": 0.6544168591499329,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 445,
+        "obstacle": 1,
+        "x": 4.359011173248291,
+        "y": 4.953921794891357,
+        "distance": 0.6426429152488708,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 446,
+        "obstacle": 1,
+        "x": 4.369596481323242,
+        "y": 4.968812942504883,
+        "distance": 0.6311745047569275,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 447,
+        "obstacle": 1,
+        "x": 4.380184650421143,
+        "y": 4.9837117195129395,
+        "distance": 0.6200293302536011,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 448,
+        "obstacle": 1,
+        "x": 4.390775680541992,
+        "y": 4.9986186027526855,
+        "distance": 0.609225869178772,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 449,
+        "obstacle": 1,
+        "x": 4.401369571685791,
+        "y": 5.013533115386963,
+        "distance": 0.5987833738327026,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 450,
+        "obstacle": 1,
+        "x": 4.411966323852539,
+        "y": 5.0284552574157715,
+        "distance": 0.588721752166748,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 451,
+        "obstacle": 1,
+        "x": 4.422565937042236,
+        "y": 5.043385028839111,
+        "distance": 0.5790616273880005,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 452,
+        "obstacle": 1,
+        "x": 4.433168411254883,
+        "y": 5.058322429656982,
+        "distance": 0.5698241591453552,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 453,
+        "obstacle": 1,
+        "x": 4.44377326965332,
+        "y": 5.073267459869385,
+        "distance": 0.5610314607620239,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 454,
+        "obstacle": 1,
+        "x": 4.454380989074707,
+        "y": 5.088220119476318,
+        "distance": 0.5527050495147705,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 455,
+        "obstacle": 1,
+        "x": 4.464991569519043,
+        "y": 5.103180408477783,
+        "distance": 0.5448671579360962,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 456,
+        "obstacle": 1,
+        "x": 4.47560453414917,
+        "y": 5.118148326873779,
+        "distance": 0.5375403761863708,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 457,
+        "obstacle": 1,
+        "x": 4.486220359802246,
+        "y": 5.133123874664307,
+        "distance": 0.5307461619377136,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 458,
+        "obstacle": 1,
+        "x": 4.496838569641113,
+        "y": 5.148107051849365,
+        "distance": 0.5245065689086914,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 459,
+        "obstacle": 1,
+        "x": 4.5074591636657715,
+        "y": 5.163097858428955,
+        "distance": 0.5188423991203308,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 460,
+        "obstacle": 1,
+        "x": 4.518082618713379,
+        "y": 5.178096294403076,
+        "distance": 0.5137729644775391,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 461,
+        "obstacle": 1,
+        "x": 4.528708457946777,
+        "y": 5.1931023597717285,
+        "distance": 0.5093173980712891,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 462,
+        "obstacle": 1,
+        "x": 4.539336681365967,
+        "y": 5.208116054534912,
+        "distance": 0.5054928064346313,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 463,
+        "obstacle": 1,
+        "x": 4.549967288970947,
+        "y": 5.223137378692627,
+        "distance": 0.5023143887519836,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 464,
+        "obstacle": 1,
+        "x": 4.560600757598877,
+        "y": 5.238166332244873,
+        "distance": 0.4997948706150055,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 465,
+        "obstacle": 1,
+        "x": 4.571236610412598,
+        "y": 5.25320291519165,
+        "distance": 0.49794551730155945,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 466,
+        "obstacle": 1,
+        "x": 4.581874847412109,
+        "y": 5.268247127532959,
+        "distance": 0.4967747628688812,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 467,
+        "obstacle": 1,
+        "x": 4.592515468597412,
+        "y": 5.283298492431641,
+        "distance": 0.49628791213035583,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 468,
+        "obstacle": 1,
+        "x": 4.603158473968506,
+        "y": 5.2983574867248535,
+        "distance": 0.4964880347251892,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 469,
+        "obstacle": 1,
+        "x": 4.613803386688232,
+        "y": 5.313424110412598,
+        "distance": 0.49737560749053955,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 470,
+        "obstacle": 1,
+        "x": 4.62445068359375,
+        "y": 5.328497886657715,
+        "distance": 0.49894705414772034,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 471,
+        "obstacle": 1,
+        "x": 4.635100364685059,
+        "y": 5.343579292297363,
+        "distance": 0.5011970400810242,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 472,
+        "obstacle": 1,
+        "x": 4.645752429962158,
+        "y": 5.358668327331543,
+        "distance": 0.5041173696517944,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 473,
+        "obstacle": 1,
+        "x": 4.656406402587891,
+        "y": 5.373764991760254,
+        "distance": 0.507697582244873,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 474,
+        "obstacle": 1,
+        "x": 4.667062759399414,
+        "y": 5.388868808746338,
+        "distance": 0.5119239687919617,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 475,
+        "obstacle": 1,
+        "x": 4.6777215003967285,
+        "y": 5.403980255126953,
+        "distance": 0.5167818665504456,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 476,
+        "obstacle": 1,
+        "x": 4.688382625579834,
+        "y": 5.4190993309021,
+        "distance": 0.5222543478012085,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 477,
+        "obstacle": 1,
+        "x": 4.699045658111572,
+        "y": 5.434225559234619,
+        "distance": 0.5283231735229492,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 478,
+        "obstacle": 1,
+        "x": 4.709711074829102,
+        "y": 5.44935941696167,
+        "distance": 0.5349687337875366,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 479,
+        "obstacle": 1,
+        "x": 4.720378875732422,
+        "y": 5.464500427246094,
+        "distance": 0.5421702861785889,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 480,
+        "obstacle": 1,
+        "x": 4.731049060821533,
+        "y": 5.479649066925049,
+        "distance": 0.5499071478843689,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 481,
+        "obstacle": 1,
+        "x": 4.7417216300964355,
+        "y": 5.494804859161377,
+        "distance": 0.5581572651863098,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 482,
+        "obstacle": 1,
+        "x": 4.752396106719971,
+        "y": 5.509968280792236,
+        "distance": 0.5668997764587402,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 483,
+        "obstacle": 1,
+        "x": 4.763072967529297,
+        "y": 5.525139331817627,
+        "distance": 0.5761125683784485,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 484,
+        "obstacle": 1,
+        "x": 4.773752212524414,
+        "y": 5.540317535400391,
+        "distance": 0.5857739448547363,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 485,
+        "obstacle": 1,
+        "x": 4.784433841705322,
+        "y": 5.5555033683776855,
+        "distance": 0.5958630442619324,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 486,
+        "obstacle": 1,
+        "x": 4.7951178550720215,
+        "y": 5.5706963539123535,
+        "distance": 0.6063588261604309,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 487,
+        "obstacle": 1,
+        "x": 4.805804252624512,
+        "y": 5.585896968841553,
+        "distance": 0.617241621017456,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 488,
+        "obstacle": 1,
+        "x": 4.816492557525635,
+        "y": 5.601104736328125,
+        "distance": 0.6284917593002319,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 489,
+        "obstacle": 1,
+        "x": 4.827183246612549,
+        "y": 5.6163201332092285,
+        "distance": 0.6400907039642334,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 490,
+        "obstacle": 1,
+        "x": 4.837876319885254,
+        "y": 5.631542682647705,
+        "distance": 0.6520201563835144,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 491,
+        "obstacle": 1,
+        "x": 4.84857177734375,
+        "y": 5.646772861480713,
+        "distance": 0.6642632484436035,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 492,
+        "obstacle": 1,
+        "x": 4.859269142150879,
+        "y": 5.662010192871094,
+        "distance": 0.6768032312393188,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 493,
+        "obstacle": 1,
+        "x": 4.869968891143799,
+        "y": 5.677255153656006,
+        "distance": 0.6896249651908875,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 494,
+        "obstacle": 1,
+        "x": 4.88067102432251,
+        "y": 5.692507266998291,
+        "distance": 0.702713131904602,
+        "core_radius": 0.7071067690849304
+      },
+      {
+        "step": 644,
+        "obstacle": 4,
+        "x": 6.51543664932251,
+        "y": 8.062088012695312,
+        "distance": 0.4381839632987976,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 645,
+        "obstacle": 4,
+        "x": 6.526586055755615,
+        "y": 8.078434944152832,
+        "distance": 0.422402560710907,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 646,
+        "obstacle": 4,
+        "x": 6.5377397537231445,
+        "y": 8.094789505004883,
+        "distance": 0.40696418285369873,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 647,
+        "obstacle": 4,
+        "x": 6.548897743225098,
+        "y": 8.111150741577148,
+        "distance": 0.39191165566444397,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 648,
+        "obstacle": 4,
+        "x": 6.560060024261475,
+        "y": 8.127519607543945,
+        "distance": 0.3772914707660675,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 649,
+        "obstacle": 4,
+        "x": 6.571226596832275,
+        "y": 8.143896102905273,
+        "distance": 0.3631573021411896,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 650,
+        "obstacle": 4,
+        "x": 6.5823974609375,
+        "y": 8.160279273986816,
+        "distance": 0.34957048296928406,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 651,
+        "obstacle": 4,
+        "x": 6.593572616577148,
+        "y": 8.17667007446289,
+        "distance": 0.3365978002548218,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 652,
+        "obstacle": 4,
+        "x": 6.604752063751221,
+        "y": 8.193068504333496,
+        "distance": 0.32431456446647644,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 653,
+        "obstacle": 4,
+        "x": 6.615935802459717,
+        "y": 8.209473609924316,
+        "distance": 0.31280454993247986,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 654,
+        "obstacle": 4,
+        "x": 6.627124309539795,
+        "y": 8.225886344909668,
+        "distance": 0.30215704441070557,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 655,
+        "obstacle": 4,
+        "x": 6.638317108154297,
+        "y": 8.24230670928955,
+        "distance": 0.29246786236763,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 656,
+        "obstacle": 4,
+        "x": 6.649514675140381,
+        "y": 8.258733749389648,
+        "distance": 0.28383806347846985,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 657,
+        "obstacle": 4,
+        "x": 6.660716533660889,
+        "y": 8.275168418884277,
+        "distance": 0.2763676047325134,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 658,
+        "obstacle": 4,
+        "x": 6.6719231605529785,
+        "y": 8.291610717773438,
+        "distance": 0.2701548933982849,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 659,
+        "obstacle": 4,
+        "x": 6.68313455581665,
+        "y": 8.308059692382812,
+        "distance": 0.2652910649776459,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 660,
+        "obstacle": 4,
+        "x": 6.694350719451904,
+        "y": 8.324516296386719,
+        "distance": 0.261852502822876,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 661,
+        "obstacle": 4,
+        "x": 6.70557165145874,
+        "y": 8.340980529785156,
+        "distance": 0.2598978579044342,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 662,
+        "obstacle": 4,
+        "x": 6.716797351837158,
+        "y": 8.357451438903809,
+        "distance": 0.25946325063705444,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 663,
+        "obstacle": 4,
+        "x": 6.728028297424316,
+        "y": 8.373929977416992,
+        "distance": 0.260558158159256,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 664,
+        "obstacle": 4,
+        "x": 6.739264011383057,
+        "y": 8.390416145324707,
+        "distance": 0.263165146112442,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 665,
+        "obstacle": 4,
+        "x": 6.750504493713379,
+        "y": 8.406908988952637,
+        "distance": 0.26724228262901306,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 666,
+        "obstacle": 4,
+        "x": 6.761750221252441,
+        "y": 8.423409461975098,
+        "distance": 0.2727256715297699,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 667,
+        "obstacle": 4,
+        "x": 6.773000717163086,
+        "y": 8.43991756439209,
+        "distance": 0.27953407168388367,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 668,
+        "obstacle": 4,
+        "x": 6.784256458282471,
+        "y": 8.456433296203613,
+        "distance": 0.28757572174072266,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 669,
+        "obstacle": 4,
+        "x": 6.795517444610596,
+        "y": 8.472955703735352,
+        "distance": 0.29675233364105225,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 670,
+        "obstacle": 4,
+        "x": 6.806783199310303,
+        "y": 8.489485740661621,
+        "distance": 0.30696332454681396,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 671,
+        "obstacle": 4,
+        "x": 6.81805419921875,
+        "y": 8.506023406982422,
+        "distance": 0.31811124086380005,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 672,
+        "obstacle": 4,
+        "x": 6.8293304443359375,
+        "y": 8.522568702697754,
+        "distance": 0.3301028311252594,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 673,
+        "obstacle": 4,
+        "x": 6.840611457824707,
+        "y": 8.5391206741333,
+        "distance": 0.3428506851196289,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 674,
+        "obstacle": 4,
+        "x": 6.851897716522217,
+        "y": 8.555680274963379,
+        "distance": 0.3562755882740021,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 675,
+        "obstacle": 4,
+        "x": 6.863189220428467,
+        "y": 8.572247505187988,
+        "distance": 0.3703054189682007,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 676,
+        "obstacle": 4,
+        "x": 6.874485492706299,
+        "y": 8.588822364807129,
+        "distance": 0.3848750591278076,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 677,
+        "obstacle": 4,
+        "x": 6.885787010192871,
+        "y": 8.605403900146484,
+        "distance": 0.3999269902706146,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 678,
+        "obstacle": 4,
+        "x": 6.897093772888184,
+        "y": 8.621993064880371,
+        "distance": 0.4154103696346283,
+        "core_radius": 0.4472135901451111
+      },
+      {
+        "step": 679,
+        "obstacle": 4,
+        "x": 6.908405780792236,
+        "y": 8.638589859008789,
+        "distance": 0.4312799870967865,
+        "core_radius": 0.4472135901451111
+      }
+    ],
+    "success": false,
+    "total_steps": 2500,
+    "total_violations": 91,
+    "final_distance_to_goal": 45.73807110345483,
+    "min_distance_to_goal": 1.598333711584343,
+    "first_step_inside_goal_zone": null,
+    "first_step_inside_goal_tol": null,
+    "steps_after_first_entering_goal_zone": null,
+    "steps_dist_lt_0_5": 0,
+    "steps_dist_lt_1_0": 0,
+    "path_length": 56.79953492704201,
+    "straight_line_distance": 11.226249935131152,
+    "path_efficiency": 0.19764686365039907,
+    "avg_stakes": 1.0,
+    "max_stakes": 1.0,
+    "frac_stakes_gt_0_8": 1.0
+  }
+]

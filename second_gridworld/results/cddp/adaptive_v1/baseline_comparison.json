@@ -1,0 +1,86 @@
+[
+  {
+    "name": "CDDP adaptive_v1",
+    "tight": {
+      "success": 0.0,
+      "avg_viol": 199.0,
+      "n": 10
+    },
+    "loose": {
+      "success": 0.1,
+      "avg_viol": 0.0,
+      "n": 10
+    },
+    "ratio": 398.0
+  },
+  {
+    "name": "CDDP gamma07_fix",
+    "tight": {
+      "success": 0.2,
+      "avg_viol": 0.0,
+      "n": 10
+    },
+    "loose": {
+      "success": 0.9,
+      "avg_viol": 0.0,
+      "n": 10
+    },
+    "ratio": 0.0
+  },
+  {
+    "name": "PPO-Lagrangian",
+    "tight": {
+      "success": 0.5,
+      "avg_viol": 37.6,
+      "n": 10
+    },
+    "loose": {
+      "success": 1.0,
+      "avg_viol": 37.6,
+      "n": 10
+    },
+    "ratio": 0.9868766404199475
+  },
+  {
+    "name": "PPO",
+    "tight": {
+      "success": 0.5,
+      "avg_viol": 37.6,
+      "n": 10
+    },
+    "loose": {
+      "success": 0.9,
+      "avg_viol": 37.5,
+      "n": 10
+    },
+    "ratio": 0.9894736842105264
+  },
+  {
+    "name": "CPO",
+    "tight": {
+      "success": 0.4,
+      "avg_viol": 6.9,
+      "n": 10
+    },
+    "loose": {
+      "success": 0.9,
+      "avg_viol": 38.6,
+      "n": 10
+    },
+    "ratio": 0.17647058823529413
+  },
+  {
+    "name": "Strict",
+    "tight": {
+      "success": 0.0,
+      "avg_viol": 0.0,
+      "n": 10
+    },
+    "loose": {
+      "success": 0.0,
+      "avg_viol": 0.0,
+      "n": 10
+    },
+    "ratio": 0.0
+  }
+]

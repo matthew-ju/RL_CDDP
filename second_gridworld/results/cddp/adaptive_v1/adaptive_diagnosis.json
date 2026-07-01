@@ -1,0 +1,46 @@
+{
+  "run_name": "adaptive_v1",
+  "verdict": "BAD",
+  "failures": [
+    {
+      "code": "LOW_TIGHT_SUCCESS",
+      "detail": "Tight-clock success=0% < 40%. Not competitive with PPO-Lag (50%)."
+    },
+    {
+      "code": "LOW_LOOSE_SUCCESS",
+      "detail": "Loose-clock success=10% < 80%."
+    },
+    {
+      "code": "TRAINING_PLATEAUED",
+      "detail": "BestScore stopped improving. Policy may have hit architectural ceiling."
+    }
+  ],
+  "tight": {
+    "n": 10,
+    "success": 0.0,
+    "avg_viol": 199.0,
+    "pct_nonzero_viol": 1.0,
+    "avg_path_eff": 1.9477142755719896
+  },
+  "loose": {
+    "n": 10,
+    "success": 0.1,
+    "avg_viol": 0.0,
+    "pct_nonzero_viol": 0.0,
+    "avg_path_eff": 0.3814864954223758
+  },
+  "training": {
+    "zdeon_mean_p_cat": 0.5022,
+    "zdeon_healthy": true,
+    "plateaued": true,
+    "best_score": 0.732,
+    "best_ep": 59700
+  },
+  "thresholds": {
+    "tight_success_min": 0.4,
+    "tight_violations_min": 3.0,
+    "loose_success_min": 0.8,
+    "loose_violations_max": 4.0,
+    "violation_ratio_min": 4.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "verdict": "GOOD",
+  "n_seeds": 20,
+  "overall_success": 0.55,
+  "p_excess_mean": 0.0,
+  "avg_path_efficiency": 0.7709656330616076,
+  "avg_steps": null,
+  "tight_clock_success": 0.2,
+  "long_clock_success": 0.9,
+  "zdeon_mean_p_cat_recent": 0.47169999999999995,
+  "zdeon_collapsed_high": false,
+  "zdeon_collapsed_low": false,
+  "plateaued": true,
+  "best_score": 0.816
+}

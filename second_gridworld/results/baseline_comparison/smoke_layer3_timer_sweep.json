@@ -1,0 +1,654 @@
+{
+  "metadata": {
+    "models": [
+      "cddp",
+      "ppo",
+      "strict",
+      "lagrangian",
+      "cpo"
+    ],
+    "model_labels": {
+      "cddp": "CDDP",
+      "ppo": "PPO",
+      "strict": "Strict-CBF PPO",
+      "lagrangian": "PPO-Lagrangian",
+      "cpo": "CPO"
+    },
+    "timers": [
+      420,
+      600
+    ],
+    "seeds": 1,
+    "episodes_per_seed": 1,
+    "total_contexts": 1,
+    "base_seed": 42,
+    "timer_unit": "environment steps",
+    "violation_zone": "layer3",
+    "violation_definition": "total_violations counts one violation per environment step in which the agent is inside the configured 'layer3' zone for at least one obstacle. Separate obstacle-entry and core-only counts are stored for auditability.",
+    "excess_definition": "For each fixed start/goal context and timer, excess is max(0, model_total_violations - best_observed_successful_total_violations across all evaluated models). P(excess > 0) is computed over successful episodes with a defined reference."
+  },
+  "results": {
+    "cddp": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 150.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 16.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 150.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 16.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 150.0,
+            "core_violation_steps": 16.0,
+            "violation_obstacle_entries": 150.0,
+            "core_obstacle_entries": 16.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 188.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 27.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 188.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 27.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 188.0,
+            "core_violation_steps": 27.0,
+            "violation_obstacle_entries": 188.0,
+            "core_obstacle_entries": 27.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      }
+    },
+    "ppo": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 151.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 18.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 151.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 18.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 151.0,
+            "core_violation_steps": 18.0,
+            "violation_obstacle_entries": 151.0,
+            "core_obstacle_entries": 18.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 151.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 18.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 151.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 18.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 151.0,
+            "core_violation_steps": 18.0,
+            "violation_obstacle_entries": 151.0,
+            "core_obstacle_entries": 18.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      }
+    },
+    "strict": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 0.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 0.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 0.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 0.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 0.0,
+            "core_violation_steps": 0.0,
+            "violation_obstacle_entries": 0.0,
+            "core_obstacle_entries": 0.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 0.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 0.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 0.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 0.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 0.0,
+            "core_violation_steps": 0.0,
+            "violation_obstacle_entries": 0.0,
+            "core_obstacle_entries": 0.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      }
+    },
+    "lagrangian": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 151.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 17.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 151.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 17.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 151.0,
+            "core_violation_steps": 17.0,
+            "violation_obstacle_entries": 151.0,
+            "core_obstacle_entries": 17.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 1.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 151.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 17.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 151.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 17.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": 0.0,
+        "std_p_excess": 0.0,
+        "mean_avg_excess_violations": 0.0,
+        "std_avg_excess_violations": 0.0,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 1,
+            "success_rate": 1.0,
+            "total_violations": 151.0,
+            "core_violation_steps": 17.0,
+            "violation_obstacle_entries": 151.0,
+            "core_obstacle_entries": 17.0,
+            "p_excess": 0.0,
+            "avg_excess_violations": 0.0
+          }
+        ]
+      }
+    },
+    "cpo": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 148.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 0.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 148.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 0.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 148.0,
+            "core_violation_steps": 0.0,
+            "violation_obstacle_entries": 148.0,
+            "core_obstacle_entries": 0.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 136.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 0.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 136.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 0.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 136.0,
+            "core_violation_steps": 0.0,
+            "violation_obstacle_entries": 136.0,
+            "core_obstacle_entries": 0.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      }
+    }
+  },
+  "records": [
+    {
+      "model": "cddp",
+      "model_label": "CDDP",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 150,
+      "violation_steps": 150,
+      "violation_obstacle_entries": 150,
+      "core_violation_steps": 16,
+      "core_obstacle_entries": 16,
+      "total_steps": 420,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "cddp",
+      "model_label": "CDDP",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 188,
+      "violation_steps": 188,
+      "violation_obstacle_entries": 188,
+      "core_violation_steps": 27,
+      "core_obstacle_entries": 27,
+      "total_steps": 600,
+      "reference_violations": 151,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "ppo",
+      "model_label": "PPO",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 151,
+      "violation_steps": 151,
+      "violation_obstacle_entries": 151,
+      "core_violation_steps": 18,
+      "core_obstacle_entries": 18,
+      "total_steps": 420,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "ppo",
+      "model_label": "PPO",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 151,
+      "violation_steps": 151,
+      "violation_obstacle_entries": 151,
+      "core_violation_steps": 18,
+      "core_obstacle_entries": 18,
+      "total_steps": 600,
+      "reference_violations": 151,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "strict",
+      "model_label": "Strict-CBF PPO",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 0,
+      "violation_steps": 0,
+      "violation_obstacle_entries": 0,
+      "core_violation_steps": 0,
+      "core_obstacle_entries": 0,
+      "total_steps": 420,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "strict",
+      "model_label": "Strict-CBF PPO",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 0,
+      "violation_steps": 0,
+      "violation_obstacle_entries": 0,
+      "core_violation_steps": 0,
+      "core_obstacle_entries": 0,
+      "total_steps": 600,
+      "reference_violations": 151,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "lagrangian",
+      "model_label": "PPO-Lagrangian",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 151,
+      "violation_steps": 151,
+      "violation_obstacle_entries": 151,
+      "core_violation_steps": 17,
+      "core_obstacle_entries": 17,
+      "total_steps": 420,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "lagrangian",
+      "model_label": "PPO-Lagrangian",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": true,
+      "total_violations": 151,
+      "violation_steps": 151,
+      "violation_obstacle_entries": 151,
+      "core_violation_steps": 17,
+      "core_obstacle_entries": 17,
+      "total_steps": 429,
+      "reference_violations": 151,
+      "excess_defined": true,
+      "excess_violations": 0,
+      "has_excess": false
+    },
+    {
+      "model": "cpo",
+      "model_label": "CPO",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 148,
+      "violation_steps": 148,
+      "violation_obstacle_entries": 148,
+      "core_violation_steps": 0,
+      "core_obstacle_entries": 0,
+      "total_steps": 420,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "cpo",
+      "model_label": "CPO",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 136,
+      "violation_steps": 136,
+      "violation_obstacle_entries": 136,
+      "core_violation_steps": 0,
+      "core_obstacle_entries": 0,
+      "total_steps": 600,
+      "reference_violations": 151,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    }
+  ]
+}

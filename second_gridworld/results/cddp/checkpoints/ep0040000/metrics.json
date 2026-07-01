@@ -1,0 +1,8 @@
+{
+  "episode": 40000,
+  "best_score": 0.46732999999999997,
+  "best_util_success": 0.58,
+  "best_util_p_excess": 0.0,
+  "best_util_avg_viol": 0.0,
+  "best_avg_steps_after_goal_zone": 112.67
+}

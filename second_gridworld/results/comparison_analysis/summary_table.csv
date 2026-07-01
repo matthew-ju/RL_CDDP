@@ -1,0 +1,7 @@
+Framework,Tight Succ,Loose Succ,Overall Succ,Avg Violations,% Zero Viol,Path Eff
+CDDP (gamma07_fix),20%,90%,55%,0.0,100%,0.835
+CDDP (long_clock_only),20%,90%,55%,17.6,15%,0.771
+PPO,50%,90%,70%,37.5,0%,0.872
+Strict,N/A,N/A,N/A,0.0,100%,N/A
+CPO,40%,90%,65%,22.8,25%,0.806
+PPO-Lagrangian,50%,100%,75%,37.6,0%,0.854

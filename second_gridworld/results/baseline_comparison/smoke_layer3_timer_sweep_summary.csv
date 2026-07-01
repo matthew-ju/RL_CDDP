@@ -1,0 +1,11 @@
+model,model_label,timer,mean_success_rate,std_success_rate,mean_total_violations,std_total_violations,mean_core_violation_steps,std_core_violation_steps,mean_violation_obstacle_entries,std_violation_obstacle_entries,mean_core_obstacle_entries,std_core_obstacle_entries,mean_p_excess,std_p_excess,mean_avg_excess_violations,std_avg_excess_violations
+cddp,CDDP,420,0.0,0.0,150.0,0.0,16.0,0.0,150.0,0.0,16.0,0.0,,,,
+cddp,CDDP,600,0.0,0.0,188.0,0.0,27.0,0.0,188.0,0.0,27.0,0.0,,,,
+ppo,PPO,420,0.0,0.0,151.0,0.0,18.0,0.0,151.0,0.0,18.0,0.0,,,,
+ppo,PPO,600,0.0,0.0,151.0,0.0,18.0,0.0,151.0,0.0,18.0,0.0,,,,
+strict,Strict-CBF PPO,420,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,
+strict,Strict-CBF PPO,600,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,
+lagrangian,PPO-Lagrangian,420,0.0,0.0,151.0,0.0,17.0,0.0,151.0,0.0,17.0,0.0,,,,
+lagrangian,PPO-Lagrangian,600,1.0,0.0,151.0,0.0,17.0,0.0,151.0,0.0,17.0,0.0,0.0,0.0,0.0,0.0
+cpo,CPO,420,0.0,0.0,148.0,0.0,0.0,0.0,148.0,0.0,0.0,0.0,,,,
+cpo,CPO,600,0.0,0.0,136.0,0.0,0.0,0.0,136.0,0.0,0.0,0.0,,,,

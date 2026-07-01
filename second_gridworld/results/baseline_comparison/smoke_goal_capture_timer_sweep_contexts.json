@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "timers": [
+      420,
+      600
+    ],
+    "contexts_per_timer": 1,
+    "goal_tolerance": 0.2,
+    "terminate_on_goal_zone": false
+  },
+  "contexts": [
+    {
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "timer": 420,
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ]
+    },
+    {
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "timer": 600,
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ]
+    }
+  ]
+}

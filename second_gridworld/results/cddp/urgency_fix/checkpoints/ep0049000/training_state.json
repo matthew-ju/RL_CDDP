@@ -1,0 +1,15 @@
+{
+  "completed_episodes": 49000,
+  "launched_episodes": 49189,
+  "total_steps": 34517426,
+  "vector_steps": 541494,
+  "util_update_steps": 130782,
+  "deon_update_steps": 135136,
+  "best_score": 0.4055869565217391,
+  "best_util_success": 0.5652173913043478,
+  "best_util_p_excess": 0.06521739130434782,
+  "best_util_avg_viol": 0.45652173913043476,
+  "best_avg_steps_after_goal_zone": 126.1086956521739,
+  "ou_sigma": 0.25289516378561694,
+  "announced_cddp_phase": true
+}

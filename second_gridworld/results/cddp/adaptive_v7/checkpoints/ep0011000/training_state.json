@@ -1,0 +1,18 @@
+{
+  "completed_episodes": 11000,
+  "launched_episodes": 11127,
+  "total_steps": 12655865,
+  "vector_steps": 101903,
+  "util_update_steps": 17535,
+  "deon_update_steps": 25323,
+  "cddp_episodes_launched": 6127,
+  "boost_episodes_launched": 0,
+  "best_score": -0.3147959183673469,
+  "best_util_success": 0.5102040816326531,
+  "best_util_p_excess": 0.20408163265306123,
+  "best_util_avg_viol": 257.0612244897959,
+  "best_avg_steps_after_goal_zone": 208.83673469387756,
+  "ou_sigma": 0.37042485343302584,
+  "announced_cddp_phase": true,
+  "announced_seed_complete": true
+}

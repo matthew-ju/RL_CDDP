@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "models": [
+      "cddp"
+    ],
+    "model_labels": {
+      "cddp": "CDDP"
+    },
+    "checkpoint_paths": {
+      "cddp": {
+        "actor": "/Users/matthewju/Downloads/CDDP_RL/sandbox/results/cddp/checkpoints/cddp_actor_best.pt",
+        "z_free": "/Users/matthewju/Downloads/CDDP_RL/sandbox/results/cddp/checkpoints/cddp_z_free_best.pt",
+        "z_deon": "/Users/matthewju/Downloads/CDDP_RL/sandbox/results/cddp/checkpoints/cddp_z_deon_best.pt"
+      }
+    },
+    "timers": [
+      420,
+      600
+    ],
+    "seeds": 1,
+    "episodes_per_seed": 1,
+    "total_contexts": 1,
+    "contexts_path": "sandbox/results/baseline_comparison/smoke_goal_capture_timer_sweep_contexts.json",
+    "base_seed": 42,
+    "cddp_run_name": null,
+    "diagnostics_version": 2,
+    "timer_unit": "environment steps",
+    "violation_zone": "layer3",
+    "environment": {
+      "goal_low": [
+        8.0,
+        8.0
+      ],
+      "goal_high": [
+        10.0,
+        10.0
+      ],
+      "goal_tolerance": 0.2,
+      "terminate_on_goal_zone": false,
+      "timer_curriculum": "bimodal",
+      "allow_hard_cbf_bypass": false,
+      "dt": 0.02,
+      "v_max": 4.0,
+      "obstacle_oscillation_amplitude": 1.0,
+      "obstacle_oscillation_omega": 0.025132741228718346,
+      "reward": {
+        "goal_capture_shaping": true,
+        "goal_distance_penalty": 0.02,
+        "near_goal_radius": 1.0,
+        "near_goal_bonus_scale": 0.5,
+        "action_penalty": 0.0,
+        "gamma_rl": 0.99,
+        "terminal_success_bonus": 500.0,
+        "step_penalty": -0.2,
+        "timeout_penalty_base": -250.0
+      }
+    },
+    "violation_definition": "total_violations counts one violation per environment step in which the agent is inside the configured 'layer3' zone for at least one obstacle. Separate obstacle-entry and core-only counts are stored for auditability.",
+    "excess_definition": "For each fixed start/goal context and timer, excess is max(0, model_total_violations - best_observed_successful_total_violations across all evaluated models). P(excess > 0) is computed over successful episodes with a defined reference."
+  },
+  "results": {
+    "cddp": {
+      "420": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 155.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 9.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 155.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 9.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_final_distance_to_goal": 0.31466037034988403,
+        "std_final_distance_to_goal": 0.0,
+        "mean_min_distance_to_goal": 0.31466037034988403,
+        "std_min_distance_to_goal": 0.0,
+        "mean_path_efficiency": 0.9316678638713329,
+        "std_path_efficiency": 0.0,
+        "mean_steps_after_goal_zone_entry": 96.0,
+        "std_steps_after_goal_zone_entry": 0.0,
+        "mean_steps_dist_lt_0_5": 13.0,
+        "std_steps_dist_lt_0_5": 0.0,
+        "mean_steps_dist_lt_1_0": 55.0,
+        "std_steps_dist_lt_1_0": 0.0,
+        "mean_avg_stakes": 1.0,
+        "std_avg_stakes": 0.0,
+        "mean_max_stakes": 1.0,
+        "std_max_stakes": 0.0,
+        "mean_frac_stakes_gt_0_8": 1.0,
+        "std_frac_stakes_gt_0_8": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 155.0,
+            "core_violation_steps": 9.0,
+            "violation_obstacle_entries": 155.0,
+            "core_obstacle_entries": 9.0,
+            "final_distance_to_goal": 0.31466037034988403,
+            "min_distance_to_goal": 0.31466037034988403,
+            "path_efficiency": 0.9316678638713329,
+            "steps_after_goal_zone_entry": 96.0,
+            "steps_dist_lt_0_5": 13.0,
+            "steps_dist_lt_1_0": 55.0,
+            "avg_stakes": 1.0,
+            "max_stakes": 1.0,
+            "frac_stakes_gt_0_8": 1.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      },
+      "600": {
+        "mean_success_rate": 0.0,
+        "std_success_rate": 0.0,
+        "mean_total_violations": 201.0,
+        "std_total_violations": 0.0,
+        "mean_core_violation_steps": 5.0,
+        "std_core_violation_steps": 0.0,
+        "mean_violation_obstacle_entries": 201.0,
+        "std_violation_obstacle_entries": 0.0,
+        "mean_core_obstacle_entries": 5.0,
+        "std_core_obstacle_entries": 0.0,
+        "mean_final_distance_to_goal": 4.045469284057617,
+        "std_final_distance_to_goal": 0.0,
+        "mean_min_distance_to_goal": 0.3807053864002228,
+        "std_min_distance_to_goal": 0.0,
+        "mean_path_efficiency": 0.6672914244679943,
+        "std_path_efficiency": 0.0,
+        "mean_steps_after_goal_zone_entry": 275.0,
+        "std_steps_after_goal_zone_entry": 0.0,
+        "mean_steps_dist_lt_0_5": 32.0,
+        "std_steps_dist_lt_0_5": 0.0,
+        "mean_steps_dist_lt_1_0": 130.0,
+        "std_steps_dist_lt_1_0": 0.0,
+        "mean_avg_stakes": 0.9787412516276042,
+        "std_avg_stakes": 0.0,
+        "mean_max_stakes": 1.0,
+        "std_max_stakes": 0.0,
+        "mean_frac_stakes_gt_0_8": 1.0,
+        "std_frac_stakes_gt_0_8": 0.0,
+        "mean_p_excess": null,
+        "std_p_excess": null,
+        "mean_avg_excess_violations": null,
+        "std_avg_excess_violations": null,
+        "seeds_data": [
+          {
+            "seed": 0,
+            "episodes": 1,
+            "excess_defined_episodes": 0,
+            "success_rate": 0.0,
+            "total_violations": 201.0,
+            "core_violation_steps": 5.0,
+            "violation_obstacle_entries": 201.0,
+            "core_obstacle_entries": 5.0,
+            "final_distance_to_goal": 4.045469284057617,
+            "min_distance_to_goal": 0.3807053864002228,
+            "path_efficiency": 0.6672914244679943,
+            "steps_after_goal_zone_entry": 275.0,
+            "steps_dist_lt_0_5": 32.0,
+            "steps_dist_lt_1_0": 130.0,
+            "avg_stakes": 0.9787412516276042,
+            "max_stakes": 1.0,
+            "frac_stakes_gt_0_8": 1.0,
+            "p_excess": null,
+            "avg_excess_violations": null
+          }
+        ]
+      }
+    }
+  },
+  "records": [
+    {
+      "model": "cddp",
+      "model_label": "CDDP",
+      "timer": 420,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 155,
+      "violation_steps": 155,
+      "violation_obstacle_entries": 155,
+      "core_violation_steps": 9,
+      "core_obstacle_entries": 9,
+      "total_steps": 420,
+      "final_distance_to_goal": 0.31466037034988403,
+      "min_distance_to_goal": 0.31466037034988403,
+      "first_step_inside_goal_zone": 324,
+      "first_step_inside_goal_tol": null,
+      "steps_after_first_entering_goal_zone": 96,
+      "steps_dist_lt_0_5": 13,
+      "steps_dist_lt_1_0": 55,
+      "path_length": 12.84492015838623,
+      "straight_line_distance": 11.967199325561523,
+      "path_efficiency": 0.9316678638713329,
+      "avg_stakes": 1.0,
+      "max_stakes": 1.0,
+      "frac_stakes_gt_0_8": 1.0,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    },
+    {
+      "model": "cddp",
+      "model_label": "CDDP",
+      "timer": 600,
+      "seed": 0,
+      "sample_seed": 42,
+      "episode": 0,
+      "context_id": "s000_e000",
+      "start_state": [
+        0.8822692632675171,
+        0.9150039553642273,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "goal": [
+        8.765727996826172,
+        9.918611526489258
+      ],
+      "success": false,
+      "total_violations": 201,
+      "violation_steps": 201,
+      "violation_obstacle_entries": 201,
+      "core_violation_steps": 5,
+      "core_obstacle_entries": 5,
+      "total_steps": 600,
+      "final_distance_to_goal": 4.045469284057617,
+      "min_distance_to_goal": 0.3807053864002228,
+      "first_step_inside_goal_zone": 325,
+      "first_step_inside_goal_tol": null,
+      "steps_after_first_entering_goal_zone": 275,
+      "steps_dist_lt_0_5": 32,
+      "steps_dist_lt_1_0": 130,
+      "path_length": 17.933992385864258,
+      "straight_line_distance": 11.967199325561523,
+      "path_efficiency": 0.6672914244679943,
+      "avg_stakes": 0.9787412516276042,
+      "max_stakes": 1.0,
+      "frac_stakes_gt_0_8": 1.0,
+      "reference_violations": null,
+      "excess_defined": false,
+      "excess_violations": null,
+      "has_excess": null
+    }
+  ]
+}
